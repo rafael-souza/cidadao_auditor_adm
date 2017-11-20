@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+	<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:plcf="http://www.powerlogic.com.br/plcf">
+		<ul>
+			<li>
+				<a>
+					<span class="icoCustom icoRelatorios"/>
+					<label jsfc="plcf:titulo" tituloChave="app.m.relatorio">Relatorios</label>
+					<span class="sub-menu-v"/>
+				</a>
+				<ul class="ui-state-hover">
+					<li>
+						<a href="#{request.contextPath}/f/n/mapaocorrencias?evento=y">
+							<h:outputText value="#{msg['menu.mapaocorrencias.titulo']}">Mapa de Ocorrências</h:outputText>
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a>
+					<span class="icoCustom icoCadastros"/>
+					<label jsfc="plcf:titulo" tituloChave="app.m.cadastros">Cadastros</label>
+				</a>
+				<ul class="ui-state-hover">
+					<!-- <li>
+					<a href="#{request.contextPath}/f/n/bairrosel">
+						<h:outputText value="#{msg['menu.bairro.titulo']}">Bairros</h:outputText>
+					</a>
+				</li>
+				<li>
+					<a href="#{request.contextPath}/f/n/logradourosel">
+						<h:outputText value="#{msg['menu.logradouro.titulo']}">Logradouros</h:outputText>
+					</a>
+				</li> -->
+				<li>
+					<a href="#{request.contextPath}/f/n/parametrosaplicacao">
+						<h:outputText value="#{msg['menu.parametrosaplicacao.titulo']}">Parâmetros da Aplicação</h:outputText>
+					</a>
+				</li>
+				<li>
+					<a href="#{request.contextPath}/f/n/pessoasel">
+						<h:outputText value="#{msg['menu.pessoa.titulo']}">Pessoas</h:outputText>
+					</a>
+				</li>
+				<li>
+					<a href="#{request.contextPath}/f/n/prefeituramdt?id=1">
+						<h:outputText value="#{msg['menu.prefeitura.titulo']}">Prefeitura</h:outputText>
+					</a>
+				</li>
+				<li>
+					<a href="#{request.contextPath}/f/n/tipoocorrenciasel">
+						<h:outputText value="#{msg['menu.tipoocorrencia.titulo']}">Tipo de Ocorrencia</h:outputText>
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a>
+				<span class="icoCustom icoOperacional"/>
+				<label jsfc="plcf:titulo" tituloChave="app.m.operacional">Operacional</label>
+				<span class="sub-menu-v"/>
+			</a>
+			<ul class="ui-state-hover">
+				<li>
+					<a href="#{request.contextPath}/f/n/ocorrenciasel">
+						<h:outputText value="#{msg['menu.ocorrencia.titulo']}">Ocorrências</h:outputText>
+					</a>
+				</li>
+				<li>
+					<a href="#{request.contextPath}/f/n/sugestaosel">
+						<h:outputText value="#{msg['menu.sugestao.titulo']}">Sugestões</h:outputText>
+					</a>
+				</li>
+				<li>
+						<a href="#{request.contextPath}/f/n/denunciasel">
+							<h:outputText value="#{msg['menu.denuncia.titulo']}">Central de Denúncias</h:outputText>
+						</a>
+					</li>
+				<li>
+					<a href="#{request.contextPath}/f/n/minhastarefassel">
+						<h:outputText value="#{msg['menu.minhastarefas.titulo']}">Minhas Tarefas</h:outputText>
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a>
+				<span class="icoCustom icoSeguranca"/>
+				<label jsfc="plcf:titulo" tituloChave="app.m.modulo.seguranca">Seguranca</label>
+				<span class="sub-menu-v"/>
+			</a>
+			<ul class="ui-state-hover">
+				<li>
+					<a href="#{request.contextPath}/f/n/segmenusel?evento=y">
+						<label jsfc="plcf:titulo" tituloChave="menu.segmenu.titulo">Menus</label>
+					</a>
+				</li>
+				<li>
+					<a href="#{request.contextPath}/f/n/segperfilsel?evento=y">
+						<label jsfc="plcf:titulo" tituloChave="menu.segperfil.titulo">Perfis</label>
+					</a>
+				</li>
+				<li>
+					<a href="#{request.contextPath}/f/n/segusuariosel?evento=y">
+						<label jsfc="plcf:titulo" tituloChave="menu.segusuario.titulo">Usuários</label>
+					</a>
+				</li>
+				<li>
+					<a href="#{request.contextPath}/f/n/segtrocarsenha">
+						<label jsfc="plcf:titulo" titulo="Trocar Senha">Trocar Senha</label>
+					</a>
+				</li>
+				<li class="separador">
+					<a href="#{request.contextPath}/f/n/segperfilmenusel?evento=y">
+						<label jsfc="plcf:titulo" tituloChave="menu.segperfilmenu.titulo">Regras de Acesso</label>
+					</a>
+				</li>
+				<li>
+					<a href="#{request.contextPath}/f/n/segauditoria">
+						<label jsfc="plcf:titulo" tituloChave="menu.segauditoria.titulo">Auditoria</label>
+					</a>
+				</li>
+			</ul>
+		</li>
+		<!-- 	
+		<ui:include src="/WEB-INF/fcls-plc/geralMenuAjuda.xhtml"/>
+		<ui:include src="/WEB-INF/fcls-plc/geralMenuPrefLang.xhtml"/>
+		<ui:include src="/WEB-INF/fcls-plc/geralMenuAreaTecnica.xhtml"/>
+		<ui:include src="/WEB-INF/fcls-plc/geralMenuDinamico.xhtml" />
+		<ui:include src="/WEB-INF/fcls-plc/geralMenuThemeSwitcher.xhtml"/> -->
+	</ul>
+	<script type="text/javascript">
+	 //<![CDATA[	 
+	 	plc.jq( document ).ready(function() {
+			plc.jq(".plc-menu-sistema").find("li > ul").each(function(){
+				   var ul = plc.jq(this);
+				   if (ul.children("li").length === 0) {
+						 ul.parent().remove();
+				   }
+			});
+	 	});
+	 //]]>
+	</script>
+</ui:composition>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition> 
+		<plcf:tabela tituloChave="pessoaman.endereco.titulo"> 
+			<plcf:linha> 
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.endereco.logradouro']}"/>  
+					<plc:vinculado id="endereco_logradouro" value="#{pessoa.endereco.logradouro}" 
+						riaUsa="autocomplete(url='#{request.contextPath}/soa/service/autocomplete.logradouroman?q=nome')" larg="900"
+						propSelPop="logradouro" idExibe="S" idSomenteLeitura="N" autoRecuperacaoClasse="br.net.proex.entity.LogradouroEntity" actionSel="logradourosel" modal="S" ajudaChave="ajuda.endereco.logradouro" onkeydown="selecionaPorTecla(event,this);"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.endereco.numero']}"/>  
+					<plcf:texto id="endereco_numero" value="#{pessoa.endereco.numero}" ajudaChave="ajuda.endereco.numero"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.endereco.complemento']}"/>  
+					<plcf:texto id="endereco_complemento" value="#{pessoa.endereco.complemento}" ajudaChave="ajuda.endereco.complemento"/> 
+				</plcf:celula> 
+			</plcf:linha>  
+			<plcf:linha> 
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.endereco.cep']}"/>  
+					<plcf:texto id="endereco_cep" value="#{pessoa.endereco.cep}" riaUsa="textmask(mask='99.999-999')" tamanho="10" ajudaChave="ajuda.endereco.cep"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.endereco.bairro']}"/>
+					<plc:vinculado id="endereco_bairro" value="#{pessoa.endereco.bairro}" 
+						riaUsa="autocomplete(url='#{request.contextPath}/soa/service/autocomplete.bairroman?q=nome')" larg="900"
+						propSelPop="bairro" idExibe="S" idSomenteLeitura="N" autoRecuperacaoClasse="br.net.proex.entity.BairroEntity" actionSel="bairrosel" modal="S" ajudaChave="ajuda.endereco.bairro" onkeydown="selecionaPorTecla(event,this);"/>															  			
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.endereco.cidade']}"/>  
+					<plcf:texto id="endereco_cidade" value="#{pessoa.endereco.cidade}" tamanho="60" tamanhoMaximo="120" ajudaChave="ajuda.endereco.cidade"/> 
+				</plcf:celula> 
+			</plcf:linha> 
+		</plcf:tabela> 
+	</ui:composition> 
+</html>

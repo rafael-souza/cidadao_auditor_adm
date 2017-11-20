@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition> 
+		<plcf:tabela tituloChave="pessoaman.titulo"> 
+			<plcf:linha> 
+
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.id']}"/>  
+					<plcf:oid id="id" value="#{pessoa.id}" ajudaChave="ajuda.id"/> 
+				</plcf:celula>  
+
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.nome']}"/>  
+					<plcf:texto id="nome" value="#{pessoa.nome}" ajudaChave="ajuda.nome" tamanho="60" tamanhoMaximo="120" showRequired="true"/> 
+				</plcf:celula>
+
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.dataNascimento']}"/>  
+					<plcf:data id="dataNascimento" value="#{pessoa.dataNascimento}" ajudaChave="ajuda.dataNascimento"/> 
+				</plcf:celula>  
+				
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.celular']}"/>  
+					<plcf:texto id="celular" value="#{pessoa.celular}" riaUsa="textmask(mask='(99)9.9999-9999')" tamanho="14" ajudaChave="ajuda.celular"/> 
+				</plcf:celula> 					
+
+			</plcf:linha>  
+
+			<plcf:linha> 
+
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.senha']}"/>  
+					<plcf:texto id="senha" value="#{pessoa.senha}" secret="true" disbled="#{not empty pessoa.senha}" tamanho="20" ajudaChave="ajuda.senha"/> 
+				</plcf:celula> 
+ 
+				<plcf:celula columnSpan="2"> 
+					<plcf:titulo value="#{msg['label.email']}"/>  
+					<plcf:texto id="email" value="#{pessoa.email}" tamanho="80" tamanhoMaximo="120" ajudaChave="ajuda.email"/> 
+				</plcf:celula> 				
+
+			</plcf:linha>  
+ 
+		</plcf:tabela> 
+	</ui:composition> 
+</html>

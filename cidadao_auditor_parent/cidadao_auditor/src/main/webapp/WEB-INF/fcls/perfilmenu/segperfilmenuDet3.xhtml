@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:plcf="http://www.powerlogic.com.br/plcf"
+	xmlns:plct="http://www.powerlogic.com.br/plct"
+	xmlns:tr="http://myfaces.apache.org/trinidad"
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">
+<ui:composition>
+	<fieldset class="plc-fieldset">
+		<legend class="plc-fieldset-legend">#{msg['segperfilmenu.titulo.detalhe.3']}</legend>
+		<plcf:iteracao var="perfilMenuCustomizadoNegado" id="perfilMenuCustomizadoNegado"
+			value="#{segperfilmenu.perfilMenuCustomizadoNegado}"
+			columnClasses="celulaFormulario" headerClass="celulaFormulario">
+			<h:column>
+				<h:outputText value="#{rowCounter.index}." />
+			</h:column>
+			<h:column rendered="#{empty requestScope.visualizaDocumentoPlc}">
+				<f:facet name="header">
+					<plcf:tituloExclusao>Exc.</plcf:tituloExclusao>
+				</f:facet>
+				<h:panelGroup rendered="#{segperfilmenu.tipoAcesso != 'NEG'}">
+					<span class="celulaFormularioCaixaMarcacao"> <plcf:caixaExclusao
+							id="indExcPlc" value="#{perfilMenuCustomizadoNegado.indExcPlc}" />
+					</span>
+				</h:panelGroup>
+			</h:column>			
+			<h:column>
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.id']}" />
+				</f:facet>
+				<plcf:oid id="id" value="#{perfilMenuCustomizadoNegado.id}"
+					ajudaChave="ajuda.id" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.campoCustomizado']}" />
+				</f:facet>				
+				<plcf:comboEstatico id="campoCustomizado"
+					value="#{perfilMenuCustomizadoNegado.campoCustomizado}"
+					dominio="SegCampoCustomizado" exibeBranco="S"
+					ajudaChave="ajuda.campoCustomizado" />								
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.visibilidadeCampo']}" />
+				</f:facet>
+				<plcf:comboEstatico id="visibilidadeCampo"
+					value="#{perfilMenuCustomizadoNegado.visibilidadeCampo}"
+					dominio="SegVisibilidadeCampo" exibeBranco="S"
+					ajudaChave="ajuda.visibilidadeCampo" />
+			</h:column>
+			
+		</plcf:iteracao>
+		
+	</fieldset>		
+	<script>
+		applyCheckTarja("perfilMenuCustomizadoNegado");
+	</script>		
+</ui:composition>
+</html>

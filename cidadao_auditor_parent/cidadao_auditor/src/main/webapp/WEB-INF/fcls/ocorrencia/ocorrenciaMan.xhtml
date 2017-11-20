@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf"  
+	xmlns:plct="http://www.powerlogic.com.br/plct"
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition> 
+		<plcf:tabela tituloChave="ocorrenciaman.titulo"> 
+			<plcf:linha> 
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.id']}"/>  
+					<plcf:oid id="id" value="#{ocorrencia.id}" ajudaChave="ajuda.id"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.pessoa']}"/>  
+					<plcf:exibe  value="#{ocorrencia.pessoa}" rendered="#{not empty ocorrencia.id}"/> 
+					<plc:vinculado id="pessoa" value="#{ocorrencia.pessoa}" propSelPop="pessoaEntity" idExibe="S" idSomenteLeitura="N" autoRecuperacaoClasse="br.net.proex.entity.PessoaEntity" actionSel="pessoaentitysel" modal="S" ajudaChave="ajuda.pessoa" onkeydown="selecionaPorTecla(event,this);" obrigatorio="S" rendered="#{empty ocorrencia.id}"/>
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/>  
+					<plcf:comboDinamico id="tipoOcorrencia" value="#{ocorrencia.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia" showRequired="true"/> 
+				</plcf:celula> 
+
+				<plcf:celula rowSpan="5">									
+					<plct:fileAttach property="fotoOcorrencia"  />
+				</plcf:celula>	
+
+			</plcf:linha>  
+
+			<plcf:linha> 
+				<plcf:celula columnSpan="3"> 
+					<plcf:titulo value="#{msg['label.endereco']}"/>  
+					<plcf:texto id="endereco" tamanho="115" tamanhoMaximo="300" value="#{ocorrencia.endereco}" ajudaChave="ajuda.endereco"/> 
+				</plcf:celula> 				
+			</plcf:linha>
+
+			<plcf:linha> 
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
+					<plcf:data id="dataOcorrencia" value="#{ocorrencia.dataOcorrencia}" ajudaChave="ajuda.dataOcorrencia" showRequired="true"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.latitude']}"/>  
+					<plcf:texto id="latitude" value="#{ocorrencia.latitude}" tamanho="20" ajudaChave="ajuda.latitude" showRequired="true"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.longitude']}"/>  
+					<plcf:texto id="longitude" value="#{ocorrencia.longitude}" tamanho="20"  ajudaChave="ajuda.longitude" showRequired="true"/> 
+				</plcf:celula> 
+			</plcf:linha>  
+			<plcf:linha> 
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.statusOcorrencia']}"/>  
+					<plcf:comboEstatico id="statusOcorrencia" value="#{ocorrencia.statusOcorrencia}" dominio="StatusOcorrencia" exibeBranco="S" ajudaChave="ajuda.statusOcorrencia" showRequired="true"/> 
+				</plcf:celula> 
+
+				<plcf:celula columnSpan="2"> 
+					<plcf:titulo value="#{msg['label.protocolo']}"/>  
+					<plcf:texto id="protocolo" tamanho="80" somenteLeitura="S" value="#{ocorrencia.protocolo}" ajudaChave="ajuda.protocolo"/> 
+				</plcf:celula> 
+						
+			</plcf:linha> 
+
+			<plcf:linha> 
+
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.dataConclusao']}"/>  
+					<plcf:data id="dataConclusao" value="#{ocorrencia.dataConclusao}" ajudaChave="ajuda.dataConclusao"/> 
+				</plcf:celula> 				
+
+					
+				<plcf:celula columnSpan="2"> 
+					<plcf:titulo value="#{msg['label.responsavelConclusao']}"/>  
+					<plcf:texto id="responsavelConclusao" tamanho="80" tamanhoMaximo="120" value="#{ocorrencia.responsavelConclusao}" ajudaChave="ajuda.responsavelConclusao"/> 
+				</plcf:celula> 	
+			</plcf:linha> 
+			<plcf:linha> 
+				<plcf:celula columnSpan="4"> 
+					<plcf:titulo value="#{msg['label.observacao']}"/>  
+					<plcf:texto id="observacao" tamanho="180" tamanhoMaximo="500" value="#{ocorrencia.observacao}" ajudaChave="ajuda.observacao"/> 
+				</plcf:celula> 				
+			</plcf:linha>
+
+		</plcf:tabela> 			
+		<plcf:tabela> 	
+			<plcf:celula>
+				<fieldset class="plc-fieldset plc-fieldset-embutido">
+					<legend class="plc-fieldset-legend">Mapa da Ocorrência</legend>					
+						<plcf:linha> 							
+							<plcf:celula columnSpan="4" inlineStyle="padding-left: 1%;">		  		<center>
+									<div id="mapa" style="height: 500px; width: 1200px">
+    								</div>
+    							</center>		
+																
+							</plcf:celula>								
+						</plcf:linha>					
+				</fieldset>
+			</plcf:celula>
+		</plcf:tabela> 	
+		<plcf:tabela>
+
+			<plcf:texto id="observacaoHistorico" value="#{ocorrencia.observacaoHistorico}" styleClass="esconder"/>
+
+			<plcf:botaoAcao id="botaoAcaoEncaminhar" acao="encaminhar"		styleClass="esconder"
+					partialSubmit="false"  >
+			</plcf:botaoAcao>
+
+			<div id="dialog-encaminhar" title="Encaminhar ao Responsável!">
+				<plcf:tabela styleClass="esconder">
+					<p:outputLabel value="Observação:" for="observacaoEncaminharDialog" styleClass="esconder"/>					
+					<plcf:area id="observacaoEncaminharDialog" value="#{ocorrencia.observacaoHistorico}" styleClass="esconder"
+							rows="5" colunas="100" tamanho="20" tamanhoMaximo="500"		
+							ajudaChave="ajuda.observacao"/> 
+				</plcf:tabela>
+			</div>
+		</plcf:tabela>
+		
+
+	<script type="text/javascript">//<![CDATA[
+	
+		plc.jq('.esconder').hide();
+
+		function abrirEncaminhar(){
+			plc.jq('.esconder').show();
+		    plc.jq( "#dialog-encaminhar" ).dialog({
+    			resizable: false,
+				height: "auto",
+				width: 550,
+				closeOnEscape: false,
+				open: function(event, ui) {
+					plc.jq(".ui-dialog-titlebar-close").hide();
+				},
+ 				close: function(event, ui) {
+ 					event.preventDefault(); 
+ 					plc.jq(this).dialog('destroy'); 
+ 				},
+				modal: true,
+				buttons: {
+					"Encaminhar": function() {
+			   			plc.jq('#corpo\\:formulario\\:observacaoHistorico').val(
+							plc.jq('#corpo\\:formulario\\:observacaoEncaminharDialog').val());
+			   		   	plc.jq('#corpo\\:formulario\\:botaoAcaoEncaminhar').click();			
+			   		},
+				    "Cancelar": function(event, ui) {
+				    	plc.jq('.esconder').hide();				       
+				        plc.jq( this ).dialog( "destroy" );
+				    }
+				}
+		    });
+		}    	
+	
+		function imprimirDocumento(data){
+			if (data.status == "success"){
+				plc.jq('#corpo\\:formulario\\:realizaImpressaoDocumento').trigger('click');	
+			}
+		}
+
+
+		var map;
+			 
+		function initialize() {			
+			var lat = plc.jq('#corpo\\:formulario\\:latitude').val();
+			var lng = plc.jq('#corpo\\:formulario\\:longitude').val();
+		    var latlng = new google.maps.LatLng(lat, lng);
+		 
+		    var options = {
+		        zoom: 13,
+		        center: latlng,
+		        mapTypeId: google.maps.MapTypeId.ROADMAP
+		    };
+		 
+		    map = new google.maps.Map(document.getElementById("mapa"), options);
+		    colocarMarcadorMapa();
+		}
+
+		initialize();
+
+		function colocarMarcadorMapa(){								
+		    var infowindow = new google.maps.InfoWindow();
+		    var marker;
+		    var conteudo = "";
+		    var conteudoFoto;
+		    var foto;			    
+			                                                                		    				       
+		    var ocorrencia = new Object();
+		    ocorrencia.id = plc.jq('#corpo\\:formulario\\:id').val();
+		    ocorrencia.latitude = plc.jq('#corpo\\:formulario\\:latitude').val();
+		    ocorrencia.longitude = plc.jq('#corpo\\:formulario\\:longitude').val();
+		    ocorrencia.observacao = plc.jq('#corpo\\:formulario\\:observacao').val();
+		    ocorrencia.tipo = plc.jq('#corpo\\:formulario\\:tipoOcorrencia :selected').text();
+		    ocorrencia.data = plc.jq('#corpo\\:formulario\\:dataOcorrencia').val();
+		    ocorrencia.endereco = plc.jq('#corpo\\:formulario\\:endereco').val();
+		    ocorrencia.status = plc.jq('#corpo\\:formulario\\:statusOcorrencia :selected').text();
+		    ocorrencia.protocolo = plc.jq('#corpo\\:formulario\\:protocolo').val();
+
+			var latlong = new google.maps.LatLng(ocorrencia.latitude, ocorrencia.longitude);	            
+			foto = plc.jq('.plc-file-image')[0].src;            
+			if (null != foto && foto.indexOf('soa') > 0){    
+				conteudoFoto = '<img src="' + foto + '" height="115" width="83"/>';        
+			} else {
+				conteudoFoto = '<img src="#{request.contextPath}/res/midia/sem_imagem.jpg" height="115" width="83"/>';
+			}
+			            
+            if (ocorrencia.observacao == null){
+                ocorrencia.observacao = "";
+            }
+
+            var urlEdita = window.location.origin;
+			            
+            // Variável que define o conteúdo da Info Window
+            conteudo = '<div id="iw-container">' +
+                    '<div class="iw-title"> Tipo: ' + ocorrencia.tipo + ' </div>' +
+                    '<div class="iw-content">' +
+                      '<div class="iw-subTitle">Descrição da Ocorrência</div>' +
+                      conteudoFoto +
+                      '<p><b>Data: </b>' + ocorrencia.data + '<br/>' +
+                      '<b>Endereço: </b>' + ocorrencia.endereco + '<br>' +
+                      '<b>Status: </b>' + ocorrencia.status + '<br/>' +
+                      '<b>Observação: </b>' + ocorrencia.observacao + '<br/> </p>' +
+                      '<div class="iw-subTitle">Protocolo</div>' +
+                      '<p>'+ ocorrencia.protocolo + '</p> <br/>'+                                   
+                    '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
+
+            var titulo = "Tipo:" + ocorrencia.tipo;
+
+            var icone;
+
+            if (ocorrencia.status == "Em Aberto") {
+                icone = "http://maps.google.com/mapfiles/ms/micons/red-dot.png";                        
+            } else if (ocorrencia.status == "Encaminhada") {
+                icone = "http://maps.google.com/mapfiles/ms/micons/blue-dot.png";                        
+            } else if (ocorrencia.status == "Em Análise") {
+                icone = "http://maps.google.com/mapfiles/ms/micons/yellow-dot.png";                        
+            } else {
+                icone = "http://maps.google.com/mapfiles/ms/micons/green-dot.png";    
+            }
+
+            marker = new google.maps.Marker({
+                position: latlong,
+                title: titulo,
+                map: map,
+                icon: icone
+            });
+            marker.html = conteudo;
+
+            var id = ocorrencia.id;
+            google.maps.event.addListener(marker, 'click', (function(marker, id) {
+                return function() {
+                  infowindow.setContent(this.html);
+                  infowindow.open(map, this);
+                }
+            })(marker, id));
+
+              // evento que fecha a infoWindow com click no mapa
+            google.maps.event.addListener(map, 'click', function() {
+                infowindow.close();
+            });
+	            			           
+	        google.maps.event.addListener(infowindow, 'domready', function() {
+	  
+	            // Referência ao DIV que agrupa o fundo da infowindow
+	            var iwOuter = plc.jq('.gm-style-iw');
+
+	            /* Uma vez que o div pretendido está numa posição anterior ao div .gm-style-iw.
+	            * Recorremos ao jQuery e criamos uma variável iwBackground,
+	            * e aproveitamos a referência já existente do .gm-style-iw para obter o div anterior com .prev().
+	            */
+	            var iwBackground = iwOuter.prev();
+
+	            // Remover o div da sombra do fundo
+	            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+
+	            // Remover o div de fundo branco
+	            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+
+	            // Desloca a infowindow 115px para a direita
+	            iwOuter.parent().parent().css({left: '115px'});
+
+	            // Desloca a sombra da seta a 76px da margem esquerda 
+	            iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+
+	            // Desloca a seta a 76px da margem esquerda 
+	            iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+
+	            // Altera a cor desejada para a sombra da cauda
+	            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+	            // Referência ao DIV que agrupa os elementos do botão fechar
+	            var iwCloseBtn = iwOuter.next();
+
+	            // Aplica o efeito desejado ao botão fechar
+	            iwCloseBtn.css({opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9'});
+
+	            // Se o conteúdo da infowindow não ultrapassar a altura máxima definida, então o gradiente é removido.
+	            if(plc.jq('.iw-content').height() < 140){
+	              plc.jq('.iw-bottom-gradient').css({display: 'none'});
+	            }
+
+	            // A API aplica automaticamente 0.7 de opacidade ao botão após o evento mouseout. Esta função reverte esse evento para o valor desejado.
+	            iwCloseBtn.mouseout(function(){
+	              plc.jq(this).css({opacity: '1'});
+	            });
+	        });  
+	    }			  
+		
+
+
+		
+	//]]> 		
+	</script>
+
+
+	</ui:composition> 
+</html>

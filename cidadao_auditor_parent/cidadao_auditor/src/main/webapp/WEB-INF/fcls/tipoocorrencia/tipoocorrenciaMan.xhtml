@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:plct="http://www.powerlogic.com.br/plct"
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition> 
+		<plcf:tabela tituloChave="tipoocorrenciaman.titulo"> 
+			<plcf:linha> 
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.id']}"/>  
+					<plcf:oid id="id" value="#{tipoocorrencia.id}" ajudaChave="ajuda.id"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.descricao']}"/>  
+					<plcf:texto id="descricao" value="#{tipoocorrencia.descricao}"  tamanho="40" tamanhoMaximo="60" ajudaChave="ajuda.descricao" showRequired="true"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.secretariaResponsavel']}"/>  
+					<plcf:comboEstatico id="secretariaResponsavel" value="#{tipoocorrencia.secretariaResponsavel}" dominio="TipoSecretario" exibeBranco="S" ajudaChave="ajuda.secretariaResponsavel" showRequired="true"/> 
+				</plcf:celula> 
+				<plcf:celula >									
+					<plct:fileAttach property="icone"  />
+				</plcf:celula>	
+				
+			</plcf:linha> 
+		</plcf:tabela> 
+	</ui:composition> 
+</html>

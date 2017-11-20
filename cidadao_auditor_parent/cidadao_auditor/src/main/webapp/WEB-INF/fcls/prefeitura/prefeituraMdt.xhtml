@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf"
+	xmlns:plct="http://www.powerlogic.com.br/plct" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition> 
+		<plcf:tabela tituloChave="prefeitura.mestre.titulo.comp"> 
+			<plcf:linha> 
+				<plcf:celula columnSpan="3">
+					<fieldset class="plc-fieldset plc-fieldset-embutido">
+						<legend class="plc-fieldset-legend">Dados da Prefeitura</legend>
+						<plcf:tabela>
+							<plcf:linha> 
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.id']}"/>  
+									<plcf:oid id="id" value="#{prefeitura.id}" ajudaChave="ajuda.id"/> 
+								</plcf:celula>  
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.nome']}"/>  
+									<plcf:texto id="nome" value="#{prefeitura.nome}" ajudaChave="ajuda.nome"  tamanho="60" tamanhoMaximo="120" showRequired="true"/> 
+								</plcf:celula>  
+								<plcf:celula rowSpan="4">									
+									<plct:fileAttach property="brasao"  />
+								</plcf:celula>	
+
+											
+							</plcf:linha>  
+							<plcf:linha> 
+
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.nomeAbreviado']}"/>  
+									<plcf:texto id="nomeAbreviado" value="#{prefeitura.nomeAbreviado}"  tamanho="40" tamanhoMaximo="120" ajudaChave="ajuda.nomeAbreviado"/> 
+								</plcf:celula> 							
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.cnpj']}"/>  
+									<plcf:texto id="cnpj" value="#{prefeitura.cnpj}" riaUsa="textmask(mask='99.999.999/9999-99')" tamanho="18" ajudaChave="ajuda.cnpj"/> 
+								</plcf:celula>
+							</plcf:linha>  
+							<plcf:linha> 
+
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.telefone']}"/>  
+									<plcf:texto id="telefone" value="#{prefeitura.telefone}" riaUsa="textmask(mask='(99)9999-9999')" tamanho="14" ajudaChave="ajuda.telefone"/> 
+								</plcf:celula>  
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.fax']}"/>  
+									<plcf:texto id="fax" value="#{prefeitura.fax}" riaUsa="textmask(mask='(99)9999-9999')" tamanho="14" ajudaChave="ajuda.fax"/> 
+								</plcf:celula> 
+							</plcf:linha>  
+							<plcf:linha> 								
+								<plcf:celula > 
+									<plcf:titulo value="#{msg['label.email']}"/>  
+									<plcf:texto id="email" value="#{prefeitura.email}" tamanho="40" tamanhoMaximo="120" ajudaChave="ajuda.email"/> 
+								</plcf:celula> 
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.site']}"/>  
+									<plcf:texto id="site" value="#{prefeitura.site}" tamanho="40" tamanhoMaximo="120" ajudaChave="ajuda.site"/> 
+								</plcf:celula> 
+							</plcf:linha>  
+							<plcf:linha> 								
+								<plcf:celula > 
+									<plcf:titulo value="#{msg['label.latitude']}"/>  
+									<plcf:texto id="latitude" value="#{prefeitura.latitude}" tamanho="20" ajudaChave="ajuda.latitude"/> 
+								</plcf:celula> 
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.longitude']}"/>  
+									<plcf:texto id="longitude" value="#{prefeitura.longitude}" tamanho="20" ajudaChave="ajuda.longitude"/> 
+								</plcf:celula> 
+							</plcf:linha> 							
+						</plcf:tabela>
+					</fieldset>
+				</plcf:celula>
+			</plcf:linha>
+			<plcf:linha>
+				<plcf:celula columnSpan="3">
+					<fieldset class="plc-fieldset plc-fieldset-embutido">
+						<legend class="plc-fieldset-legend">Endereço</legend>
+						<plcf:tabela>
+							<plcf:linha>
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.endereco.logradouro']}"/>  
+									<plcf:texto id="endereco_logradouro" value="#{prefeitura.endereco.logradouro}" ajudaChave="ajuda.endereco.logradouro" tamanho="60" tamanhoMaximo="300"/> 
+								</plcf:celula>  
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.endereco.numero']}"/>  
+									<plcf:texto id="endereco_numero" value="#{prefeitura.endereco.numero}" ajudaChave="ajuda.endereco.numero"/> 
+								</plcf:celula>  
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.endereco.complemento']}"/>  
+									<plcf:texto id="endereco_complemento" value="#{prefeitura.endereco.complemento}" ajudaChave="ajuda.endereco.complemento"/> 
+								</plcf:celula> 
+							</plcf:linha>   
+							<plcf:linha> 
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.endereco.cep']}"/>  
+									<plcf:texto id="endereco_cep" value="#{prefeitura.endereco.cep}" ajudaChave="ajuda.endereco.cep" riaUsa="textmask(mask='99.999-999')" tamanho="10"/> 
+								</plcf:celula>  
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.endereco.bairro']}"/>  
+									<plcf:texto id="endereco_bairro" value="#{prefeitura.endereco.bairro}" ajudaChave="ajuda.endereco.bairro" tamanho="60" tamanhoMaximo="300"/>	
+								</plcf:celula>  
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.endereco.cidade']}"/>  
+									<plcf:texto id="endereco_cidade" value="#{prefeitura.endereco.cidade}" ajudaChave="ajuda.endereco.cidade" tamanho="60" tamanhoMaximo="120"/> 
+								</plcf:celula> 
+							</plcf:linha> 						
+						</plcf:tabela>
+					</fieldset>
+				</plcf:celula>
+			</plcf:linha>									
+		</plcf:tabela> 
+	</ui:composition> 
+</html>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  																													
+	    			       Jaguar-jCompany Developer Suite.																		
+			    		        Powerlogic 2010-2014.
+			    		    
+		Please read licensing information in your installation directory.Contact Powerlogic for more 
+		information or contribute with this project: suporte@powerlogic.com.br - www.powerlogic.com.br																								
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+
+
+	<!-- definição do parent do projeto -->
+	<parent>
+		<groupId>powerlogic.jaguar.app</groupId>
+		<artifactId>projeto-cidadao_auditor</artifactId>
+		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<!-- dados do projeto -->
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>powerlogic.jaguar.app</groupId>
+	<artifactId>cidadao_auditor_commons</artifactId>
+	<name>cidadao_auditor_commons</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>powerlogic.jaguar.jcompany</groupId>
+			<artifactId>jcompany_commons</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>powerlogic.jaguar.jcompany</groupId>
+			<artifactId>jcompany_model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>powerlogic.jaguar.jcompany</groupId>
+			<artifactId>jcompany_controller</artifactId>
+		</dependency>			
+		<dependency>
+	    	<groupId>org.hibernate</groupId>
+	      	<artifactId>hibernate-envers</artifactId>
+	      	<exclusions>
+		        <exclusion>
+	    	      <artifactId>javassist</artifactId>
+	        	  <groupId>javassist</groupId>
+	        	</exclusion>
+	        	<exclusion>
+	          		<artifactId>javassist</artifactId>
+	          		<groupId>jboss</groupId>
+	        	</exclusion>
+	        	<exclusion>
+	          		<artifactId>javassist</artifactId>
+	          		<groupId>org.javassist</groupId>
+	        	</exclusion>
+	      	</exclusions>
+	    </dependency>		
+				
+		<!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
+		<dependency>
+		    <groupId>org.primefaces</groupId>
+		    <artifactId>primefaces</artifactId>
+		    <version>6.1</version> 
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4</version>
+		</dependency>		
+
+		<dependency>
+        	<groupId>jtidy</groupId>
+            <artifactId>jtidy</artifactId>
+            <version>r938</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.xhtmlrenderer</groupId>
+            <artifactId>core-renderer</artifactId>
+            <version>R8</version>
+        </dependency>    	       	
+		<dependency>
+		   <groupId>gui.ava</groupId>
+		   <artifactId>html2image</artifactId>
+		   <version>0.9</version>
+		</dependency> 
+		
+		<!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
+		<dependency>
+		    <groupId>commons-lang</groupId>
+		    <artifactId>commons-lang</artifactId>
+		    <version>2.3</version>
+		</dependency>
+
+				     
+				
+		<!-- Para auditoria rígida descomentar código abaixo -->
+		<!--  Extension de auditoria -->
+		<!-- 
+		<dependency>
+			<groupId>powerlogic.jaguar.jcompany.extension</groupId>
+			<artifactId>plx_jcompany_audit</artifactId>
+			<version>${jcompany.versao}</version>
+		</dependency>
+		 -->
+		
+		
+	</dependencies>
+
+</project> 

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:plcf="http://www.powerlogic.com.br/plcf"
+	xmlns:plct="http://www.powerlogic.com.br/plct"
+	xmlns:tr="http://myfaces.apache.org/trinidad"
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">
+<ui:composition>
+	<fieldset class="plc-fieldset">
+		<legend class="plc-fieldset-legend">#{msg['segperfilmenu.titulo.detalhe.2']}</legend>
+		<plcf:iteracao var="perfilMenuCampo" id="perfilMenuCampo"
+			value="#{segperfilmenu.perfilMenuCampo}"
+			columnClasses="celulaFormulario" headerClass="celulaFormulario">
+			<h:column>
+				<h:outputText value="#{rowCounter.index}." />
+			</h:column>
+			<h:column rendered="#{empty requestScope.visualizaDocumentoPlc}">
+				<f:facet name="header">
+					<plcf:tituloExclusao>Exc.</plcf:tituloExclusao>
+				</f:facet>
+				<h:panelGroup rendered="#{segperfilmenu.tipoAcesso != 'NEG'}">
+					<span class="celulaFormularioCaixaMarcacao"> <plcf:caixaExclusao
+							id="indExcPlc" value="#{perfilMenuCampo.indExcPlc}" />
+					</span>
+				</h:panelGroup>
+			</h:column>			
+			<h:column>
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.id']}" />
+				</f:facet>
+				<plcf:oid id="id" value="#{perfilMenuCampo.id}"
+					ajudaChave="ajuda.id" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.menuCampo']}" />
+				</f:facet>				
+				<plcf:vinculado id="menuCampo" larg="900" evento="y" 
+					value="#{perfilMenuCampo.menuCampo}"					
+					propSelPop="segmenucampo"
+					autoRecuperacaoClasse="br.net.proex.entity.seg.SegMenuCampoEntity"
+					idExibe="N" idSomenteLeitura="N" actionSel="segmenucamposel"
+					modal="S" ajudaChave="ajuda.menuCampo"
+					onkeydown="selecionaPorTecla(event,this);" 
+					multiSel="S"
+					parametro="a=a&amp;menu=#{segperfilmenu.menu.id}&amp;evento=y"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.visibilidadeCampo']}" />
+				</f:facet>
+				<plcf:comboEstatico id="visibilidadeCampo"
+					value="#{perfilMenuCampo.visibilidadeCampo}"
+					dominio="SegVisibilidadeCampo" exibeBranco="S"
+					ajudaChave="ajuda.visibilidadeCampo" />
+			</h:column>
+			
+		</plcf:iteracao>
+		
+	</fieldset>		
+	<script>
+		applyCheckTarja("perfilMenuCampo");
+	</script>		
+</ui:composition>
+</html>

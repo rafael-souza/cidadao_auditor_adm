@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  																													
+	    			       Jaguar-jCompany Developer Suite.																		
+			    		        Powerlogic 2010-2014.
+			    		    
+		Please read licensing information in your installation directory.Contact Powerlogic for more 
+		information or contribute with this project: suporte@powerlogic.com.br - www.powerlogic.com.br																								
+--><persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" version="2.0">
+	
+	
+	<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<non-jta-data-source>java:/comp/env/jdbc/cidadao_auditor</non-jta-data-source>
+				
+		<class>br.net.proex.entity.seg.SegUsuarioEntity</class>		
+	  	<class>br.net.proex.entity.seg.SegMenuEntity</class>	
+		<class>br.net.proex.entity.seg.SegMenuCampoEntity</class>
+		<class>br.net.proex.entity.seg.SegPerfilEntity</class>	
+		<class>br.net.proex.entity.seg.SegPerfilMenuEntity</class>
+		<class>br.net.proex.entity.seg.SegPerfilMenuAcaoNegadoEntity</class>
+		<class>br.net.proex.entity.seg.SegPerfilMenuCampoEntity</class>		
+	  	<class>br.net.proex.entity.seg.SegUsuarioPerfilEntity</class>
+		<class>br.net.proex.entity.seg.SegBaseEntityRevision</class>	
+		
+		
+		<class>br.net.proex.entity.PessoaEntity</class>	
+		<class>br.net.proex.entity.PrefeituraEntity</class>	
+		<class>br.net.proex.entity.SecretariadoEntity</class>
+		<class>br.net.proex.entity.FotoPrefeitura</class>
+		<class>br.net.proex.entity.FotoConteudoPrefeitura</class>		
+		<class>br.net.proex.entity.TipoOcorrenciaEntity</class>	
+		<class>br.net.proex.entity.OcorrenciaEntity</class>
+		<class>br.net.proex.entity.HistoricoOcorrenciaEntity</class>
+		<class>br.net.proex.entity.FotoOcorrencia</class>
+		<class>br.net.proex.entity.FotoConteudoOcorrencia</class>			
+		<class>br.net.proex.entity.ParametrosAplicacaoEntity</class>
+		<class>br.net.proex.entity.SugestaoEntity</class>
+		<class>br.net.proex.entity.DenunciaEntity</class>
+		
+	<properties>
+			<property name="hibernate.archive.autodetection" value="class, hbm"/>
+			<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/> 						
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" /> 	-->						
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>			
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/> 
+ 			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+			
+
+			<!-- A propriedade abaixo define a estratÃ©gia para nomes de colunas Ao 
+				encontrar uma letra maiÃºscula no nome da coluna, esse letra Ã© transformada 
+				em minÃºscula e Ã© adicionado um "_" antes dela. Sua utilizaÃ§Ã£o Ã© aconselhada 
+				na maioria dos casos. Ex: departamentPai fica departamento_pai AtenÃ§Ã£o: 
+				para bancos legados recomenda-se retirar essa propriedade para o hibernate 
+				utilizar a estratÃ©gia "default" que nÃ£o altera o nome da coluna -->
+			<property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy"/>      		   
+
+		</properties>
+	</persistence-unit>
+</persistence>

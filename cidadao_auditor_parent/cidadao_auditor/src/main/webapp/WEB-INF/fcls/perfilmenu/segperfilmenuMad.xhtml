@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:plcf="http://www.powerlogic.com.br/plcf"
+	xmlns:tr="http://myfaces.apache.org/trinidad"
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">
+<ui:composition>
+	<plcf:tabela tituloChave="segperfilmenu.mestre.titulo.comp">
+		<plcf:linha>
+			<plcf:celula>
+				<plcf:titulo tituloChave="label.id" />
+				<plcf:exibe value="#{segperfilmenu.id}" />
+			</plcf:celula>
+			<plcf:celula>
+				<plcf:titulo tituloChave="label.perfil" />
+				<plcf:exibe value="#{segperfilmenu.perfil}" />
+			</plcf:celula>
+			
+			<plcf:celula>
+				<plcf:titulo tituloChave="label.tipoAcesso" />
+				<plcf:exibe value="#{segperfilmenu.tipoAcesso}" />
+			</plcf:celula>			
+			
+			<h:panelGroup rendered="#{segperfilmenu.tipoAcesso == 'TEM'}"> 
+				<plcf:celula >
+					<plcf:titulo tituloChave="label.dataInicial" />
+					<plcf:exibe value="#{segperfilmenu.dataInicial}" />
+				</plcf:celula>	
+
+				<plcf:celula>
+					<plcf:titulo tituloChave="label.dataFinal" />
+					<plcf:exibe value="#{segperfilmenu.dataFinal}" />
+				</plcf:celula>
+			</h:panelGroup>
+			
+			<plcf:celula>
+				<plcf:titulo tituloChave="label.menu" />
+				<plcf:exibe value="#{segperfilmenu.menu}" />
+			</plcf:celula>
+		</plcf:linha>
+	</plcf:tabela>
+</ui:composition>
+</html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:plcf="http://www.powerlogic.com.br/plcf"
+	xmlns:plct="http://www.powerlogic.com.br/plct"
+	xmlns:tr="http://myfaces.apache.org/trinidad"
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">
+<ui:composition>
+	<fieldset class="plc-fieldset">
+		<legend class="plc-fieldset-legend">#{msg['segusuarioperfil.titulo.detalhe']}</legend>
+		<plcf:iteracao var="usuarioPerfil" id="usuarioPerfil"
+			value="#{segusuario.usuarioPerfil}" columnClasses="celulaFormulario"
+			headerClass="celulaFormulario">
+			<h:column>
+				<h:outputText value="#{rowCounter.index}." />
+			</h:column>
+			<h:column rendered="#{empty requestScope.visualizaDocumentoPlc}">
+				<f:facet name="header">
+					<plcf:tituloExclusao>Exc.</plcf:tituloExclusao>
+				</f:facet>
+				<span class="celulaFormularioCaixaMarcacao"> <plcf:caixaExclusao
+						id="indExcPlc" value="#{usuarioPerfil.indExcPlc}" />
+				</span>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.id']}" />
+				</f:facet>
+				<plcf:oid id="id" value="#{usuarioPerfil.id}" ajudaChave="ajuda.id" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.perfil']}" />
+				</f:facet>
+				<plcf:vinculado id="perfil" value="#{usuarioPerfil.perfil}" larg="900" evento="y"
+					propSelPop="segperfil" idExibe="S" idSomenteLeitura="N"
+					autoRecuperacaoClasse="br.net.proex.entity.seg.SegPerfilEntity"
+					riaUsa="autocomplete(url='#{request.contextPath}/soa/service/autocomplete.segperfilman?q=nome')"
+					actionSel="segperfilsel" modal="S" ajudaChave="ajuda.perfil"
+					onkeydown="selecionaPorTecla(event,this);" />
+			</h:column>			
+			<h:column>
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.dataInicial']}" />
+				</f:facet>
+				<plcf:data id="dataInicial" value="#{usuarioPerfil.dataInicial}"
+					ajudaChave="ajuda.dataInicial" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.dataFinal']}" />
+				</f:facet>
+				<plcf:data id="dataFinal" value="#{usuarioPerfil.dataFinal}"
+					ajudaChave="ajuda.dataFinal" />
+			</h:column>
+		</plcf:iteracao>
+	</fieldset>
+	<script>
+			applyCheckTarja("usuarioPerfil");
+		</script>
+</ui:composition>
+</html>

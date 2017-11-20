@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition> 
+		<plcf:tabela tituloChave="denunciaman.titulo"> 
+			<plcf:linha> 
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.id']}"/>  
+					<plcf:oid id="id" value="#{denuncia.id}" ajudaChave="ajuda.id"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.titulo']}"/>  
+					<plcf:texto id="titulo" value="#{denuncia.titulo}" ajudaChave="ajuda.titulo" tamanho="80" tamanhoMaximo="200"/> 
+				</plcf:celula>  
+				<plcf:celula columnSpan="2"> 
+					<plcf:titulo value="#{msg['label.endereco']}"/>  
+					<plcf:texto id="endereco" value="#{denuncia.endereco}" ajudaChave="ajuda.endereco" tamanho="110" tamanhoMaximo="200" /> 
+				</plcf:celula> 
+			</plcf:linha>  
+			<plcf:linha> 
+				<plcf:celula columnSpan="4"> 
+					<plcf:titulo value="#{msg['label.descricao']}"/> 
+					<plcf:area id="descricao" 	
+								value="#{denuncia.descricao}" 
+								rows="6"
+								colunas="240"
+								ajudaChave="ajuda.observacao"/>  
+				</plcf:celula>  
+			</plcf:linha>  
+			<plcf:linha> 
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.dataDenuncia']}"/>  
+					<plcf:data id="dataDenuncia" value="#{denuncia.dataDenuncia}" ajudaChave="ajuda.dataDenuncia"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.protocolo']}"/>  
+					<plcf:texto id="protocolo" value="#{denuncia.protocolo}" ajudaChave="ajuda.protocolo" somenteLeitura="S" tamanho="80"/> 
+				</plcf:celula> 	
+
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.pessoa']}"/>  
+					<plc:vinculado id="pessoa" value="#{denuncia.pessoa}" 
+							propSelPop="pessoa" idExibe="S" idSomenteLeitura="N" 
+							autoRecuperacaoClasse="br.net.proex.entity.PessoaEntity" actionSel="pessoasel" 
+							modal="S" ajudaChave="ajuda.pessoa" onkeydown="selecionaPorTecla(event,this);"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.denunciaAnonima']}"/>  
+					<plcf:caixaMarcacao id="denunciaAnonima" obrigatorio="N" value="#{denuncia.denunciaAnonima}" ajudaChave="ajuda.denunciaAnonima"/> 
+				</plcf:celula>  
+			</plcf:linha> 
+			<plcf:linha>
+				<plcf:celula columnSpan="4"> 
+					<plcf:titulo value="#{msg['label.observacao']}"/>  
+					<plcf:area id="observacao" 	
+								value="#{denuncia.observacao}" 
+								rows="6"
+								colunas="240"
+								ajudaChave="ajuda.observacao"/>  
+				</plcf:celula> 
+			</plcf:linha>
+		</plcf:tabela> 
+	</ui:composition> 
+</html>

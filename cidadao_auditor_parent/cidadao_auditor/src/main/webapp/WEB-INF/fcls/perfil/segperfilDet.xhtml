@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:plcf="http://www.powerlogic.com.br/plcf"
+	xmlns:plct="http://www.powerlogic.com.br/plct"
+	xmlns:tr="http://myfaces.apache.org/trinidad"
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">
+<ui:composition>
+	<fieldset class="plc-fieldset">
+		<legend class="plc-fieldset-legend">#{msg['segperfil.titulo.detalhe']}</legend>
+		<plcf:iteracao var="perfilMenu" id="perfilMenu"
+			value="#{segperfil.perfilMenu}" columnClasses="celulaFormulario"
+			headerClass="celulaFormulario">
+			<h:column>
+				<h:outputText value="#{rowCounter.index}." />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.menu']}" />
+				</f:facet>
+				<plcf:exibe value="#{perfilMenu.menu}" />
+			</h:column>			
+			
+			<h:column>
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.tipoAcesso']}" />
+				</f:facet>
+				<plcf:comboEstatico id="tipoAcesso" value="#{perfilMenu.tipoAcesso}"
+					dominio="SegTipoAcesso" exibeBranco="S"
+					ajudaChave="ajuda.tipoAcesso"/>
+			</h:column>			
+					
+			<h:column>			
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.dataInicial']}"/>
+				</f:facet>
+				<plcf:data id="dataInicial" value="#{perfilMenu.dataInicial}"
+					ajudaChave="ajuda.dataInicial" />				
+			</h:column>
+
+			<h:column>				
+				<f:facet name="header">
+					<plcf:titulo value="#{msg['label.dataFinal']}"/>
+				</f:facet>
+				<plcf:data id="dataFinal" value="#{perfilMenu.dataFinal}"
+					ajudaChave="ajuda.dataFinal" />				
+			</h:column>
+	
+		</plcf:iteracao>
+	</fieldset>
+</ui:composition>
+</html>

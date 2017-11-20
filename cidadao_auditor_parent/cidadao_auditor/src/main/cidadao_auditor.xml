@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<Context displayName="cidadao_auditor"  
+         docBase="cidadao_auditor" 
+         path="cidadao_auditor" 
+         privileged="true" swallowOutput="off">
+   
+ <Resource name="jdbc/cidadao_auditor" type="javax.sql.DataSource" driverClassName="com.mysql.jdbc.Driver" 
+    url="jdbc:mysql://localhost:3306/cidadao_auditor?autoReconnect=true" username="root" password="root"
+    maxActive="50" maxWait="-1" maxIdle="10" testOnBorrow="true" testWhileIdle="true" 
+    timeBetweenEvictionRunsMillis="100000" minEvictableIdleTimeMillis="300000" validationQuery="SELECT 1"  />   
+    
+    <Realm className="org.apache.catalina.realm.JDBCRealm"
+    driverName="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/cidadao_auditor?autoReconnect=true"
+    connectionName="root" connectionPassword="root" userTable="seg_usuario" digest="MD5"
+    userNameCol="login_usuario" userCredCol="senha_usuario" userRoleTable="seg_usuario" roleNameCol="perfil" />
+
+ <!-- JCDI / Weld (RI)  -->      
+ <Resource name="BeanManager"
+      auth="Container"
+      type="javax.enterprise.inject.spi.BeanManager"
+      factory="org.jboss.weld.resources.ManagerObjectFactory"/>
+ <!-- Uncomment to enable injection into Servlet -->
+ <!-- <Listener className="org.jboss.weld.environment.tomcat.WeldLifecycleListener"/>  -->
+
+</Context>
+

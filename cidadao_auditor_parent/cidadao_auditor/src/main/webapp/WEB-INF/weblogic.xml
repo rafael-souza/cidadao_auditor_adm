@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-web-app xmlns="http://xmlns.oracle.com/weblogic/weblogic-web-app" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd http://xmlns.oracle.com/weblogic/weblogic-web-app http://xmlns.oracle.com/weblogic/weblogic-web-app/1.3/weblogic-web-app.xsd">
+
+	<!-- 
+	<library-ref>
+		<library-name>jax-rs</library-name>
+		<specification-version>2.0</specification-version>
+		<exact-match>false</exact-match>
+	</library-ref>
+	 -->
+	
+	<container-descriptor>
+		<prefer-web-inf-classes>true</prefer-web-inf-classes>
+	</container-descriptor>
+
+	<!-- Mapeamento de Roles da APP para Grupos do WLS -->
+	<security-role-assignment>
+		<role-name>Demo</role-name>
+		<principal-name>AppTesters</principal-name>
+	</security-role-assignment>
+	<security-role-assignment>
+		<role-name>AreaTecnica</role-name>
+		<principal-name>AppTesters</principal-name>
+	</security-role-assignment>
+	<security-role-assignment>
+		<role-name>Administrador</role-name>
+		<principal-name>AppTesters</principal-name>
+	</security-role-assignment>
+	<security-role-assignment>
+		<role-name>Membros</role-name>
+		<principal-name>AppTesters</principal-name>
+	</security-role-assignment>
+    <context-root>cidadao_auditor</context-root>
+
+
+</weblogic-web-app>

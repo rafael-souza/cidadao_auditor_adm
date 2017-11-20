@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml"> 
+		<ui:define name="plc-corpo-formulario"> 
+			<div id="plc-form-basico"> 
+				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
+					<plcf:tabela tituloChave="sugestaoarg.titulo"> 
+						<plcf:linha> 
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.id']}"/>  
+								<plcf:numerico id="id" value="#{sugestao.id}" ajudaChave="ajuda.id" tamanho="5"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.titulo']}"/>  
+								<plcf:texto id="titulo" value="#{sugestao.titulo}" tamanho="40" tamanhoMaximo="200" ajudaChave="ajuda.titulo"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.protocolo']}"/>  
+								<plcf:texto id="protocolo" value="#{sugestao.protocolo}" tamanho="30" tamanhoMaximo="200" ajudaChave="ajuda.protocolo"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.status']}"/>  
+								<plcf:comboEstatico id="status" value="#{sugestao.status}" dominio="StatusSugestao" exibeBranco="S" ajudaChave="ajuda.status"/> 
+							</plcf:celula> 
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.tipo']}"/>  
+								<plcf:comboEstatico id="tipoSugestao" value="#{sugestao.tipoSugestao}" dominio="TipoSugestao" exibeBranco="S" ajudaChave="ajuda.tipo"/> 
+							</plcf:celula>
+						</plcf:linha> 
+					</plcf:tabela> 
+				</div>
+				<div id="#{plcAliasPrefixoAction}Sel" class="plc-form-basico-sel"> 
+					<script type="text/javascript">//<![CDATA[
+	jQuery(function(){plc.criaSelecaoJqGrid('plc-grid','plc-grid-navegador',{
+		evento:'${param.evento}',
+			modoJanelaPlc:'${param.modoJanelaPlc}',
+			rowNum:'50',
+			evento: "y",
+			nomeLogica:'sugestao',
+			urlPesquisa: '#{request.contextPath}/soa/service/gridnavigation.#{requestScope.plcManagedBeanKey}',			
+			propAgregada:'sugestao',
+			jqGrid:{caption:
+				'#{msg['sugestao.titulo']}',
+				colNames:
+					['#{msg['label.id']}',
+					'#{msg['label.pessoa']}',
+					'#{msg['label.titulo']}',
+					'#{msg['label.endereco']}',
+					'#{msg['label.status']}'],
+				colModel:[
+					{name:'id',index:'id', align: "center" , width: 60},
+					{name:'pessoa',index:'pessoa'},
+					{name:'titulo',index:'titulo'},
+					{name:'endereco',index:'endereco'},
+					{name:'status',index:'status', align: "center" , width: 60}]},
+			urlEdicao:'#{request.contextPath}/f/n/sugestaoman'});});//]]> </script>  
+					<table id="plc-grid" width="100%" class="scroll" cellpadding="0" cellspacing="0"/>  
+					<div id="plc-grid-navegador" class="scroll" style="text-align:center;"/> 
+				</div> 
+			</div> 
+		</ui:define> 
+	</ui:composition> 
+</html>

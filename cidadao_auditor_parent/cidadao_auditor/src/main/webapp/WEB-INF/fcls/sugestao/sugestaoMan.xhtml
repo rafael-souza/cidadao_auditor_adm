@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition> 
+		<plcf:tabela tituloChave="sugestaoman.titulo"> 
+			<plcf:linha> 
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.id']}"/>  
+					<plcf:oid id="id" value="#{sugestao.id}" ajudaChave="ajuda.id"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.pessoa']}"/>  
+					<plc:vinculado id="pessoa" value="#{sugestao.pessoa}" idTamanho="8" lookupTamanho="60"
+						propSelPop="pessoa" idExibe="S" idSomenteLeitura="N" evento="y" larg="900"
+						autoRecuperacaoClasse="br.net.proex.entity.PessoaEntity" actionSel="pessoasel" 
+						riaUsa="autocomplete(url='#{request.contextPath}/soa/service/autocomplete.pessoaman?q=nome')"
+						modal="S" ajudaChave="ajuda.pessoa" onkeydown="selecionaPorTecla(event,this);" obrigatorio="S"/> 
+				</plcf:celula>  
+				<plcf:celula columnSpan="2"> 
+					<plcf:titulo value="#{msg['label.titulo']}"/>  
+					<plcf:texto id="titulo" value="#{sugestao.titulo}" ajudaChave="ajuda.titulo" tamanho="80" tamanhoMaximo="200"/> 
+				</plcf:celula> 
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.tipo']}"/>  
+					<plcf:comboEstatico id="tipoSugestao" value="#{sugestao.tipoSugestao}" dominio="TipoSugestao" exibeBranco="S" ajudaChave="ajuda.tipo"/> 
+				</plcf:celula>		
+				
+			</plcf:linha>  
+			<plcf:linha> 
+			
+				<plcf:celula columnSpan="2"> 
+					<plcf:titulo value="#{msg['label.endereco']}"/>  
+					<plcf:texto id="endereco" value="#{sugestao.endereco}" ajudaChave="ajuda.endereco" tamanho="100" tamanhoMaximo="200"/> 
+				</plcf:celula>
+				
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.status']}"/>  
+					<plcf:comboEstatico id="status" value="#{sugestao.status}" dominio="StatusSugestao" exibeBranco="S" ajudaChave="ajuda.status"/> 
+				</plcf:celula> 
+				
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
+					<plcf:data id="dataSugestao" value="#{sugestao.dataSugestao}" ajudaChave="ajuda.dataOcorrencia"/> 
+				</plcf:celula> 
+				
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.protocolo']}"/>  
+					<plcf:texto id="protocolo" value="#{sugestao.protocolo}" ajudaChave="ajuda.protocolo" somenteLeitura="S" tamanho="30"/> 
+				</plcf:celula> 
+				
+			</plcf:linha>  
+			<plcf:linha> 
+			
+			
+				<plcf:celula columnSpan="2"> 
+					<plcf:titulo value="#{msg['label.descricao']}"/>  
+					<plcf:area id="descricao" 	
+								value="#{sugestao.descricao}" 
+								rows="6"
+								colunas="120"
+								ajudaChave="ajuda.observacao"/> 
+				</plcf:celula>
+			
+				<plcf:celula columnSpan="3"> 
+					<plcf:titulo value="#{msg['label.observacao']}"/>  
+					
+					<plcf:area id="observacao" 	
+								value="#{sugestao.observacao}" 
+								rows="6"
+								colunas="120"
+								ajudaChave="ajuda.observacao"/> 
+				</plcf:celula> 
+		
+			</plcf:linha> 
+		</plcf:tabela> 
+	</ui:composition> 
+</html>

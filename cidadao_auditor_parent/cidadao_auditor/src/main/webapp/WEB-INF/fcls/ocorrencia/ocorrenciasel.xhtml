@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml"> 
+		<ui:define name="plc-corpo-formulario"> 
+			<div id="plc-form-basico"> 
+				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
+					<plcf:tabela tituloChave="ocorrenciaarg.titulo"> 
+						<plcf:linha> 
+							<plcf:celula> 								
+								<plcf:titulo value="#{msg['label.id']}"/>  
+								<plcf:numerico id="id" value="#{ocorrencia.id}" ajudaChave="ajuda.id" tamanho="5"/> 								
+							</plcf:celula>  
+							<plcf:celula> 								
+								<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/>  
+								<plcf:comboDinamico id="tipoOcorrencia" value="#{ocorrencia.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 								
+							</plcf:celula>  
+							<plcf:celula> 								
+								<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
+								<plcf:data id="dataOcorrencia" value="#{ocorrencia.dataOcorrencia}" ajudaChave="ajuda.dataOcorrencia"/> 								
+							</plcf:celula>  
+
+							<plcf:celula> 								
+								<plcf:titulo value="#{msg['label.statusOcorrencia']}"/>  
+								<plcf:comboEstatico id="statusOcorrencia" value="#{ocorrencia.statusOcorrencia}" dominio="StatusOcorrencia" exibeBranco="S" ajudaChave="ajuda.statusOcorrencia"/> 								
+							</plcf:celula> 
+
+							<plcf:celula> 								
+									<plcf:titulo value="#{msg['label.protocolo']}"/>  
+									<plcf:texto id="protocolo" value="#{minhastarefas.protocolo}" tamanho="20" tamanhoMaximo="100" ajudaChave="ajuda.protocolo"/> 								
+							</plcf:celula> 								
+
+							<plcf:celula> 								
+								<plcf:titulo value="#{msg['label.endereco']}"/>  
+								<plcf:texto id="endereco" value="#{ocorrencia.endereco}" tamanho="60" tamanhoMaximo="100" ajudaChave="ajuda.endereco"/> 								
+							</plcf:celula> 
+						</plcf:linha> 
+					</plcf:tabela> 
+				</div>
+				<div id="#{plcAliasPrefixoAction}Sel" class="plc-form-basico-sel"> 
+					<script type="text/javascript">//<![CDATA[
+	jQuery(function(){plc.criaSelecaoJqGrid('plc-grid','plc-grid-navegador',{
+		evento:'${param.evento}',
+			modoJanelaPlc:'${param.modoJanelaPlc}',
+			rowNum:'50',
+			evento:"y",
+			urlPesquisa: '#{request.contextPath}/soa/service/gridnavigation.#{requestScope.plcManagedBeanKey}',			
+			nomeLogica:'ocorrencia',
+			propAgregada:'ocorrencia',
+			jqGrid:{caption:
+				'#{msg['ocorrencia.titulo']}',
+				colNames:
+					['#{msg['label.id']}',
+					'#{msg['label.tipoOcorrencia']}',
+					'#{msg['label.dataOcorrencia']}',
+					'#{msg['label.statusOcorrencia']}',
+					'#{msg['label.protocolo']}',
+					'#{msg['label.pessoa']}',
+					'#{msg['label.endereco']}'],
+				colModel:[
+					{name:'id',index:'id', align: "center" , width: 40},
+					{name:'tipoOcorrencia',index:'tipoOcorrencia', align: "center" , width: 60},
+					{name:'dataOcorrencia',index:'dataOcorrencia',align: "center" , width: 60},
+					{name:'statusOcorrencia',index:'statusOcorrencia',align: "center" , width: 60},
+					{name:'protocolo',index:'protocolo',align: "center" , width: 110},
+					{name:'pessoa',index:'pessoa'},
+					{name:'endereco',index:'endereco'}]},
+			urlEdicao:'#{request.contextPath}/f/n/ocorrenciaman'});});//]]> </script>  
+					<table id="plc-grid" width="100%" class="scroll" cellpadding="0" cellspacing="0"/>  
+					<div id="plc-grid-navegador" class="scroll" style="text-align:center;"/> 
+				</div> 
+			</div> 
+		</ui:define> 
+	</ui:composition> 
+</html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:plcf="http://www.powerlogic.com.br/plcf"
+	xmlns:tr="http://myfaces.apache.org/trinidad"
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">
+<ui:composition>
+	<plcf:tabela tituloChave="segusuarioman.titulo">
+		<plcf:linha>
+			<plcf:celula>
+				<plcf:titulo value="#{msg['label.id']}" />
+				<plcf:oid id="id" value="#{segusuario.id}" ajudaChave="ajuda.id" />
+			</plcf:celula>
+			<plcf:celula>
+				<plcf:titulo value="#{msg['label.loginUsuario']}" />
+				<plcf:texto id="loginUsuario" value="#{segusuario.loginUsuario}"
+					ajudaChave="ajuda.loginUsuario" tamanho="20" tamanhoMaximo="50"/>
+			</plcf:celula>
+			<plcf:celula>
+				<plcf:titulo value="#{msg['label.senhaUsuario']}" />
+				<plcf:texto id="senhaUsuario" value="#{segusuario.senhaUsuario}"
+					secret="true" disabled="#{not empty segusuario.id}"
+					ajudaChave="ajuda.senhaUsuario" 
+					tamanho="20" tamanhoMaximo="50"/>
+			</plcf:celula>			
+			<plcf:celula>
+				<plcf:titulo value="#{msg['label.bloqueado']}" />
+				<plcf:caixaMarcacao id="bloqueado" obrigatorio="N"
+					value="#{segusuario.bloqueado}" ajudaChave="ajuda.bloqueado" />
+			</plcf:celula>			
+		</plcf:linha>
+		<plcf:linha> 
+		
+		
+			<plcf:celula>
+				<plcf:titulo value="#{msg['label.visualizaTodasOcorrencias']}" />
+				<plcf:caixaMarcacao id="visualizaTodasOcorrencias" obrigatorio="N"
+					value="#{segusuario.visualizaTodasOcorrencias}" ajudaChave="ajuda.visualizaTodasOcorrencias" />
+			</plcf:celula>		
+			
+			<plcf:celula>
+			<plcf:titulo value="#{msg['label.pessoa']}" />
+				<plcf:vinculado id="pessoa" 
+					value="#{segusuario.pessoa}" 
+					riaUsa="autocomplete(url='#{request.contextPath}/soa/service/autocomplete.pessoaman?q=nome')" larg="900"
+					propSelPop="pessoa" idExibe="S" idSomenteLeitura="N" 
+					autoRecuperacaoClasse="br.net.proex.entity.PessoaEntity" actionSel="pessoasel" modal="S" ajudaChave="ajuda.pessoa" 
+					onkeydown="selecionaPorTecla(event,this);" obrigatorio="S"/>
+			</plcf:celula> 			
+				
+			<plcf:celula> 
+				<plcf:titulo value="#{msg['label.novaSenha']}" rendered="#{not empty segusuario.id}" />  
+				<plcf:texto id="novaSenha" secret="true" value="#{segusuario.senhaNova}" 
+				ajuda="#{msg['ajuda.novaSenha']}" rendered="#{not empty segusuario.id}" 
+				tamanho="20" tamanhoMaximo="50"/> 
+			</plcf:celula> 
+			<plcf:celula> 
+				<plcf:titulo value="#{msg['label.confirmeNovaSenha']}" rendered="#{not empty segusuario.id}" />  
+				<plcf:texto id="novaSenhaRepete" secret="true" value="#{segusuario.senhaNovaRepete}" 
+				ajuda="#{msg['ajuda.confirmeNovaSenha']}" rendered="#{not empty segusuario.id}" 
+				tamanho="20" tamanhoMaximo="50"/> 
+			</plcf:celula> 		 												
+		</plcf:linha> 		
+	</plcf:tabela>	
+</ui:composition>
+</html>

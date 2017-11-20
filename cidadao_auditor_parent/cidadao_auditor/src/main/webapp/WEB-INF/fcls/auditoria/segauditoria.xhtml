@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml"> 
+		<ui:define name="plc-corpo-formulario"> 
+			<div id="plc-form-basico"> 
+				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
+					<plcf:tabela tituloChave="segauditoriaarg.titulo"> 
+						<plcf:linha>
+							<plcf:celula>
+								<plcf:titulo value="#{msg['label.menu']}" />
+								<plcf:vinculado id="menu" value="#{segauditoria.menu}"
+									propSelPop="segmenu" idExibe="S" idSomenteLeitura="N" obrigatorio="S"
+									autoRecuperacaoClasse="br.net.proex.entity.seg.SegMenuEntity"
+									riaUsa="autocomplete(url='#{request.contextPath}/soa/service/autocomplete.segmenuman?q=nome')"
+									actionSel="segmenusel" modal="S"
+									ajudaChave="ajuda.menu" larg="900" evento="y" idTamanho="4" lookupTamanho="15"
+									onkeydown="selecionaPorTecla(event,this);" />
+							</plcf:celula>						
+						
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.usuario']}"/>  
+							<plcf:vinculado id="usuario" value="#{segauditoria.usuario}"
+								propSelPop="segusuario" idExibe="S" idSomenteLeitura="N"
+								propsSelPop="usuarioAux#pessoa" larg="900" evento="y" idTamanho="4" lookupTamanho="15"
+								riaUsa="autocomplete(url='#{request.contextPath}/soa/service/autocomplete.segusuarioman?q=nome')"
+								autoRecuperacaoClasse="br.net.proex.entity.seg.SegUsuarioEntity"
+								actionSel="segusuariosel" modal="S" ajudaChave="ajuda.usuario"
+								onkeydown="selecionaPorTecla(event,this);" />	
+							</plcf:celula> 
+							
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.descricao']}"/>  
+								<plcf:texto id="descricao" value="#{segauditoria.descricao}" ajudaChave="ajuda.descricao" 
+									tamanho="30" tamanhoMaximo="50"/> 
+							</plcf:celula> 
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.data']}"/>  
+								<plcf:data id="dataAux" value="#{segauditoria.dataAux}" ajudaChave="ajuda.data"
+									tamanho="10"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.acaoRealizada']}"/>  
+								<plcf:comboEstatico id="acaoRealizada" value="#{segauditoria.acaoRealizada}" dominio="SegAcaoRealizada" 
+										exibeBranco="S" ajudaChave="ajuda.acaoRealizada"/> 
+							</plcf:celula> 
+							<plcf:celula> 
+								<plcf:escondido id="usuarioAux" value="#{segauditoria.usuarioAux}" ajudaChave="ajuda.usuario" tamanho="20"/> 
+							</plcf:celula> 
+						</plcf:linha>  
+					</plcf:tabela> 
+				</div>
+				<div id="#{plcAliasPrefixoAction}Sel" class="plc-form-basico-sel">
+					<fieldset class="plc-fieldset">
+						<legend class="plc-fieldset-legend">#{msg['segauditoria.dadosAuditoria']}</legend>
+						<plcf:iteracao var="item" value="#{segauditoriaLista.itensPlc}"
+							styleClass="plc-table-tabsel delimitador tabelaFormulario plc-table-seljsf"
+							columnClasses="celulaFormulario" headerClass="celulaFormulario">
+							<h:column headerClass="col1">
+								<f:facet name="header">
+									<span class="plc-title af_outputLabel"> <h:outputText
+											value="#{msg['label.id']}" />
+									</span>
+								</f:facet>
+								<plcf:exibe value="#{item.rev}" classeCSS="idItem">rev</plcf:exibe>								
+							</h:column>
+							<h:column headerClass="col2">
+								<f:facet name="header">
+									<span class="plc-title af_outputLabel"> <h:outputText
+											value="#{msg['label.descricao']}" />
+									</span>
+								</f:facet>
+								<h:outputText value="#{item.descricao}"
+									escape="false">descricao</h:outputText>																
+							</h:column>
+							<h:column headerClass="col3"> 
+								<f:facet name="header">
+									<span class="plc-title af_outputLabel"> <h:outputText
+											value="#{msg['label.usuario']}" />
+									</span>
+								</f:facet>
+								<plcf:exibe value="#{item.usuarioUltAlteracao}">usuarioUltAlteracao</plcf:exibe>
+							</h:column>
+							<h:column headerClass="col4">
+								<f:facet name="header">
+									<span class="plc-title af_outputLabel"> <h:outputText
+											value="#{msg['label.data']}" />
+									</span>
+								</f:facet>
+								<plcf:exibe value="#{item.dataUltAlteracao}">dataUltAlteracao</plcf:exibe>
+							</h:column>	
+							<h:column headerClass="col5">
+								<f:facet name="header">
+									<span class="plc-title af_outputLabel"> <h:outputText
+											value="#{msg['label.acaoRealizada']}" />
+									</span>
+								</f:facet>
+								<plcf:exibe value="#{item.acaoRealizada}">acaoRealizada</plcf:exibe>
+							</h:column>	
+							<h:column headerClass="col6">
+								<f:facet name="header">
+									<span class="plc-title af_outputLabel"> <h:outputText
+											value="#{msg['label.casoDeUso']}" />
+									</span>
+								</f:facet>
+								<plcf:exibe value="#{item.casoDeUso}">casoDeUso</plcf:exibe>
+							</h:column>						
+
+						</plcf:iteracao>
+					</fieldset>
+					<div class="paginacao">			
+						<center>
+						<ui:include src="/WEB-INF/fcls-plc/geralPaginacaoLogicaItens.xhtml" />
+						</center>
+					</div>
+				</div>
+			</div> 
+		</ui:define> 
+	</ui:composition> 
+</html>

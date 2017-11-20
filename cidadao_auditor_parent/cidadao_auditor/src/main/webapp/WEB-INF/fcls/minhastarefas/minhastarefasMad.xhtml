@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:plct="http://www.powerlogic.com.br/plct"
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition> 
+		<plcf:tabela tituloChave="minhastarefas.mestre.titulo.comp"> 
+			<plcf:linha> 
+				<plcf:celula> 
+					<plcf:titulo tituloChave="label.id"/>  
+					<plcf:exibe id="id" value="#{minhastarefas.id}"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo tituloChave="label.pessoa"/>  
+					<plcf:exibe id="pessoa" value="#{minhastarefas.pessoa}"/> 
+				</plcf:celula>  
+
+  				<plcf:celula columnSpan="2"> 
+					<plcf:titulo tituloChave="label.endereco"/>  
+					<plcf:exibe id="endereco" value="#{minhastarefas.endereco}"/> 
+				</plcf:celula> 	
+
+				<plcf:celula rowSpan="4">									
+					<plct:fileAttach property="fotoOcorrencia"  />
+				</plcf:celula>	
+
+			</plcf:linha>  
+			<plcf:linha> 
+
+				<plcf:celula> 
+					<plcf:titulo tituloChave="label.tipoOcorrencia"/>  
+					<plcf:exibe id="tipoOcorrencia" value="#{minhastarefas.tipoOcorrencia}"/> 
+				</plcf:celula> 
+
+				<plcf:celula> 
+					<plcf:titulo tituloChave="label.dataOcorrencia"/>  
+					<plcf:exibe id="dataOcorrencia" value="#{minhastarefas.dataOcorrencia}"/> 
+				</plcf:celula>	
+
+				<plcf:celula class="status"> 
+					<plcf:titulo tituloChave="label.statusOcorrencia"/>  
+					<plcf:exibe id="statusOcorrencia" value="#{minhastarefas.statusOcorrencia}"/> 
+				</plcf:celula> 	
+				<plcf:celula> 
+					<plcf:titulo tituloChave="label.protocolo"/>  
+					<plcf:exibe id="protocolo" value="#{minhastarefas.protocolo}"/> 
+				</plcf:celula> 	
+
+			</plcf:linha>
+
+			<plcf:linha>
+				<plcf:celula > 
+					<plcf:titulo tituloChave="label.dataConclusao"/>  
+					<plcf:exibe id="dataConclusao" value="#{minhastarefas.dataConclusao}"/> 
+				</plcf:celula>  
+				<plcf:celula  > 
+					<plcf:titulo tituloChave="label.responsavelConclusao"/>  
+					<plcf:exibe id="responsavelConclusao" value="#{minhastarefas.responsavelConclusao}"/> 
+				</plcf:celula>
+				<plcf:celula > 
+					<plcf:titulo tituloChave="label.latitude"/>  
+					<plcf:exibe id="latitude" value="#{minhastarefas.latitude}"/> 
+				</plcf:celula>  
+				<plcf:celula  > 
+					<plcf:titulo tituloChave="label.longitude"/>  
+					<plcf:exibe id="longitude" value="#{minhastarefas.longitude}"/> 
+				</plcf:celula>
+			 				
+			</plcf:linha> 
+
+			<plcf:linha>
+				<plcf:celula columnSpan="4"> 
+					<plcf:titulo tituloChave="label.observacao"/>  
+					<plcf:exibe id="observacao" value="#{minhastarefas.observacao}" tamanho="150"/> 
+				</plcf:celula> 
+
+			</plcf:linha>
+			
+		</plcf:tabela> 
+
+
+		<plcf:tabela>
+
+			<plcf:texto id="observacaoHistorico" value="#{minhastarefas.observacaoHistorico}" styleClass="esconder"/>
+
+			<plcf:botaoAcao id="botaoAcaoConcluir" acao="concluir"	styleClass="esconder"
+					partialSubmit="false"  >
+			</plcf:botaoAcao>
+
+			<div id="dialog-concluir" title="Concluir Ocorrência">
+				<plcf:tabela styleClass="esconder">
+					<p:outputLabel value="Observação:" for="observacaoConcluirDialog" styleClass="esconder"/>					
+					<plcf:area id="observacaoConcluirDialog" value="#{minhastarefas.observacaoHistorico}" styleClass="esconder"
+							rows="5" colunas="100" tamanho="20" tamanhoMaximo="500"		
+							ajudaChave="ajuda.observacao"/> 
+				</plcf:tabela>
+			</div>
+		</plcf:tabela>		
+
+		<script type="text/javascript">//<![CDATA[
+	
+			plc.jq('.esconder').hide();
+			plc.jq("#corpo\\:formulario\\:uploadFile_fotoOcorrencia").hide();
+			
+			if (plc.jq("#corpo\\:formulario\\:statusOcorrencia").text() == 'Concluída'){
+				plc.jq("#corpo\\:formulario\\:statusOcorrencia").css("color","green");
+			} else if (plc.jq("#corpo\\:formulario\\:statusOcorrencia").text() == 'Em Análise'){
+				plc.jq("#corpo\\:formulario\\:statusOcorrencia").css("color","yellow");
+			} else if (plc.jq("#corpo\\:formulario\\:statusOcorrencia").text() == 'Encaminhada'){ 
+				plc.jq("#corpo\\:formulario\\:statusOcorrencia").css("color","blue");
+			} else {
+				plc.jq("#corpo\\:formulario\\:statusOcorrencia").css("color","red");
+			}
+
+			function abrirConcluir(){
+				plc.jq('.esconder').show();
+			    plc.jq( "#dialog-concluir" ).dialog({
+	    			resizable: false,
+					height: "auto",
+					width: 550,
+					closeOnEscape: false,
+					open: function(event, ui) {
+						plc.jq(".ui-dialog-titlebar-close").hide();
+					},
+	 				close: function(event, ui) {
+	 					event.preventDefault(); 
+	 					plc.jq(this).dialog('destroy'); 
+	 				},
+					modal: true,
+					buttons: {
+						"Concluir": function() {
+				   			plc.jq('#corpo\\:formulario\\:observacaoHistorico').val(
+								plc.jq('#corpo\\:formulario\\:observacaoConcluirDialog').val());
+				   		   	plc.jq('#corpo\\:formulario\\:botaoAcaoConcluir').click();			
+				   		},
+					    "Cancelar": function(event, ui) {
+					    	plc.jq('.esconder').hide();				       
+					        plc.jq( this ).dialog( "destroy" );
+					    }
+					}
+			    });
+			}    
+
+			function imprimirDocumento(data){
+				if (data.status == "success"){
+					plc.jq('#corpo\\:formulario\\:realizaImpressaoDocumento').trigger('click');	
+				}
+			}
+
+			
+	//]]> 					
+
+		</script>
+	</ui:composition> 
+</html>

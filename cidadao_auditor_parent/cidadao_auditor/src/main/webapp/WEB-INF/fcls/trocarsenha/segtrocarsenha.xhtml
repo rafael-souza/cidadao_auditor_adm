@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml"> 
+		
+		<ui:define name="plc-corpo-acao-complemento">		
+			<div class="corpo-botao-customizado" >
+				<plcf:botaoAcao id="botaoTrocarSenha" urlIcone="icoCustomButton icoSenha" acao="trocarSenha"  
+					rendered="#{empty requestScope.botaoTrocarSenha}" 
+					partialSubmit="false" label="label.trocarsenha" blocking="true" >
+				</plcf:botaoAcao>
+			</div>
+
+		</ui:define>
+		
+		<ui:define name="plc-corpo-formulario">
+		
+			<plcf:tabela titulo="#{msg['segtrocarsenha.titulo']}"> 
+				<plcf:linha> 
+					<plcf:celula> 
+						<plcf:titulo  value="#{msg['label.senhaAtual']}"/>  
+						<plcf:texto id="senha" secret="true" 
+						value="#{segtrocarsenha.senhaAtual}" ajuda="#{msg['ajuda.senhaAtual']}" 
+						tamanho="20" tamanhoMaximo="50"/> 
+					</plcf:celula>  
+					<plcf:celula> 
+						<plcf:titulo value="#{msg['label.novaSenha']}"/>  
+						<plcf:texto id="novaSenha" secret="true" 
+						value="#{segtrocarsenha.senhaNova}" ajuda="#{msg['ajuda.novaSenha']}"
+						tamanho="20" tamanhoMaximo="50"/> 
+					</plcf:celula> 
+					<plcf:celula> 
+						<plcf:titulo value="#{msg['label.confirmeNovaSenha']}"/>  
+						<plcf:texto id="novaSenhaRepete" secret="true" 
+						value="#{segtrocarsenha.senhaNovaRepete}" ajuda="#{msg['ajuda.confirmeNovaSenha']}"
+						tamanho="20" tamanhoMaximo="50"/> 
+					</plcf:celula> 		
+				</plcf:linha>				
+			</plcf:tabela>			
+		</ui:define> 
+	</ui:composition> 
+</html>
