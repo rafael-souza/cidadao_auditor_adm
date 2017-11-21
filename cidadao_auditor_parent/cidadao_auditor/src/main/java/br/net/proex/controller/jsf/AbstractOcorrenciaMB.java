@@ -155,7 +155,7 @@ public class AbstractOcorrenciaMB extends AppMB{
 		}
 		
 		if (null != ocorrencia.getObservacaoHistorico()){
-			documento = documento.replaceAll(AppConstants.OBSERVACAO_RESPONSAVEL, ocorrencia.getObservacaoConclusao());
+			documento = documento.replaceAll(AppConstants.OBSERVACAO_RESPONSAVEL, ocorrencia.getObservacaoHistorico());
 		} else {
 			documento = documento.replaceAll(AppConstants.OBSERVACAO_RESPONSAVEL, "");
 		}

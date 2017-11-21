@@ -44,4 +44,15 @@ public class TipoOcorrenciaDAO extends AppJpaDAO  {
 			@PlcQueryParameter(name="secretariaResponsavel", expression="secretariaResponsavel = :secretariaResponsavel") TipoSecretario secretariaResponsavel
 	);
 	
+	/**
+	 * 
+	 * @param context
+	 * @param secretaria
+	 * @return
+	 */
+	public List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, TipoSecretario secretaria){
+		TipoOcorrenciaEntity tipoOcorrencia = new TipoOcorrenciaEntity();
+		tipoOcorrencia.setSecretariaResponsavel(secretaria);
+		return (List<TipoOcorrenciaEntity>)this.findList(context, tipoOcorrencia, "", 0, 0);
+	}
 }

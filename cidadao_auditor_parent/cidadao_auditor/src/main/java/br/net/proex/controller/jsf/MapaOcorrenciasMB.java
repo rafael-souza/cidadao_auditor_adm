@@ -50,9 +50,6 @@ public class MapaOcorrenciasMB extends AppMB  {
 	private String longitude;	
 	
 	private Boolean listagemOcorrencia;
-
-	@Inject @QPlcDefault
-	protected PlcCreateContextUtil contextMontaUtil;
 	
      		
 	/**

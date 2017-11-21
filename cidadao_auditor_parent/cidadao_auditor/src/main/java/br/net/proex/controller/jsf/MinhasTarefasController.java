@@ -58,53 +58,62 @@ public class MinhasTarefasController extends AppBaseGridController<OcorrenciaEnt
 			}								
 		}
 		
-		ocorrencia.setListaSecretaria(listaSecretaria);		
+		// verificando se possui alguma secretaria associada
+		if (listaSecretaria.size() > 0) {
 		
-		try {
-
-			PlcBaseContextVO context = getContext();
-			// neste ponto seto a query que faz filtro 
-			//getContext().setApiQuerySel("queryMinhasTarefas");
-
-			String orderByDinamico = "";
-			if (StringUtils.isNotEmpty(getOrderBy())) {
-				orderByDinamico = getOrderBy() + " " + StringUtils.defaultIfEmpty(getOrder(), "asc");
-			}
-
-			Object instancia = getEntityType().newInstance();
-
-			this.beanPopulateUtil.transferMapToBean(request.getParameterMap(), instancia);
-			 
-			if (null == ((OcorrenciaEntity)instancia).getListaSecretaria()){
-				((OcorrenciaEntity)instancia).setListaSecretaria(listaSecretaria);
-			}
+			ocorrencia.setListaSecretaria(listaSecretaria);		
 			
-			((OcorrenciaEntity)instancia).setStatusDiferenteABE(StatusOcorrencia.ABE);
-
-			this.retrieveCollectionBefore();
-
-			this.setTotal(getFacade().findCount(context, instancia));
-
-			List<OcorrenciaEntity> lista = (List<OcorrenciaEntity>) getFacade()
-					.findList(context, instancia, orderByDinamico, ((getPage() - 1) * getRows()), (getRows()));
-
-			while (lista.isEmpty() && getPage() > 1) {
-				setPage(getPage() - 1);
-				lista = (List<OcorrenciaEntity>) getFacade().findList(context, instancia, orderByDinamico,
-						((getPage() - 1) * getRows()), (getRows()));
+			try {
+	
+				PlcBaseContextVO context = getContext();
+				// neste ponto seto a query que faz filtro 
+				//getContext().setApiQuerySel("queryMinhasTarefas");
+	
+				String orderByDinamico = "";
+				if (StringUtils.isNotEmpty(getOrderBy())) {
+					orderByDinamico = getOrderBy() + " " + StringUtils.defaultIfEmpty(getOrder(), "asc");
+				}
+	
+				Object instancia = getEntityType().newInstance();
+	
+				this.beanPopulateUtil.transferMapToBean(request.getParameterMap(), instancia);
+				 
+				if (null == ((OcorrenciaEntity)instancia).getListaSecretaria()){
+					((OcorrenciaEntity)instancia).setListaSecretaria(listaSecretaria);
+				}
+				
+				((OcorrenciaEntity)instancia).setStatusDiferenteABE(StatusOcorrencia.ABE);
+	
+				this.retrieveCollectionBefore();
+	
+				this.setTotal(getFacade().findCount(context, instancia));
+	
+				List<OcorrenciaEntity> lista = (List<OcorrenciaEntity>) getFacade()
+						.findList(context, instancia, orderByDinamico, ((getPage() - 1) * getRows()), (getRows()));
+	
+				while (lista.isEmpty() && getPage() > 1) {
+					setPage(getPage() - 1);
+					lista = (List<OcorrenciaEntity>) getFacade().findList(context, instancia, orderByDinamico,
+							((getPage() - 1) * getRows()), (getRows()));
+				}
+	
+				this.setEntityCollection(lista);
+	
+				this.retrieveCollectionAfter();
+	
+				// recuperando a lista dos id´s
+				recuperaListaIdParaNavegacao();
+	
+				//getContext().setApiQuerySel(null);
+	
+			} catch (Exception e) {
+				handleExceptions(e);
 			}
-
-			this.setEntityCollection(lista);
-
+		} else {
+			// informando que não tem nenhum resultado de pesquisa a ser mostrado
+			this.setTotal(0L);
+			this.setEntityCollection(new ArrayList<OcorrenciaEntity>());
 			this.retrieveCollectionAfter();
-
-			// recuperando a lista dos id´s
-			recuperaListaIdParaNavegacao();
-
-			//getContext().setApiQuerySel(null);
-
-		} catch (Exception e) {
-			handleExceptions(e);
 		}
 		
 	}	

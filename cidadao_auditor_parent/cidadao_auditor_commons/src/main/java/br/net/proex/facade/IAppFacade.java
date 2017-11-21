@@ -15,6 +15,8 @@ import br.net.proex.entity.TipoOcorrenciaEntity;
 import br.net.proex.entity.seg.SegMenuEntity;
 import br.net.proex.entity.seg.SegPerfilEntity;
 import br.net.proex.entity.seg.SegUsuarioEntity;
+import br.net.proex.entity.vo.RelTipoStatusVO;
+import br.net.proex.enumeration.TipoSecretario;
 
 public interface IAppFacade extends IPlcFacade{
 	
@@ -39,5 +41,9 @@ public interface IAppFacade extends IPlcFacade{
 	List<DenunciaEntity> buscarDenunciaPorProtocolo(PlcBaseContextVO context,String protocolo);
 
 	TipoOcorrenciaEntity findTipoOcorrenciaById(PlcBaseContextVO context, Long idTipo);
+
+	List<RelTipoStatusVO> relTipoStatus(PlcBaseContextVO context, RelTipoStatusVO relTipoStatus);
+
+	List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, TipoSecretario secretaria);
 	
 }

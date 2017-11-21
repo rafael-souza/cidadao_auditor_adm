@@ -19,6 +19,8 @@ import br.net.proex.entity.TipoOcorrenciaEntity;
 import br.net.proex.entity.seg.SegMenuEntity;
 import br.net.proex.entity.seg.SegPerfilEntity;
 import br.net.proex.entity.seg.SegUsuarioEntity;
+import br.net.proex.entity.vo.RelTipoStatusVO;
+import br.net.proex.enumeration.TipoSecretario;
 import br.net.proex.persistence.jpa.DenunciaDAO;
 import br.net.proex.persistence.jpa.OcorrenciaDAO;
 import br.net.proex.persistence.jpa.PessoaDAO;
@@ -60,7 +62,6 @@ public class AppFacadeImpl extends PlcFacadeImpl implements IAppFacade{
 	@Inject 
 	private TipoOcorrenciaDAO tipoOcorrenciaDAO;
 	
-	
 
 	@Override
 	public SegUsuarioEntity findUsuarioByLogin(PlcBaseContextVO context, String login) {
@@ -98,9 +99,6 @@ public class AppFacadeImpl extends PlcFacadeImpl implements IAppFacade{
 		return ocorrenciaDAO.findOcorrenciaPorPessoa(context,idPessoa);
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	public OcorrenciaEntity findOcorrenciaById(PlcBaseContextVO context, Long id) {
 		return (OcorrenciaEntity)ocorrenciaDAO.findById(context, OcorrenciaEntity.class, id);
@@ -121,4 +119,13 @@ public class AppFacadeImpl extends PlcFacadeImpl implements IAppFacade{
 		return (TipoOcorrenciaEntity)tipoOcorrenciaDAO.findById(context, TipoOcorrenciaEntity.class, idTipo);
 	}
 	
+	@Override
+	public List<RelTipoStatusVO> relTipoStatus(PlcBaseContextVO context, RelTipoStatusVO relTipoStatus){
+		return ocorrenciaDAO.relTipoStatus(context, relTipoStatus);
+	}
+
+	@Override
+	public List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, TipoSecretario secretaria) {
+		return tipoOcorrenciaDAO.buscaTipoPorSecretaria(context, secretaria);
+	}
 }

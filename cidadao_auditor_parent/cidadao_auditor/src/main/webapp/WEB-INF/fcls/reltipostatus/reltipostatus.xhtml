@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml">
+		<ui:define name="plc-corpo-acao-complemento">
+	 		
+	 		<div style="display: none">			
+				<plcf:botaoAcao id="carregaTipoOcorrencia"
+					acao="buscaTipoOcorrenciaSecretaria" partialSubmit="false" immediate="false" validaForm="false">
+					<f:ajax event="action" execute="@this" render="@this" onerror="plc.manipulaErroAjax" />
+					<f:param name="skipValidation" value="true" />
+				</plcf:botaoAcao>	
+			</div>
+			
+	 	</ui:define>
+		<ui:define name="plc-corpo-formulario"> 
+			<div id="plc-form-basico"> 
+				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
+					<plcf:tabela tituloChave="reltipostatusarg.titulo"> 
+						<plcf:linha> 
+						
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.tipoGrafico']}"/>  
+								<plcf:comboEstatico id="tipoGrafico" value="#{reltipostatus.tipoGrafico}" dominio="TipoGrafico" 
+										exibeBranco="S" ajudaChave="ajuda.tipoGrafico"/> 
+							</plcf:celula> 
+						
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.secretariaResponsavel']}"/>  
+								<plcf:comboEstatico id="secretariaResponsavel" value="#{reltipostatus.secretariaResponsavel}" 
+									dominio="TipoSecretario" exibeBranco="S" 
+									ajudaChave="ajuda.secretariaResponsavel" navegacaoParaCampos="tipoOcorrenciaFiltro"/> 
+							</plcf:celula>
+						
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/>  
+								<plcf:comboDinamico id="tipoOcorrencia" value="#{reltipostatus.tipoOcorrenciaFiltro}" 
+									dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia" comboAninhado="S"/>
+								
+								
+								
+								<!--  <h:selectOneMenu id="tipoOcorrenciaFiltro"							
+									value="#{reltipostatus.tipoOcorrenciaFiltro}" 					
+									converter="entityConverter">									
+									<f:selectItem itemLabel="[Selecione]"  noSelectionOption="true"/>  		
+									<f:selectItems value="#{plcAction.listaTipoOcorrencia}" 
+										var="tip" itemLabel="#{tip.descricao}" itemValue="#{tip}"/>
+								</h:selectOneMenu>-->
+							</plcf:celula>  
+							 
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.dataFiltro']}"/>  
+								<plcf:data id="dataFiltro" value="#{reltipostatus.dataFiltro}" ajudaChave="ajuda.dataFiltro"/> 
+							</plcf:celula> 
+							
+						</plcf:linha> 
+					</plcf:tabela> 
+				</div>
+				
+				<div id="#{plcAliasPrefixoAction}Sel" class="_plc-form-basico-sel"> 
+					<fieldset class="plc-fieldset"> 
+						<legend class="plc-fieldset-legend">#{msg['reltipostatus.titulo']}</legend>  
+						 <center>
+							<h:panelGrid style="width:100%"  rendered="#{plcAction.exibeGraficoBarras}">
+						    	<p:chart type="bar" model="#{plcAction.barChartModel}" style="width:70%;" />
+							</h:panelGrid>
+						</center>
+					</fieldset>  
+				</div> 
+			</div> 
+			<script type="text/javascript">
+			//<![CDATA[
+
+				function carregaListaTipo(){
+					plc.jq("#corpo\\:formulario\\:carregaTipoOcorrencia").click();
+				}
+
+				
+			//]]>
+			</script>
+		</ui:define> 
+	</ui:composition> 
+</html>
