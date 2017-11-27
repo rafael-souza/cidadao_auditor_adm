@@ -121,29 +121,6 @@ public class AppMB extends PlcBaseMB {
 		
 	
 	/**
-	 * Retorno ao endereço fisico da aplicação para geração de arquivos 
-	 * @return
-	 */
-	public static String getEnderecoFisicoAplicacao(){
-		// criando o endereco fisico para armazenar a imagem
-		String aplicacao = ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getContextPath();		
-		return System.getProperty("catalina.home") + "/" +"webapps" + aplicacao;
-		
-	}
-	
-	/**
-	 * Retorna o endereço logico da aplicação para referenciar arquivos
-	 * @return
-	 */
-	public static String getEnderecoLogicoAplicacao(){
-		 // criando o endereço logico para referenciar a imagem
-		String aplicacao = ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getContextPath();		
-		StringBuffer enderecoLogico = ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getRequestURL();				
-		return enderecoLogico.substring(0, enderecoLogico.indexOf(aplicacao)) + aplicacao;		
-	}	
-	
-	
-	/**
 	 * 
 	 */	
 	public void carregaParametrosAplicacao(){

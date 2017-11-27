@@ -1,105 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" 
-	xmlns:h="http://java.sun.com/jsf/html" 
-	xmlns:f="http://java.sun.com/jsf/core" 
-	xmlns:ui="http://java.sun.com/jsf/facelets" 
-	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
-	xmlns:tr="http://myfaces.apache.org/trinidad" 
-	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
-	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml"> 
-		<ui:define name="plc-corpo-formulario"> 
-			<div id="plc-corpo-formulario" class="plc-corpo-formulario plc-form-simples"> 
-				<plcf:tabela tituloChave="parametrosaplicacao.titulo"> 
-					<plcf:linha> 					
-						<plcf:celula> 
-							<plcf:titulo value="#{msg['label.hostSmtp']}"/>  
-							<plcf:texto id="hostSmtp" value="#{parametrosaplicacao.hostSmtp}" 
-								tamanho="20" tamanhoMaximo="100" ajudaChave="ajuda.hostSmtp"/> 
-						</plcf:celula>  
-						<plcf:celula> 
-							<plcf:titulo value="#{msg['label.portaSmtp']}"/>  
-							<plcf:texto id="portaSmtp" value="#{parametrosaplicacao.portaSmtp}" 
-								tamanho="10" tamanhoMaximo="100" ajudaChave="ajuda.portaSmtp"/> 
-						</plcf:celula>  
-						<plcf:celula> 
-							<plcf:titulo value="#{msg['label.email']}"/>  
-							<plcf:texto id="email" value="#{parametrosaplicacao.email}" 
-								tamanho="40" tamanhoMaximo="100" ajudaChave="ajuda.email"/> 
-						</plcf:celula> 
-						<plcf:celula > 
-							<plcf:titulo value="#{msg['label.senhaEmail']}"/>  
-							<plcf:texto id="senhaEmail" value="#{parametrosaplicacao.senhaEmail}" 
-							 tamanho="40" tamanhoMaximo="100" secret="true" ajudaChave="ajuda.senhaEmail"/> 
-						</plcf:celula> 						
-					</plcf:linha> 
-				</plcf:tabela>	
-				<plcf:tabela>	
-					<plcf:linha>	
-						<plcf:celula columnSpan="4"> 	
-							<div id="tabs-documentos">
-								<ul>
-									<li><a href="#tabs-cidado">Modelo Mensagem ao Cidadão</a></li>
-									<li><a href="#tabs-responsavel">Modelo Mensagem ao Responsável</a></li>
-									<li><a href="#tabs-ocorrencia">Modelo Impressão Ocorrência</a></li>
-									<li><a href="#tabs-cabecalho">Cabeçalho Impressão Ocorrência</a></li>
-									<li><a href="#tabs-rodape">Rodapé Impressão Ocorrência</a></li>
-								</ul>
-
-								<div id="tabs-cidado">													<center>
-									<plcf:area id="modeloMensagemCidadao" value="#{parametrosaplicacao.modeloMensagemCidadao}"
-										ajuda="ajuda.modeloMensagemCidadao" numLinhas="5" colunas="50"
-										riaUsa="ckeditor(width=950, height=300)"/>				
-											</center>
-								</div>
-
-
-								<div id="tabs-responsavel">										
-									<center>
-									<plcf:area id="modeloMensagemResponsavel" value="#{parametrosaplicacao.modeloMensagemResponsavel}"
-												ajuda="ajuda.modeloMensagemResponsavel" numLinhas="5" colunas="50"
-												riaUsa="ckeditor(width=950, height=300)" />	
-													</center>
-								</div>
-
-								<div id="tabs-ocorrencia">						
-									<center>
-									<plcf:area id="modeloDocumentoOcorrencia" value="#{parametrosaplicacao.modeloDocumentoOcorrencia}"
-										ajuda="ajuda.modeloDocumentoOcorrencia" numLinhas="5" colunas="50" 
-										riaUsa="ckeditor(width=950, height=300)"/>
-											</center>
-								</div>
-								
-								<div id="tabs-cabecalho">						
-									<center>
-									<plcf:area id="cabecalhoDocumentoOcorrencia" value="#{parametrosaplicacao.cabecalhoDocumentoOcorrencia}"
-										ajuda="ajuda.cabecalhoDocumentoOcorrencia" numLinhas="5" colunas="50" 
-										riaUsa="ckeditor(width=950, height=300)"/>
-											</center>
-								</div>	
-								
-								<div id="tabs-rodape">						
-									<center>
-									<plcf:area id="rodapeDocumentoOcorrencia" value="#{parametrosaplicacao.rodapeDocumentoOcorrencia}"
-										ajuda="ajuda.rodapeDocumentoOcorrencia" numLinhas="5" colunas="50" 
-										riaUsa="ckeditor(width=950, height=300)"/>
-											</center>
-								</div>
-								<div style="clear:both; float:none"></div>
-							</div>	
-						</plcf:celula> 				
-					</plcf:linha>
-				</plcf:tabela>	
-			</div> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:plcf="http://www.powerlogic.com.br/plcf"
+	xmlns:tr="http://myfaces.apache.org/trinidad"
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">
+<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml">
+	<ui:define name="plc-corpo-formulario">
+		<div id="plc-corpo-formulario"
+			class="plc-corpo-formulario plc-form-simples">
+			<plcf:tabela tituloChave="parametrosaplicacao.titulo">
+				<plcf:linha>
+					<plcf:celula>
+						<plcf:titulo value="#{msg['label.hostSmtp']}" />
+						<plcf:texto id="hostSmtp" value="#{parametrosaplicacao.hostSmtp}"
+							tamanho="20" tamanhoMaximo="100" ajudaChave="ajuda.hostSmtp" />
+					</plcf:celula>
+					<plcf:celula>
+						<plcf:titulo value="#{msg['label.portaSmtp']}" />
+						<plcf:texto id="portaSmtp"
+							value="#{parametrosaplicacao.portaSmtp}" tamanho="10"
+							tamanhoMaximo="100" ajudaChave="ajuda.portaSmtp" />
+					</plcf:celula>
+					<plcf:celula>
+						<plcf:titulo value="#{msg['label.email']}" />
+						<plcf:texto id="email" value="#{parametrosaplicacao.email}"
+							tamanho="40" tamanhoMaximo="100" ajudaChave="ajuda.email" />
+					</plcf:celula>
+					<plcf:celula>
+						<plcf:titulo value="#{msg['label.senhaEmail']}" />
+						<plcf:texto id="senhaEmail"
+							value="#{parametrosaplicacao.senhaEmail}" tamanho="40"
+							tamanhoMaximo="100" secret="true" ajudaChave="ajuda.senhaEmail" />
+					</plcf:celula>
+				</plcf:linha>
+			</plcf:tabela>
+		</div>
 
 		<script>		
 			plc.jq(document).ready(function() {		
 				plc.jq("#tabs-documentos").tabs();
 			});				
-		</script>			
+		</script>
 
 
-		</ui:define> 
-	</ui:composition> 
+	</ui:define>
+</ui:composition>
 </html>

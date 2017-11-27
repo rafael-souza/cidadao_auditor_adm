@@ -21,7 +21,9 @@ import br.net.proex.entity.seg.SegPerfilEntity;
 import br.net.proex.entity.seg.SegUsuarioEntity;
 import br.net.proex.entity.vo.RelChartModelTipoStatusVO;
 import br.net.proex.entity.vo.RelTipoStatusVO;
+import br.net.proex.enumeration.TipoModeloDocumento;
 import br.net.proex.persistence.jpa.DenunciaDAO;
+import br.net.proex.persistence.jpa.ModeloDocumentoDAO;
 import br.net.proex.persistence.jpa.OcorrenciaDAO;
 import br.net.proex.persistence.jpa.PessoaDAO;
 import br.net.proex.persistence.jpa.PrefeituraDAO;
@@ -61,6 +63,9 @@ public class AppFacadeImpl extends PlcFacadeImpl implements IAppFacade{
 	
 	@Inject 
 	private TipoOcorrenciaDAO tipoOcorrenciaDAO;
+	
+	@Inject
+	private ModeloDocumentoDAO modeloDocumentoDAO;
 	
 
 	@Override
@@ -138,5 +143,10 @@ public class AppFacadeImpl extends PlcFacadeImpl implements IAppFacade{
 	public List<TipoOcorrenciaEntity> findTipoOcorrenciaPorSecretaria(PlcBaseContextVO context,
 			SecretariaEntity secretaria) {
 		return ocorrenciaDAO.findOcorrenciaPorSecretaria(context, secretaria);
+	}
+
+	@Override
+	public String findModeloDocumentoPorTipo(PlcBaseContextVO context, TipoModeloDocumento modelo) {
+		return modeloDocumentoDAO.findModeloDocumentoPorTipo(context, modelo);
 	}
 }

@@ -7,7 +7,7 @@
 
 @PlcConfigApplication(
 	definition=@PlcConfigApplicationDefinition(name="cidadao_auditor",acronym="cidadao_auditor",version=1,release=0),
-	classesDiscreteDomain={br.net.proex.enumeration.TipoGrafico.class,
+	classesDiscreteDomain={br.net.proex.enumeration.TipoModeloDocumento.class,br.net.proex.enumeration.TipoGrafico.class,
 			br.net.proex.enumeration.TipoSugestao.class,
 			br.net.proex.enumeration.StatusSugestao.class,
 			br.net.proex.enumeration.StatusOcorrencia.class,

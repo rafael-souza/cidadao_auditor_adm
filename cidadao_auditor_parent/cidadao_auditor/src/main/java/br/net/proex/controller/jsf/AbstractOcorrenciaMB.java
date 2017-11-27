@@ -1,17 +1,8 @@
 package br.net.proex.controller.jsf;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Date;
 
 import javax.inject.Inject;
-
-import org.primefaces.event.map.OverlaySelectEvent;
-import org.primefaces.model.map.DefaultMapModel;
-import org.primefaces.model.map.LatLng;
-import org.primefaces.model.map.MapModel;
-import org.primefaces.model.map.Marker;
 
 import com.powerlogic.jcompany.commons.PlcBaseContextVO;
 import com.powerlogic.jcompany.commons.config.qualifiers.QPlcDefault;
@@ -28,7 +19,9 @@ import br.net.proex.entity.OcorrenciaEntity;
 import br.net.proex.entity.PessoaEntity;
 import br.net.proex.entity.PrefeituraEntity;
 import br.net.proex.entity.SecretariadoEntity;
-import br.net.proex.utils.GeraPdfUtil;
+import br.net.proex.enumeration.TipoModeloDocumento;
+import br.net.proex.utils.GeraPdfUtils;
+import br.net.proex.utils.ModeloDocumentoUtils;
 import br.net.proex.utils.SendEmailUtils;
 
 @PlcHandleException
@@ -37,7 +30,7 @@ public class AbstractOcorrenciaMB extends AppMB{
 
 	
 	@Inject @QPlcDefault
-	protected GeraPdfUtil geraPdfUtil;	
+	protected GeraPdfUtils geraPdfUtil;	
 	
 	
 	/**
@@ -62,9 +55,10 @@ public class AbstractOcorrenciaMB extends AppMB{
 	 * 
 	 * @param ocorrencia
 	 */
-	public void sendEmailResponsavel(OcorrenciaEntity ocorrencia, String subject) {
+	public void sendEmailResponsavel(OcorrenciaEntity ocorrencia, String subject, TipoModeloDocumento modelo) {
 		
-		String mensagem = alimentaDadosDocumento(ocorrencia, parametros.getModeloMensagemResponsavel());
+		String mensagem = ModeloDocumentoUtils.alimentaDadosDocumento(ocorrencia, facade.findModeloDocumentoPorTipo(
+				contextMontaUtil.createContextParamMinimum(), modelo));
 				
 		String destinatarios = getDestinatariosEmail(Boolean.TRUE, ocorrencia); 					
 		
@@ -83,9 +77,12 @@ public class AbstractOcorrenciaMB extends AppMB{
 	 * 
 	 * @param ocorrencia
 	 */
-	public void sendEmailCidadao(OcorrenciaEntity ocorrencia, String subject) {
+	public void sendEmailCidadao(OcorrenciaEntity ocorrencia, String subject, TipoModeloDocumento modelo) {
 		
-		String mensagem = alimentaDadosDocumento(ocorrencia, parametros.getModeloMensagemCidadao());
+		String mensagem = "";
+		
+		mensagem = ModeloDocumentoUtils.alimentaDadosDocumento(ocorrencia, facade.findModeloDocumentoPorTipo(
+				contextMontaUtil.createContextParamMinimum(), modelo));
 				
 		String destinatarios = getDestinatariosEmail(Boolean.FALSE, ocorrencia); 
 				
@@ -99,90 +96,6 @@ public class AbstractOcorrenciaMB extends AppMB{
 		
 	}
 	
-	/**
-	 * 
-	 * @param responsavel
-	 * @param ocorrencia
-	 * @return
-	 */
-	public String alimentaDadosDocumento(OcorrenciaEntity ocorrencia, String documento) {
-		// substituindo os tokens
-		if (null != ocorrencia.getPessoa().getNome()){
-			documento = documento.replaceAll(AppConstants.NOME_CIDADAO, ocorrencia.getPessoa().getNome());
-		} else {
-			documento = documento.replaceAll(AppConstants.NOME_CIDADAO, "");
-		}
-		
-		if (null != ocorrencia.getId()){
-			documento = documento.replaceAll(AppConstants.COD_OCORRENCIA, ocorrencia.getId().toString());
-		} else {
-			documento = documento.replaceAll(AppConstants.COD_OCORRENCIA, "");
-		}
-		
-		if (null !=  ocorrencia.getTipoOcorrencia().getDescricao()){
-			documento = documento.replaceAll(AppConstants.TIPO_OCORRENCIA, ocorrencia.getTipoOcorrencia().getDescricao());
-		} else {
-			documento = documento.replaceAll(AppConstants.TIPO_OCORRENCIA, "");
-		}
-		
-		if (null != ocorrencia.getDataFormatada()){
-			documento = documento.replaceAll(AppConstants.DATA_OCORRENCIA, ocorrencia.getDataFormatada());
-		} else {
-			documento = documento.replaceAll(AppConstants.DATA_OCORRENCIA, "");
-		}
-		
-		if (null != ocorrencia.getEndereco()){
-			documento = documento.replaceAll(AppConstants.ENDERECO_OCORRENCIA, ocorrencia.getEndereco());
-		} else {
-			documento = documento.replaceAll(AppConstants.ENDERECO_OCORRENCIA, "");
-		}
-		
-		if (null != ocorrencia.getProtocolo()){
-			documento = documento.replaceAll(AppConstants.PROTOCOLO_OCORRENCIA, ocorrencia.getProtocolo());
-		} else {
-			documento = documento.replaceAll(AppConstants.PROTOCOLO_OCORRENCIA, "");
-		}
-		
-		if (null != ocorrencia.getDescricaoStatus()){
-			documento = documento.replaceAll(AppConstants.STATUS_OCORRENCIA, ocorrencia.getDescricaoStatus());
-		} else {
-			documento = documento.replaceAll(AppConstants.STATUS_OCORRENCIA, "");
-		}
-		
-		if (null != ocorrencia.getObservacao()){
-			documento = documento.replaceAll(AppConstants.OBSERVACAO_CIDADAO, ocorrencia.getObservacao());
-		} else {
-			documento = documento.replaceAll(AppConstants.OBSERVACAO_CIDADAO, "");
-		}
-		
-		if (null != ocorrencia.getObservacaoHistorico()){
-			documento = documento.replaceAll(AppConstants.OBSERVACAO_RESPONSAVEL, ocorrencia.getObservacaoHistorico());
-		} else {
-			documento = documento.replaceAll(AppConstants.OBSERVACAO_RESPONSAVEL, "");
-		}
-		
-		if (null != ocorrencia.getDataConclusao()){
-			documento = documento.replaceAll(AppConstants.DATA_CONCLUSAO, ocorrencia.getDataConclusaoFormatada());
-		} else {
-			documento = documento.replaceAll(AppConstants.DATA_CONCLUSAO, "");
-		}
-		
-		if (null != ocorrencia.getResponsavelConclusao()){
-			documento = documento.replaceAll(AppConstants.RESPONSAVEL_CONCLUSAO, ocorrencia.getResponsavelConclusao());
-		} else {
-			documento = documento.replaceAll(AppConstants.RESPONSAVEL_CONCLUSAO, "");
-		}
-				
-		// verificando se é a foto da ocorrencia
-		if (null != ocorrencia.getFotoOcorrencia()){
-			documento = documento.replaceAll(AppConstants.FOTO_OCORRENCIA, insereValorImagem(ocorrencia));
-		} else {
-			documento = documento.replaceAll(AppConstants.FOTO_OCORRENCIA, "");
-		}
-										
-		return documento;
-	}
-
 	/**
 	 * 
 	 * @param responsavel 
@@ -241,19 +154,22 @@ public class AbstractOcorrenciaMB extends AppMB{
 		}
 				
 		// substituindo os tokens
-		ocorrencia.setTextoDocumento(alimentaDadosDocumento(ocorrencia, parametros.getModeloDocumentoOcorrencia()));
+		ocorrencia.setTextoDocumento(ModeloDocumentoUtils.alimentaDadosDocumento(ocorrencia, facade.findModeloDocumentoPorTipo(context, 
+				TipoModeloDocumento.OIMP)));
+		
+		// variaveis para alimentar o cabeçalho e rodape se tiver
+		String cabecalho = facade.findModeloDocumentoPorTipo(context, TipoModeloDocumento.OCAB);
+		String rodape = facade.findModeloDocumentoPorTipo(context, TipoModeloDocumento.OROD);
 		
 		// alimentando o token do brasao da prefeitura caso tenha
 		if (null != prefeitura.getBrasao()){
-			parametros.setCabecalhoDocumentoOcorrencia(parametros.getCabecalhoDocumentoOcorrencia().replaceAll(
-					"#BRASAO_PREFEITURA#", alimentaBrasaoPrfeitura(ocorrencia.getTextoDocumento(), prefeitura)));
+			cabecalho.replaceAll(
+					"#BRASAO_PREFEITURA#", ModeloDocumentoUtils.alimentaBrasaoPrfeitura(ocorrencia.getTextoDocumento(), prefeitura));
 		} else {
-			parametros.setCabecalhoDocumentoOcorrencia(parametros.getCabecalhoDocumentoOcorrencia().replaceAll(
-					"#BRASAO_PREFEITURA#", ""));
+			cabecalho.replaceAll("#BRASAO_PREFEITURA#", "");
 		}
 		
-		ocorrencia.setTextoDocumento(geraPdfUtil.gerarHtmlPdf(ocorrencia.getTextoDocumento(), 
-				parametros.getCabecalhoDocumentoOcorrencia(), parametros.getRodapeDocumentoOcorrencia()));			
+		ocorrencia.setTextoDocumento(geraPdfUtil.gerarHtmlPdf(ocorrencia.getTextoDocumento(), cabecalho, rodape));			
 		
 	}
 	
@@ -268,7 +184,7 @@ public class AbstractOcorrenciaMB extends AppMB{
 	private void realizaImpressaoDocumento() {
 		OcorrenciaEntity ocorrencia = (OcorrenciaEntity) this.entityPlc;
 		
-		String enderecoFisico = getEnderecoFisicoAplicacao()
+		String enderecoFisico = ModeloDocumentoUtils.getEnderecoFisicoAplicacao()
 				+ AppConstants.PASTA_ARQUIVOS_TEMPORARIOS;
 
 		geraPdfUtil.criarPdf(ocorrencia.getTextoDocumento(),
@@ -277,64 +193,6 @@ public class AbstractOcorrenciaMB extends AppMB{
 		geraPdfUtil.retornarPdf(enderecoFisico + ocorrencia.getProtocolo() + ".pdf");
 
 	}
-	
-	
-	
-	/**
-	 * 
-	 * @param textoDocumento
-	 * @param prefeitura
-	 * @return
-	 */
-	private String alimentaBrasaoPrfeitura(String textoDocumento, PrefeituraEntity prefeitura) {
-		try {							
-			String nomeImagem = "";
-						
-			// nome da imagem com a pasta temporaria 
-			nomeImagem = AppConstants.PASTA_ARQUIVOS_TEMPORARIOS + 
-					prefeitura.getBrasao().getNome() + "." + 
-					prefeitura.getBrasao().getType().substring(6); 
-												
-		    File file = new File(getEnderecoFisicoAplicacao() + nomeImagem);  
-		    BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-		    bos.write(prefeitura.getBrasao().getBinaryContent().getBinaryContent());  
-		    bos.close();
-					    	
-		    return "<img src=\"" + getEnderecoLogicoAplicacao() 
-		    	+ nomeImagem + "\" style=\"height:70px; width:70px\" />";
-		    						
-		} catch (Exception e) {
-			return null;
-		} 
-	}
 
-
-	/**
-	 * 
-	 * @param ocorrencia
-	 * @return
-	 */
-	private static String insereValorImagem(OcorrenciaEntity ocorrencia) {
-		try {	
-			String nomeImagem = "";
-						
-			// nome da imagem com a pasta temporaria 
-			nomeImagem = AppConstants.PASTA_ARQUIVOS_TEMPORARIOS + 
-					ocorrencia.getFotoOcorrencia().getNome() + "." + 
-					ocorrencia.getFotoOcorrencia().getType().substring(6); 
-												
-		    File file = new File(getEnderecoFisicoAplicacao() + nomeImagem);  
-		    BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-		    bos.write(ocorrencia.getFotoOcorrencia().getBinaryContent().getBinaryContent());  
-		    bos.close();
-					    	
-		    return "<img src=\"" + getEnderecoLogicoAplicacao() 
-		    	+ nomeImagem + "\" style=\"height:200px; width:200px\" />";
-		    						
-		} catch (Exception e) {
-			return null;
-		}  		
-	}		
-	
 	
 }

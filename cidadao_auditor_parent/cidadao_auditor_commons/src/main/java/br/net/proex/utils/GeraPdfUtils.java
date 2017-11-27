@@ -29,7 +29,7 @@ import com.powerlogic.jcompany.commons.config.stereotypes.SPlcUtil;
  */
 @SPlcUtil
 @QPlcDefault
-public class GeraPdfUtil implements Serializable {
+public class GeraPdfUtils implements Serializable {
 
 	/**
 	 * Transforma HTML em PDF

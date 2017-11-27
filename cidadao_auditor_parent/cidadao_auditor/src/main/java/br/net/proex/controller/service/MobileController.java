@@ -26,6 +26,7 @@ import com.powerlogic.jcompany.controller.rest.api.stereotypes.SPlcController;
 import com.powerlogic.jcompany.controller.rest.controllers.PlcBaseDynamicController;
 import com.powerlogic.jcompany.controller.util.PlcBeanPopulateUtil;
 
+import br.net.proex.commons.AppConstants;
 import br.net.proex.entity.DenunciaEntity;
 import br.net.proex.entity.FotoConteudoOcorrencia;
 import br.net.proex.entity.FotoOcorrencia;
@@ -38,8 +39,10 @@ import br.net.proex.entity.SecretariadoEntity;
 import br.net.proex.entity.SugestaoEntity;
 import br.net.proex.enumeration.StatusOcorrencia;
 import br.net.proex.enumeration.StatusSugestao;
+import br.net.proex.enumeration.TipoModeloDocumento;
 import br.net.proex.enumeration.TipoSugestao;
 import br.net.proex.facade.IAppFacade;
+import br.net.proex.utils.ModeloDocumentoUtils;
 import br.net.proex.utils.SendEmailUtils;
 
 /**
@@ -150,7 +153,8 @@ public class MobileController<E, I> extends PlcBaseDynamicController<E, I> {
 			if (null != pessoa.getAlterouSenha() && pessoa.getAlterouSenha()){
 				// carregando os parâmetros da aplicação
 				carregaParametrosAplicacao();
-				String mensagem = "Sua nova senha é: " + getNovaSenha();
+				String mensagem = facade.findModeloDocumentoPorTipo(
+						contextMontaUtil.createContextParamMinimum(), TipoModeloDocumento.CALT).replaceAll(AppConstants.NOVA_SENHA, getNovaSenha());
 				// realizando o envio do e-mail com a nova senha
 				SendEmailUtils.SendEmail(parametros, mensagem, "Cidadão Auditor - Nova Senha", pessoa.getEmail());
 			}
@@ -226,23 +230,80 @@ public class MobileController<E, I> extends PlcBaseDynamicController<E, I> {
 	 */
 	@Override
 	protected void insertAfter() {
+		
+		// carregando os parâmetros da aplicação para enviar um e-mail
+		carregaParametrosAplicacao();
+		
+		String mensagem = "";
+		String subject = "";
+		String destinatarios = "";
+		
 		// verificando se é um histórico de ocorrencia (comentario do usuário)
 		if (getEntity() instanceof HistoricoOcorrenciaEntity){
 			HistoricoOcorrenciaEntity historico = (HistoricoOcorrenciaEntity) getEntity();
 			// carregando os parâmetros da aplicação para enviar um e-mail
-			carregaParametrosAplicacao();
-			OcorrenciaEntity ocorrencia = facade.findOcorrenciaById(contextMontaUtil.createContextParamMinimum(), historico.getOcorrencia().getId());			
-			String mensagem = "Prezado Sr. Secretário, um novo comentário foi informado pelo cidadão na ocorrência de protocolo nº " + ocorrencia.getProtocolo();
-			String subject = "Novo comentário na Ocorrência Protocolo: " + ocorrencia.getProtocolo();
-			String destinatarios = getDestinatariosEmail(Boolean.TRUE, ocorrencia); 
+			OcorrenciaEntity ocorrencia = facade.findOcorrenciaById(contextMontaUtil.createContextParamMinimum(), historico.getOcorrencia().getId());
+
+			// alimentando os dados do modelo de documento
+			mensagem = ModeloDocumentoUtils.alimentaDadosDocumento(ocorrencia, facade.findModeloDocumentoPorTipo(
+					contextMontaUtil.createContextParamMinimum(), TipoModeloDocumento.CCOM));
 			
+			// titulo do e-mail
+			subject = "Novo comentário na Ocorrência Protocolo: " + ocorrencia.getProtocolo();
+			
+			// coletando os destinatarios do e-mail
+			destinatarios = getDestinatariosEmail(Boolean.TRUE, ocorrencia); 
+			
+		} else if (getEntity() instanceof OcorrenciaEntity){
+			// se está inserindo uma nova ocorrencia realiza o envio do e-mail ao cidadão
+			OcorrenciaEntity ocorrencia = (OcorrenciaEntity)getEntity();
+			
+			// alimentando os dados do modelo de documento
+			mensagem = ModeloDocumentoUtils.alimentaDadosDocumento(ocorrencia, facade.findModeloDocumentoPorTipo(
+					contextMontaUtil.createContextParamMinimum(), TipoModeloDocumento.CNEW));
+			// titulo do e-mail
+			subject = "Recebemos sua Ocorrência";
+			// coletando os destinatarios do email
+			destinatarios = getDestinatariosEmail(Boolean.TRUE, ocorrencia);
+		} else if (getEntity() instanceof SugestaoEntity){
+			SugestaoEntity sugestao = (SugestaoEntity) this.getEntity();
+			// alimentando os dados do modelo de documento
+			mensagem = ModeloDocumentoUtils.alimentaDadosDocumento(sugestao, facade.findModeloDocumentoPorTipo(
+					contextMontaUtil.createContextParamMinimum(), TipoModeloDocumento.CSUG));
+			// titulo do e-mail
+			subject = "Recebemos sua Sugestão";
+			// coletando os destinatarios do email
+			destinatarios = getDestinatariosEmail(sugestao);	
+		} else if (getEntity() instanceof DenunciaEntity){
+			DenunciaEntity denuncia = (DenunciaEntity) this.getEntity();
+			// alimentando os dados do modelo de documento
+			mensagem = ModeloDocumentoUtils.alimentaDadosDocumento(denuncia, facade.findModeloDocumentoPorTipo(
+					contextMontaUtil.createContextParamMinimum(), TipoModeloDocumento.CDEN));
+			// titulo do e-mail
+			subject = "Recebemos sua Denuncia";
+			// coletando os destinatarios do email
+			destinatarios = getDestinatariosEmail(denuncia);	
+		} else if (getEntity() instanceof PessoaEntity){
+			PessoaEntity pessoa = (PessoaEntity) this.getEntity();
+			// alimentando os dados do modelo de documento
+			mensagem = ModeloDocumentoUtils.alimentaDadosDocumento(pessoa, facade.findModeloDocumentoPorTipo(
+					contextMontaUtil.createContextParamMinimum(), TipoModeloDocumento.CCRI));
+			// titulo do e-mail
+			subject = "Recebemos seu cadastro, mãos a obra!";
+			// coletando os destinatarios do email
+			destinatarios = pessoa.getEmail();	
+		}
+			
+		
+		// se tem algum texto na mensagem
+		if (null != mensagem && !mensagem.isEmpty()){
 			// enviando um e-mail aoo secretário responsável pela ocorrência
 			SendEmailUtils.SendEmail(parametros, mensagem, subject, destinatarios);
 		}
 		
 		super.insertAfter();
 	}
-	
+
 	/**
 	 * retorna o tipo da descrição em forma de enum
 	 * @param descTipo
@@ -465,6 +526,38 @@ public class MobileController<E, I> extends PlcBaseDynamicController<E, I> {
 	
 	/**
 	 * 
+	 * @param denuncia
+	 * @return
+	 */
+	public String getDestinatariosEmail(DenunciaEntity denuncia){
+		String destinatarios = "";
+		if (null != denuncia.getPessoa()){
+			PessoaEntity pessoa = facade.findPessoaById(contextMontaUtil.createContextParamMinimum(), denuncia.getPessoa().getId());
+			destinatarios = pessoa.getEmail();
+		} 
+		
+		return destinatarios;
+	}
+	
+	/**
+	 * 
+	 * @param sugestao
+	 * @return
+	 */
+	public String getDestinatariosEmail(SugestaoEntity sugestao){
+		String destinatarios;
+		if (null == sugestao.getPessoa().getEmail()){
+			PessoaEntity pessoa = facade.findPessoaById(contextMontaUtil.createContextParamMinimum(), sugestao.getPessoa().getId());
+			destinatarios = pessoa.getEmail();
+		} else {
+			destinatarios = sugestao.getPessoa().getEmail();
+		}
+		
+		return destinatarios;
+	}
+	
+	/**
+	 * 
 	 * @param responsavel 
 	 * @param ocorrencia
 	 * @return
@@ -487,7 +580,12 @@ public class MobileController<E, I> extends PlcBaseDynamicController<E, I> {
 				}								
 			}			
 		} else {
-			destinatarios = ocorrencia.getPessoa().getEmail();
+			if (null == ocorrencia.getPessoa().getEmail()){
+				PessoaEntity pessoa = facade.findPessoaById(contextMontaUtil.createContextParamMinimum(), ocorrencia.getPessoa().getId());
+				destinatarios = pessoa.getEmail();
+			} else {
+				destinatarios = ocorrencia.getPessoa().getEmail();
+			}
 		}
 						
 		return destinatarios;

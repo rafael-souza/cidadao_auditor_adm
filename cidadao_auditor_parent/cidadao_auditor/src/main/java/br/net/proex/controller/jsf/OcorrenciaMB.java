@@ -22,6 +22,7 @@ import br.net.proex.entity.FotoOcorrencia;
 import br.net.proex.entity.HistoricoOcorrenciaEntity;
 import br.net.proex.entity.OcorrenciaEntity;
 import br.net.proex.enumeration.StatusOcorrencia;
+import br.net.proex.enumeration.TipoModeloDocumento;
 
 @PlcConfigAggregation(entity = br.net.proex.entity.OcorrenciaEntity.class,
 details = {@com.powerlogic.jcompany.config.aggregation.PlcConfigDetail(
@@ -44,6 +45,8 @@ details = {@com.powerlogic.jcompany.config.aggregation.PlcConfigDetail(
 public class OcorrenciaMB extends AbstractOcorrenciaMB  {
 
 	private static final long serialVersionUID = 1L;
+	
+	private StatusOcorrencia statusAnterior;
 			
      		
 	/**
@@ -74,9 +77,28 @@ public class OcorrenciaMB extends AbstractOcorrenciaMB  {
 					FotoOcorrencia.class, ocorrencia.getFotoOcorrencia().getId()));
 		}
 				
+		
 		return retorno;
 	}
 	
+	/**
+	 * 
+	 */
+	@Override
+	public String save() {
+		
+		OcorrenciaEntity ocorrencia = (OcorrenciaEntity) this.getEntityPlc();
+		
+		if (null != ocorrencia.getStatusOcorrencia() && ocorrencia.getStatusOcorrencia().equals(StatusOcorrencia.ANA)){
+			// enviando um e-mail ao cidadão para infomá-lo
+			// enviando o e-mail ao cidadão
+			sendEmailCidadao(ocorrencia,  "Ocorrência Protocolo: "  + ocorrencia.getProtocolo() + " em análise", TipoModeloDocumento.CANA);	
+		}
+		
+		return super.save();
+		
+		
+	}
 	
 	
 	/**
@@ -118,10 +140,10 @@ public class OcorrenciaMB extends AbstractOcorrenciaMB  {
 		ocorrencia.setObservacaoHistorico(historico.getObservacao());
 		
 		// enviando o e-mail ao responsável pela ocorrencia
-		sendEmailResponsavel(ocorrencia,"Ocorrência Protocolo: "  + ocorrencia.getProtocolo() + " encaminhada para resolução.");
+		sendEmailResponsavel(ocorrencia,"Ocorrência Protocolo: "  + ocorrencia.getProtocolo() + " encaminhada para resolução.", TipoModeloDocumento.RENC);
 		
 		// enviando o e-mail ao cidadão
-		sendEmailCidadao(ocorrencia,  "Ocorrência Protocolo: "  + ocorrencia.getProtocolo() + " encaminhada ao responsável");	
+		sendEmailCidadao(ocorrencia,  "Ocorrência Protocolo: "  + ocorrencia.getProtocolo() + " encaminhada ao responsável", TipoModeloDocumento.CENC);	
 		
 		ocorrencia.setObservacaoHistorico(null);
 	}
@@ -135,6 +157,20 @@ public class OcorrenciaMB extends AbstractOcorrenciaMB  {
 		Map<String, Object> requestMap = contextUtil.getRequestMap();		
 		requestMap.put(PlcConstants.ACAO.EXIBE_BT_CLONAR, PlcConstants.NAO_EXIBIR);
 		requestMap.put(PlcConstants.ACAO.EXIBE_BT_VISUALIZA_DOCUMENTO, PlcConstants.NAO_EXIBIR);
+	}
+
+	/**
+	 * @return the statusAnterior
+	 */
+	public StatusOcorrencia getStatusAnterior() {
+		return statusAnterior;
+	}
+
+	/**
+	 * @param statusAnterior the statusAnterior to set
+	 */
+	public void setStatusAnterior(StatusOcorrencia statusAnterior) {
+		this.statusAnterior = statusAnterior;
 	}	
 
 	

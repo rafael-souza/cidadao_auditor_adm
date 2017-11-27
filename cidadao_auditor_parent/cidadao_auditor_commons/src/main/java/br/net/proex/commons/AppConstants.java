@@ -53,6 +53,12 @@ public interface AppConstants extends PlcConstants {
 	String FOTO_OCORRENCIA = "#FOTO_OCORRENCIA#";
 	
 	String BRASAO_PREFEITURA = "#BRASAO_PREFEITURA#";
+	
+	String PROTOCOLO_SUGESTAO = "#PROTOCOLO_SUGESTAO#";
+	
+	String PROTOCOLO_DENUNCIA = "#PROTOCOLO_DENUNCIA#";
+	
+	String NOVA_SENHA = "#NOVA_SENHA#";
 		
     	
 }

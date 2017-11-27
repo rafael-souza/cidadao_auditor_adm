@@ -22,6 +22,7 @@ import br.net.proex.entity.FotoOcorrencia;
 import br.net.proex.entity.HistoricoOcorrenciaEntity;
 import br.net.proex.entity.OcorrenciaEntity;
 import br.net.proex.enumeration.StatusOcorrencia;
+import br.net.proex.enumeration.TipoModeloDocumento;
 
 @PlcConfigAggregation(
 		entity = br.net.proex.entity.OcorrenciaEntity.class,
@@ -129,10 +130,10 @@ public class MinhasTarefasMB extends AbstractOcorrenciaMB  {
 		ocorrencia.setObservacaoHistorico(historico.getObservacao());
 		
 		// enviando o e-mail ao responsável pela ocorrencia
-		sendEmailResponsavel(ocorrencia, "Ocorrência Protocolo: "  + ocorrencia.getProtocolo() + " concluída.");
+		//sendEmailResponsavel(ocorrencia, "Ocorrência Protocolo: "  + ocorrencia.getProtocolo() + " concluída.", );
 		
 		// enviando o e-mail ao cidadão
-		sendEmailCidadao(ocorrencia,  "Ocorrência Protocolo: "  + ocorrencia.getProtocolo() + " concluída.");
+		sendEmailCidadao(ocorrencia,  "Ocorrência Protocolo: "  + ocorrencia.getProtocolo() + " concluída.", TipoModeloDocumento.CCON);
 		
 		ocorrencia.setObservacaoHistorico(null);
 	}			
