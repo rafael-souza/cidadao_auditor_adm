@@ -11,14 +11,14 @@
 			br.net.proex.enumeration.TipoSugestao.class,
 			br.net.proex.enumeration.StatusSugestao.class,
 			br.net.proex.enumeration.StatusOcorrencia.class,
-			br.net.proex.enumeration.TipoSecretario.class,
 			br.net.proex.enumeration.SegAcaoRealizada.class,
 			br.net.proex.enumeration.SegTipoAcesso.class,
 			br.net.proex.enumeration.SegVisibilidadeCampo.class,
 			br.net.proex.enumeration.SegAcao.class					
 	},
 	classesLookup={
-			br.net.proex.entity.TipoOcorrenciaEntity.class
+			br.net.proex.entity.TipoOcorrenciaEntity.class,
+			br.net.proex.entity.SecretariaEntity.class
 	}
 )
 

@@ -35,26 +35,23 @@
 							</plcf:celula> 
 						
 							<plcf:celula> 
-								<plcf:titulo value="#{msg['label.secretariaResponsavel']}"/>  
-								<plcf:comboEstatico id="secretariaResponsavel" value="#{reltipostatus.secretariaResponsavel}" 
-									dominio="TipoSecretario" exibeBranco="S" 
-									ajudaChave="ajuda.secretariaResponsavel" navegacaoParaCampos="tipoOcorrenciaFiltro"/> 
+								<plcf:titulo value="#{msg['label.secretaria']}"/>  
+								 <plcf:comboDinamico id="secretaria" value="#{reltipostatus.secretaria}" 
+									dominio="SecretariaEntity" exibeBranco="S" ajudaChave="ajuda.secretaria" />
 							</plcf:celula>
 						
 							<plcf:celula> 
 								<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/>  
-								<plcf:comboDinamico id="tipoOcorrencia" value="#{reltipostatus.tipoOcorrenciaFiltro}" 
-									dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia" comboAninhado="S"/>
-								
-								
-								
-								<!--  <h:selectOneMenu id="tipoOcorrenciaFiltro"							
+								<plcf:comboDinamico id="tipoOcorrenciaFiltro" value="#{reltipostatus.tipoOcorrenciaFiltro}" 
+									dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia" />
+								 
+								 <!--  <h:selectOneMenu id="tipoOcorrenciaFiltro"							
 									value="#{reltipostatus.tipoOcorrenciaFiltro}" 					
 									converter="entityConverter">									
 									<f:selectItem itemLabel="[Selecione]"  noSelectionOption="true"/>  		
 									<f:selectItems value="#{plcAction.listaTipoOcorrencia}" 
 										var="tip" itemLabel="#{tip.descricao}" itemValue="#{tip}"/>
-								</h:selectOneMenu>-->
+								</h:selectOneMenu> -->
 							</plcf:celula>  
 							 
 							<plcf:celula> 
@@ -71,8 +68,36 @@
 						<legend class="plc-fieldset-legend">#{msg['reltipostatus.titulo']}</legend>  
 						 <center>
 							<h:panelGrid style="width:100%"  rendered="#{plcAction.exibeGraficoBarras}">
-						    	<p:chart type="bar" model="#{plcAction.barChartModel}" style="width:70%;" />
+						    	<p:chart type="bar" model="#{plcAction.barChartModel}" style="width:800px;" widgetVar="chart"/>
+						    	<p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart()"/>
 							</h:panelGrid>
+							
+							<h:panelGrid style="width:100%"  rendered="#{plcAction.exibeGraficoPizza}">
+								<p:chart type="pie" model="#{plcAction.pieChartModel}" style="width:600px;height:500px" widgetVar="chart"/>
+								<p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart()"/>
+							</h:panelGrid>
+							
+							<h:panelGrid style="width:100%"  rendered="#{plcAction.exibeGraficoLinha}">
+							 	<p:chart type="line" model="#{plcAction.lineChartModel}" style="width:800px;" widgetVar="chart"/>
+								<p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart()"/>
+							</h:panelGrid>
+ 
+							<p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Salve a Imagem do Gráfico" resizable="false">
+							    <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/>
+							</p:dialog>
+							 
+							<script type="text/javascript">
+								function exportChart() {
+								    //export image
+								    plc.jq('#output').empty().append(PF('chart').exportAsImage());
+								 
+								    //show the dialog
+								    plc.jq('dlg').show();
+								}
+							</script>
+							
+							
+							
 						</center>
 					</fieldset>  
 				</div> 

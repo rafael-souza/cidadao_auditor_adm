@@ -1,6 +1,5 @@
 package br.net.proex.facade;
 
-import java.util.Collection;
 import java.util.List;
 
 import com.powerlogic.jcompany.commons.PlcBaseContextVO;
@@ -10,13 +9,14 @@ import br.net.proex.entity.DenunciaEntity;
 import br.net.proex.entity.OcorrenciaEntity;
 import br.net.proex.entity.PessoaEntity;
 import br.net.proex.entity.PrefeituraEntity;
+import br.net.proex.entity.SecretariaEntity;
 import br.net.proex.entity.SugestaoEntity;
 import br.net.proex.entity.TipoOcorrenciaEntity;
 import br.net.proex.entity.seg.SegMenuEntity;
 import br.net.proex.entity.seg.SegPerfilEntity;
 import br.net.proex.entity.seg.SegUsuarioEntity;
+import br.net.proex.entity.vo.RelChartModelTipoStatusVO;
 import br.net.proex.entity.vo.RelTipoStatusVO;
-import br.net.proex.enumeration.TipoSecretario;
 
 public interface IAppFacade extends IPlcFacade{
 	
@@ -42,8 +42,12 @@ public interface IAppFacade extends IPlcFacade{
 
 	TipoOcorrenciaEntity findTipoOcorrenciaById(PlcBaseContextVO context, Long idTipo);
 
-	List<RelTipoStatusVO> relTipoStatus(PlcBaseContextVO context, RelTipoStatusVO relTipoStatus);
+	List<RelChartModelTipoStatusVO> relTipoStatus(PlcBaseContextVO context, RelTipoStatusVO relTipoStatus);
 
-	List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, TipoSecretario secretaria);
+	List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, SecretariaEntity secretaria);
+
+	PessoaEntity findPessoaById(PlcBaseContextVO context, Long id);
+
+	List<TipoOcorrenciaEntity> findTipoOcorrenciaPorSecretaria(PlcBaseContextVO context, SecretariaEntity secretaria);
 	
 }

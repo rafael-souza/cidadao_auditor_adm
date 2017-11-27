@@ -2,21 +2,21 @@ package br.net.proex.entity.vo;
 
 import java.util.Date;
 
-import br.net.proex.entity.TipoOcorrencia;
-import br.net.proex.enumeration.StatusOcorrencia;
-import br.net.proex.enumeration.TipoGrafico;
-import br.net.proex.enumeration.TipoSecretario;
-
-import javax.persistence.NamedQuery;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+import br.net.proex.entity.SecretariaEntity;
+import br.net.proex.entity.TipoOcorrencia;
+import br.net.proex.enumeration.TipoGrafico;
 
 @NamedQueries({
 	@NamedQuery(name="RelTipoStatusVO.querySel", query="select tipoOcorrenciaFiltro as tipoOcorrenciaFiltro, enderecoFiltro as enderecoFiltro, protocoloFiltro as protocoloFiltro, dataFiltro as dataFiltro, tipoGrafico as tipoGrafico from RelTipoStatusVO order by enderecoFiltro asc")
 })
+
 public class RelTipoStatusVO {
 	
 	// campos do filtro
-	private TipoSecretario secretariaResponsavel;
+	private SecretariaEntity secretaria;
 	
 	private TipoOcorrencia tipoOcorrenciaFiltro;
 	
@@ -118,15 +118,15 @@ public class RelTipoStatusVO {
 	/**
 	 * @return the secretariaResponsavel
 	 */
-	public TipoSecretario getSecretariaResponsavel() {
-		return secretariaResponsavel;
+	public SecretariaEntity getSecretaria() {
+		return secretaria;
 	}
 
 	/**
 	 * @param secretariaResponsavel the secretariaResponsavel to set
 	 */
-	public void setSecretariaResponsavel(TipoSecretario secretariaResponsavel) {
-		this.secretariaResponsavel = secretariaResponsavel;
+	public void setSecretaria(SecretariaEntity secretaria) {
+		this.secretaria = secretaria;
 	}
 
 }

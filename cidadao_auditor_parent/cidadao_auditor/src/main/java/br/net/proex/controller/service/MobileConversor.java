@@ -110,6 +110,7 @@ public class MobileConversor<C> extends MobileJsonConversor<C> {
 			return true;
 		}
 		
+		
 		if (!util.validaToken(container.getToken())) {			
 			throw new PlcException("Usuário e/ou senha incorretos");
 		}

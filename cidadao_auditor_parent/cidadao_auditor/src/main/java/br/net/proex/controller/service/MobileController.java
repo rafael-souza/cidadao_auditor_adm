@@ -477,7 +477,7 @@ public class MobileController<E, I> extends PlcBaseDynamicController<E, I> {
 			
 			if (null!= prefeitura && null != prefeitura.getSecretariado() && prefeitura.getSecretariado().size() > 0){
 				for (SecretariadoEntity secretariado : prefeitura.getSecretariado()){				
-					if (secretariado.getTipo().equals(ocorrencia.getTipoOcorrencia().getSecretariaResponsavel())){
+					if (secretariado.getSecretaria().equals(ocorrencia.getTipoOcorrencia().getSecretaria())){
 						if (destinatarios.isEmpty()){
 							destinatarios = secretariado.getPessoa().getEmail();
 						} else {

@@ -1,24 +1,16 @@
 package br.net.proex.entity;
 
-import br.net.proex.enumeration.TipoSecretario;
-import javax.persistence.EnumType;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.envers.Audited;
-
-import com.powerlogic.jcompany.config.domain.PlcFileAttach;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToOne;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.validation.constraints.NotNull;
-import javax.persistence.Id;
 
 @Audited
 @MappedSuperclass
@@ -29,19 +21,15 @@ public abstract class TipoOcorrencia extends AppBaseEntity {
  	@GeneratedValue(strategy=GenerationType.AUTO, generator = "se_tipo_ocorrencia")
 	private Long id;
 	
-	@NotNull
+	@NotNull(message="O campo Descrição é de preenchimento obrigatório")
 	@Size(max = 60)
 	private String descricao;
-		
-	@Enumerated(EnumType.STRING)
-	@NotNull
-	@Column(length=3)
-	private TipoSecretario secretariaResponsavel;
 	
-	@OneToOne(targetEntity = FotoPrefeitura.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)	
-	@ForeignKey(name = "FK_ICONE_TIPO_OCORRENCIA")
-	@PlcFileAttach(extension = { "gif", "jpg", "png", "bmp" }, image = true, showImageHeight = 100, showImageWidth = 100)
-	private FotoPrefeitura icone;	 	
+	@ManyToOne(targetEntity = SecretariaEntity.class, fetch = FetchType.LAZY)
+	@ForeignKey(name = "FK_TIPO_OCORRENCIA_SECRETARIA")
+	@NotNull(message="O campo Secretaria é de preenchimento obrigatório")
+	private SecretariaEntity secretaria;
+	
 	
 	public Long getId() {
 		return id;
@@ -59,26 +47,17 @@ public abstract class TipoOcorrencia extends AppBaseEntity {
 		this.descricao=descricao;
 	}
 
-	public TipoSecretario getSecretariaResponsavel() {
-		return secretariaResponsavel;
-	}
-
-	public void setSecretariaResponsavel(TipoSecretario secretariaResponsavel) {
-		this.secretariaResponsavel=secretariaResponsavel;
+	/**
+	 * @return the secretaria
+	 */
+	public SecretariaEntity getSecretaria() {
+		return secretaria;
 	}
 
 	/**
-	 * @return the icone
+	 * @param secretaria the secretaria to set
 	 */
-	public FotoPrefeitura getIcone() {
-		return icone;
+	public void setSecretaria(SecretariaEntity secretaria) {
+		this.secretaria = secretaria;
 	}
-
-	/**
-	 * @param icone the icone to set
-	 */
-	public void setIcone(FotoPrefeitura icone) {
-		this.icone = icone;
-	}
-
 }

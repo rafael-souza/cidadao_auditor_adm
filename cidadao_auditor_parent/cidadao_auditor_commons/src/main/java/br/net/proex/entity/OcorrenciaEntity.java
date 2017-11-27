@@ -18,7 +18,6 @@ import org.hibernate.envers.Audited;
 import com.powerlogic.jcompany.commons.config.stereotypes.SPlcEntity;
 
 import br.net.proex.enumeration.StatusOcorrencia;
-import br.net.proex.enumeration.TipoSecretario;
 /**
  * Classe Concreta gerada a partir do assistente
  */
@@ -34,6 +33,8 @@ import br.net.proex.enumeration.TipoSecretario;
 		query="select obj.id as id, "
 			+ "obj1.id as tipoOcorrencia_id , "
 			+ "obj1.descricao as tipoOcorrencia_descricao, "
+			+ "obj4.id as tipoOcorrencia_secretaria_id, "
+			+ "obj4.nome as tipoOcorrencia_secretaria_nome, "
 			+ "obj.dataOcorrencia as dataOcorrencia, "
 			+ "obj.dataConclusao as dataConclusao, "
 			+ "obj.observacaoConclusao as observacaoConclusao, "
@@ -53,12 +54,14 @@ import br.net.proex.enumeration.TipoSecretario;
 			+ "left outer join obj.tipoOcorrencia as obj1 "
 			+ "left outer join obj.pessoa as obj2 "
 			+ "left outer join obj.fotoOcorrencia as obj3 "
+			+ "left outer join obj1.secretaria as obj4 "
 			+ "order by obj.id asc"),
 	@NamedQuery(name="OcorrenciaEntity.queryMinhasTarefas", 
 	query="select obj.id as id, "
 		+ "obj1.id as tipoOcorrencia_id , "
 		+ "obj1.descricao as tipoOcorrencia_descricao, "
-		+ "obj1.secretariaResponsavel as tipoOcorrencia_secretariaResponsavel, "
+		+ "obj4.id as tipoOcorrencia_secretaria_id, "
+		+ "obj4.nome as tipoOcorrencia_secretaria_nome, "
 		+ "obj.dataOcorrencia as dataOcorrencia, "
 		+ "obj.dataConclusao as dataConclusao, "
 		+ "obj.endereco as endereco, "
@@ -74,6 +77,7 @@ import br.net.proex.enumeration.TipoSecretario;
 		+ "OcorrenciaEntity obj "
 		+ "left outer join obj.tipoOcorrencia as obj1 "
 		+ "left outer join obj.pessoa as obj2 "
+		+ "left outer join obj1.secretaria as obj4 "
 		+ "where obj.statusOcorrencia <> 'ABE' order by obj.id asc"),		
 	@NamedQuery(name="OcorrenciaEntity.querySelPorPessoa", 
 		query="select obj "			
@@ -82,6 +86,7 @@ import br.net.proex.enumeration.TipoSecretario;
 			+ "left outer join obj.tipoOcorrencia as obj1 "
 			+ "left outer join obj.pessoa as obj2 "
 			+ "left outer join obj.fotoOcorrencia as obj3 "
+			+ "left outer join obj1.secretaria as obj4 "
 			+ "where "
 			+ "obj2.id =:idPessoa "
 			+ "order by obj.id asc"),	
@@ -92,7 +97,7 @@ public class OcorrenciaEntity extends Ocorrencia {
 	private static final long serialVersionUID = 1L;
 	
 	@Transient
-	private List<TipoSecretario> listaSecretaria;
+	private List<Long> listaSecretaria;
 	
 	@Transient
 	private String observacaoHistorico;
@@ -215,13 +220,13 @@ public class OcorrenciaEntity extends Ocorrencia {
 	/**
 	 * @return the listaSecretaria
 	 */
-	public List<TipoSecretario> getListaSecretaria() {
+	public List<Long> getListaSecretaria() {
 		return listaSecretaria;
 	}
 	/**
 	 * @param listaSecretaria the listaSecretaria to set
 	 */
-	public void setListaSecretaria(List<TipoSecretario> listaSecretaria) {
+	public void setListaSecretaria(List<Long> listaSecretaria) {
 		this.listaSecretaria = listaSecretaria;
 	}
 	/**

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.model.chart.Axis;
@@ -14,28 +13,21 @@ import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.PieChartModel;
 
-import br.net.proex.commons.AppBeanMessages;
-import br.net.proex.entity.TipoOcorrenciaEntity;
-import br.net.proex.entity.vo.RelTipoStatusVO;
-import br.net.proex.enumeration.StatusOcorrencia;
-import br.net.proex.facade.IAppFacade;
-
-import com.powerlogic.jcompany.commons.PlcBeanMessages;
 import com.powerlogic.jcompany.commons.annotation.PlcUriIoC;
 import com.powerlogic.jcompany.commons.config.stereotypes.SPlcMB;
+import com.powerlogic.jcompany.config.aggregation.PlcConfigAggregation;
+import com.powerlogic.jcompany.config.collaboration.FormPattern;
+import com.powerlogic.jcompany.config.collaboration.PlcConfigForm;
+import com.powerlogic.jcompany.config.collaboration.PlcConfigFormLayout;
+import com.powerlogic.jcompany.controller.jsf.PlcEntityList;
 import com.powerlogic.jcompany.controller.jsf.annotations.PlcHandleException;
 import com.powerlogic.jcompany.domain.validation.PlcMessage;
-import com.powerlogic.jcompany.controller.jsf.PlcEntityList;
-import com.powerlogic.jcompany.config.collaboration.FormPattern;
 
-import com.powerlogic.jcompany.config.collaboration.PlcConfigFormLayout;
-import com.powerlogic.jcompany.config.collaboration.PlcConfigNestedCombo;
-import com.powerlogic.jcompany.config.collaboration.PlcConfigForm;
-import com.powerlogic.jcompany.config.collaboration.PlcConfigForm.ExclusionMode;
-
-
-
-import com.powerlogic.jcompany.config.aggregation.PlcConfigAggregation;
+import br.net.proex.commons.AppBeanMessages;
+import br.net.proex.entity.TipoOcorrenciaEntity;
+import br.net.proex.entity.vo.RelChartModelTipoStatusVO;
+import br.net.proex.entity.vo.RelTipoStatusVO;
+import br.net.proex.enumeration.TipoGrafico;
 
 @PlcConfigAggregation(
 		entity = br.net.proex.entity.vo.RelTipoStatusVO.class)
@@ -43,8 +35,7 @@ import com.powerlogic.jcompany.config.aggregation.PlcConfigAggregation;
 	formPattern=FormPattern.Con,
 	formLayout = @PlcConfigFormLayout(dirBase="/WEB-INF/fcls/reltipostatus"),
 	selection = @com.powerlogic.jcompany.config.collaboration.PlcConfigSelection(
-			pagination = @com.powerlogic.jcompany.config.collaboration.PlcConfigPagination(numberByPage=50)),
-	nestedCombo=@PlcConfigNestedCombo(origemProp="secretariaResponsavel", destinyProp="tipoOcorrenciaFiltro")
+			pagination = @com.powerlogic.jcompany.config.collaboration.PlcConfigPagination(numberByPage=50))
 )
 
 
@@ -66,6 +57,10 @@ public class RelTipoStatusMB extends AppMB  {
     
     private Boolean exibeGraficoBarras;
     
+    private Boolean exibeGraficoPizza;
+    
+    private Boolean exibeGraficoLinha;
+    
     private List<TipoOcorrenciaEntity> listaTipoOcorrencia;
  	
      		
@@ -79,11 +74,7 @@ public class RelTipoStatusMB extends AppMB  {
               this.entityPlc = new RelTipoStatusVO();
               this.newEntity();
               // inicializando as variveis gráficas
-              lineChartModel = new LineChartModel();
-              barChartModel = new BarChartModel();
-              pieChartModel = new PieChartModel();
-              
-              exibeGraficoBarras = Boolean.FALSE;
+              inicializaVariaveis();
               
               setListaTipoOcorrencia(new ArrayList<TipoOcorrenciaEntity>());
          }
@@ -92,6 +83,19 @@ public class RelTipoStatusMB extends AppMB  {
         
 	}
 	
+	/**
+	 * 
+	 */
+	private void inicializaVariaveis() {
+        lineChartModel = new LineChartModel();
+        barChartModel = new BarChartModel();
+        pieChartModel = new PieChartModel();
+        
+        exibeGraficoBarras = Boolean.FALSE;
+        exibeGraficoPizza = Boolean.FALSE;
+        exibeGraficoLinha = Boolean.FALSE;
+	}
+
 	/**
 	 * Lista de entidades da ação injetado pela CDI
 	*/
@@ -111,6 +115,7 @@ public class RelTipoStatusMB extends AppMB  {
 	@Override
 	public String search() {
 		String retorno = "";
+		inicializaVariaveis();
 		
 		// verificando se o usuário informou o tipo de gráfico
 		RelTipoStatusVO relTipoStatus = (RelTipoStatusVO) this.getEntityPlc();
@@ -118,7 +123,7 @@ public class RelTipoStatusMB extends AppMB  {
 		// verificando se informou os dados para o filtro
 		Boolean situacaoValida = Boolean.TRUE;
 		
-		if (null == relTipoStatus.getSecretariaResponsavel()){
+		if (null == relTipoStatus.getSecretaria()){
 			msgUtil.msg(AppBeanMessages.REL_SECRETARIA,
 					PlcMessage.Cor.msgVermelhoPlc.toString());
 			situacaoValida = Boolean.FALSE;
@@ -130,23 +135,39 @@ public class RelTipoStatusMB extends AppMB  {
 			situacaoValida = Boolean.FALSE;
 		}
 		
+		// verficando se o tipo de grafico e pizza, se for é obrigatorio o tipo da ocorrencia
+		if (null != relTipoStatus.getTipoGrafico() && relTipoStatus.getTipoGrafico().equals(TipoGrafico.PIZ) && 
+				null == relTipoStatus.getTipoOcorrenciaFiltro()){
+			msgUtil.msg(AppBeanMessages.REL_TIPO_OCORRENCIA,
+					PlcMessage.Cor.msgVermelhoPlc.toString());	
+			situacaoValida = Boolean.FALSE;
+		}
+		
 		// verificando se passou pela validação
 		if (situacaoValida){
 			// realizando a busca dos dados de acordo com o filtro realizado
-			List<RelTipoStatusVO> listaRetorno = facade.relTipoStatus(contextMontaUtil.createContextParamMinimum(), relTipoStatus);
+			List<RelChartModelTipoStatusVO> listaRetorno = facade.relTipoStatus(contextMontaUtil.createContextParamMinimum(), relTipoStatus);
 			
 			if (null != listaRetorno && listaRetorno.size() > 0){
-			// criando o gráfico de acordo com o tipo escolhdido pelo usuario
+				// criando o gráfico de acordo com o tipo escolhdido pelo usuario
 				switch (relTipoStatus.getTipoGrafico()) {
 				case BAR:
 					criaGraficoBarra(listaRetorno, relTipoStatus);
 					exibeGraficoBarras = Boolean.TRUE;
+					exibeGraficoPizza = Boolean.FALSE;
+					exibeGraficoLinha = Boolean.FALSE;
 					break;
 				case PIZ:
 					criaGraficoPizza(listaRetorno, relTipoStatus);
+					exibeGraficoBarras = Boolean.FALSE;
+					exibeGraficoPizza = Boolean.TRUE;
+					exibeGraficoLinha = Boolean.FALSE;
 					break;
 				case LIN:
 					criaGraficoLinha(listaRetorno, relTipoStatus);
+					exibeGraficoBarras = Boolean.FALSE;
+					exibeGraficoPizza = Boolean.FALSE;
+					exibeGraficoLinha = Boolean.TRUE;
 					break;
 				}
 			}
@@ -163,124 +184,132 @@ public class RelTipoStatusMB extends AppMB  {
 	 * @param listaRetorno
 	 * @param relTipoStatus 
 	 */
-	private void criaGraficoBarra(List<RelTipoStatusVO> listaRetorno, RelTipoStatusVO relTipoStatus) {
+	private void criaGraficoBarra(List<RelChartModelTipoStatusVO> listaRetorno, RelTipoStatusVO relTipoStatus) {
 		barChartModel = initBarModel(listaRetorno, relTipoStatus);
 		barChartModel.setTitle("Tipo Ocorrêcia X Status");
 		barChartModel.setAnimate(true);
 		barChartModel.setLegendPosition("ne");
 		Axis yAxis = barChartModel.getAxis(AxisType.Y);
         yAxis.setMin(0);
-        yAxis.setMax(200);
+        //yAxis.setMax(0);
 		
 	}
-	
+
 	/**
 	 * Inserindo os dados no model
 	 * @param listaRetorno
 	 * @param relTipoStatus 
 	 * @return
 	 */
-	private BarChartModel initBarModel(List<RelTipoStatusVO> listaRetorno, RelTipoStatusVO relTipoStatus) {
+	private BarChartModel initBarModel(List<RelChartModelTipoStatusVO> listaRetorno, RelTipoStatusVO relTipoStatus) {
 		BarChartModel model = new BarChartModel();
-		
-		// se encontrou algum tipo
-		if (null != getListaTipoOcorrencia() && getListaTipoOcorrencia().size() > 0){
-			// percorre os tipos 
-			for (TipoOcorrenciaEntity tipo : getListaTipoOcorrencia()){
-				
-				if (null != relTipoStatus.getTipoOcorrenciaFiltro() && relTipoStatus.getTipoOcorrenciaFiltro().getId() == tipo.getId() || 
-						null == relTipoStatus.getTipoOcorrenciaFiltro()){
-					
-					// criando a serie
-					ChartSeries serie = new ChartSeries();
-	
-					// informa o seu label
-					serie.setLabel(tipo.getDescricao());
-					
-					// variaveis para controle do status da ocorrencia
-					Boolean temAberto = Boolean.FALSE;
-					Boolean temAnalise = Boolean.FALSE;
-					Boolean temEncaminhado = Boolean.FALSE;
-					Boolean temConcluido = Boolean.FALSE;
-					
-					// percorre a lista de retorno para comparação dos tipos encontrados
-					for (RelTipoStatusVO tipoStatus : listaRetorno){
-						
-						if (tipoStatus.getTipoOcorrencia().equals(tipo.getDescricao())){
-							// verificando se o status do tipo é em aberto
-							if (null != tipoStatus.getStatusOcorrencia() && 
-									tipoStatus.getStatusOcorrencia().equals("Em Aberto")){
-								// inserindo a serie no modelo e infomando que possui ocorrencias em aberto
-								serie.set(tipoStatus.getStatusOcorrencia(), tipoStatus.getTotal());
-								temAberto = Boolean.TRUE;
-							} else if (null != tipoStatus.getStatusOcorrencia() && 
-									tipoStatus.getStatusOcorrencia().equals("Em Análise")){
-								// inserindo a serie no modelo e infomando que possui ocorrencias em analise
-								serie.set(tipoStatus.getStatusOcorrencia(), tipoStatus.getTotal());
-								temAnalise = Boolean.TRUE;
-							} else if (null != tipoStatus.getStatusOcorrencia() && 
-									tipoStatus.getStatusOcorrencia().equals("Encaminhada")){
-								// inserindo a serie no modelo e infomando que possui ocorrencias encaminhadas
-								serie.set(tipoStatus.getStatusOcorrencia(), tipoStatus.getTotal());
-								temEncaminhado = Boolean.TRUE;
-							} else if (null != tipoStatus.getStatusOcorrencia() && 
-									tipoStatus.getStatusOcorrencia().equals("Concluída")){
-								// inserindo a serie no modelo e infomando que possui ocorrencias concluidas
-								serie.set(tipoStatus.getStatusOcorrencia(), tipoStatus.getTotal());
-								temConcluido = Boolean.TRUE;
-							}	
-						}	
-					}
-					
-					// verifica se tem alguma ocorrencia em aberto
-					if (!temAberto){
-						serie.set(StatusOcorrencia.ABE.getLabel(), 0);
-					}
-					
-					// verifica se tem alguma ocorrencia em analise
-					if (!temAnalise){
-						serie.set(StatusOcorrencia.ANA.getLabel(), 0);
-					}
-					
-					// verifica se tem alguma ocorrencia encmainhada
-					if (!temEncaminhado){
-						serie.set(StatusOcorrencia.ENC.getLabel(), 0);
-					}
-					
-					// verifica se tem alguma ocorrencia concluida
-					if (!temConcluido){
-						serie.set(StatusOcorrencia.CON.getLabel(), 0);
-					}
-					
-					// inserindo no modelo do gráfico
-					model.addSeries(serie);
-				}
-			}
-			
+		// percorrendo a listagem dos resultados		
+		for (RelChartModelTipoStatusVO tipoStatus : listaRetorno){
+			// criando a serie
+			ChartSeries serie = new ChartSeries();
+			// informa o seu label
+			serie.setLabel(tipoStatus.getLabel());
+			// inserindo a serie no modelo e infomando que possui ocorrencias em aberto
+			serie.set("Em Aberto", tipoStatus.getEmAberto());
+			serie.set("Em Análise", tipoStatus.getEmAnalise());
+			serie.set("Encaminhada", tipoStatus.getEncaminhada());
+			serie.set("Concluída", tipoStatus.getConcluida());
+			// inserindo no modelo do gráfico
+			model.addSeries(serie);
 		}
 				        
         return model;
 	}
 
-	private void criaGraficoPizza(List<RelTipoStatusVO> listaRetorno, RelTipoStatusVO relTipoStatus) {
-		// TODO Auto-generated method stub
+	/**
+	 * 
+	 * @param listaRetorno
+	 * @param relTipoStatus
+	 */
+	private void criaGraficoPizza(List<RelChartModelTipoStatusVO> listaRetorno, RelTipoStatusVO relTipoStatus) {
+		pieChartModel = initPieModel(listaRetorno, relTipoStatus);
+		
+		pieChartModel.setTitle(relTipoStatus.getTipoOcorrenciaFiltro().getDescricao());
+		pieChartModel.setLegendPosition("e");
+		pieChartModel.setFill(false);
+		pieChartModel.setShowDataLabels(true);
+		pieChartModel.setDiameter(350);
 		
 	}
 
-	private void criaGraficoLinha(List<RelTipoStatusVO> listaRetorno, RelTipoStatusVO relTipoStatus) {
-		// TODO Auto-generated method stub
+	/**
+	 * 
+	 * @param listaRetorno
+	 * @param relTipoStatus
+	 * @return
+	 */
+	private PieChartModel initPieModel(List<RelChartModelTipoStatusVO> listaRetorno, RelTipoStatusVO relTipoStatus) {
+		PieChartModel model = new PieChartModel();
+     
+		// percorrendo a listagem dos resultados		
+		for (RelChartModelTipoStatusVO tipoStatus : listaRetorno){
+			// inserindo a serie no modelo e infomando que possui ocorrencias em aberto
+			model.set("Em Aberto", tipoStatus.getEmAberto());
+			model.set("Em Análise", tipoStatus.getEmAnalise());
+			model.set("Encaminhada", tipoStatus.getEncaminhada());
+			model.set("Concluída", tipoStatus.getConcluida());
+		}
+
+		return model;
+        
+	}
+
+	/**
+	 * 
+	 * @param listaRetorno
+	 * @param relTipoStatus
+	 */
+	private void criaGraficoLinha(List<RelChartModelTipoStatusVO> listaRetorno, RelTipoStatusVO relTipoStatus) {
+		lineChartModel = initLineModel(listaRetorno, relTipoStatus);
+		lineChartModel.setTitle("Tipo Ocorrêcia X Status");
+		lineChartModel.setAnimate(true);
+		lineChartModel.setLegendPosition("ne");
+		Axis yAxis = lineChartModel.getAxis(AxisType.Y);
+        yAxis.setMin(0);
+        //yAxis.setMax(0);
 		
 	}
 	
 	/**
+	 * 
+	 * @param listaRetorno
+	 * @param relTipoStatus
+	 * @return
+	 */
+	private LineChartModel initLineModel(List<RelChartModelTipoStatusVO> listaRetorno, RelTipoStatusVO relTipoStatus) {
+		LineChartModel model = new LineChartModel();
+		// percorrendo a listagem dos resultados		
+		for (RelChartModelTipoStatusVO tipoStatus : listaRetorno){
+			// criando a serie
+			ChartSeries serie = new ChartSeries();
+			// informa o seu label
+			serie.setLabel(tipoStatus.getLabel());
+			// inserindo a serie no modelo e infomando que possui ocorrencias em aberto
+			serie.set("Em Aberto", tipoStatus.getEmAberto());
+			serie.set("Em Análise", tipoStatus.getEmAnalise());
+			serie.set("Encaminhada", tipoStatus.getEncaminhada());
+			serie.set("Concluída", tipoStatus.getConcluida());
+			// inserindo no modelo do gráfico
+			model.addSeries(serie);
+		}
+				        
+        return model;
+	}
+
+	/**
 	 * realiza a busca dos tipos de ocorrência da secretaria responsável
 	 */
 	public void buscaTipoOcorrenciaSecretaria(){
-		RelTipoStatusVO tipoStatus = (RelTipoStatusVO) this.getEntityPlc();
-		if (null != tipoStatus.getSecretariaResponsavel()){
-			setListaTipoOcorrencia(facade.buscaTipoPorSecretaria(contextMontaUtil.createContextParamMinimum(), 
-					tipoStatus.getSecretariaResponsavel()));
-		}
+//		RelTipoStatusVO tipoStatus = (RelTipoStatusVO) this.getEntityPlc();
+//		if (null != tipoStatus.getSecretariaResponsavel()){
+//			setListaTipoOcorrencia(facade.buscaTipoPorSecretaria(contextMontaUtil.createContextParamMinimum(), 
+//					tipoStatus.getSecretariaResponsavel()));
+//		}
 		
 	}
 
@@ -352,6 +381,34 @@ public class RelTipoStatusMB extends AppMB  {
 	 */
 	public void setListaTipoOcorrencia(List<TipoOcorrenciaEntity> listaTipoOcorrencia) {
 		this.listaTipoOcorrencia = listaTipoOcorrencia;
+	}
+
+	/**
+	 * @return the exibeGraficoPizza
+	 */
+	public Boolean getExibeGraficoPizza() {
+		return exibeGraficoPizza;
+	}
+
+	/**
+	 * @param exibeGraficoPizza the exibeGraficoPizza to set
+	 */
+	public void setExibeGraficoPizza(Boolean exibeGraficoPizza) {
+		this.exibeGraficoPizza = exibeGraficoPizza;
+	}
+
+	/**
+	 * @return the exibeGraficoLinha
+	 */
+	public Boolean getExibeGraficoLinha() {
+		return exibeGraficoLinha;
+	}
+
+	/**
+	 * @param exibeGraficoLinha the exibeGraficoLinha to set
+	 */
+	public void setExibeGraficoLinha(Boolean exibeGraficoLinha) {
+		this.exibeGraficoLinha = exibeGraficoLinha;
 	}
 	
 }

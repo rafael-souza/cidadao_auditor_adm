@@ -25,6 +25,7 @@ import br.net.proex.entity.FotoOcorrencia;
 import br.net.proex.entity.FotoPrefeitura;
 import br.net.proex.entity.HistoricoOcorrenciaEntity;
 import br.net.proex.entity.OcorrenciaEntity;
+import br.net.proex.entity.PessoaEntity;
 import br.net.proex.entity.PrefeituraEntity;
 import br.net.proex.entity.SecretariadoEntity;
 import br.net.proex.utils.GeraPdfUtil;
@@ -196,7 +197,7 @@ public class AbstractOcorrenciaMB extends AppMB{
 			
 			if (null!= prefeitura && null != prefeitura.getSecretariado() && prefeitura.getSecretariado().size() > 0){
 				for (SecretariadoEntity secretariado : prefeitura.getSecretariado()){				
-					if (secretariado.getTipo().equals(ocorrencia.getTipoOcorrencia().getSecretariaResponsavel())){
+					if (secretariado.getSecretaria().equals(ocorrencia.getTipoOcorrencia().getSecretaria())){
 						if (destinatarios.isEmpty()){
 							destinatarios = secretariado.getPessoa().getEmail();
 						} else {
@@ -206,7 +207,12 @@ public class AbstractOcorrenciaMB extends AppMB{
 				}								
 			}			
 		} else {
-			destinatarios = ocorrencia.getPessoa().getEmail();
+			if (null == ocorrencia.getPessoa().getEmail()){
+				PessoaEntity pessoa = facade.findPessoaById(contextMontaUtil.createContextParamMinimum(), ocorrencia.getPessoa().getId());
+				destinatarios = pessoa.getEmail();
+			} else {
+				destinatarios = ocorrencia.getPessoa().getEmail();
+			}
 		}
 						
 		return destinatarios;

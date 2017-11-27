@@ -23,8 +23,11 @@ import javax.persistence.Access;
 @Audited
 @NamedQueries({
 	@NamedQuery(name="TipoOcorrenciaEntity.queryMan", query="from TipoOcorrenciaEntity"),
-	@NamedQuery(name="TipoOcorrenciaEntity.querySel", query="select id as id, descricao as descricao, secretariaResponsavel as secretariaResponsavel from TipoOcorrenciaEntity order by descricao asc"),
-	@NamedQuery(name="TipoOcorrenciaEntity.querySelLookup", query="select id as id, descricao as descricao, secretariaResponsavel as secretariaResponsavel from TipoOcorrenciaEntity where id = ? order by id asc")
+	@NamedQuery(name="TipoOcorrenciaEntity.querySelBuscaTodas", query="select obj from TipoOcorrenciaEntity obj left outer join obj.secretaria as obj1"),
+	@NamedQuery(name="TipoOcorrenciaEntity.querySelPorSecretaria", 
+		query="select obj from TipoOcorrenciaEntity obj left outer join obj.secretaria as obj1 where obj1.id = :idSecretaria"),
+	@NamedQuery(name="TipoOcorrenciaEntity.querySel", query="select obj.id as id, obj.descricao as descricao, obj1.id as secretaria_id, obj1.nome as secretaria_nome from TipoOcorrenciaEntity obj left outer join obj.secretaria as obj1 order by obj1.nome, obj.descricao asc"),
+	@NamedQuery(name="TipoOcorrenciaEntity.querySelLookup", query="select obj.id as id, obj.descricao as descricao, obj1.id as secretaria_id, obj1.nome as secretaria_nome from TipoOcorrenciaEntity obj left outer join obj.secretaria as obj1 where obj.id = ? order by obj.id asc")
 })
 public class TipoOcorrenciaEntity extends TipoOcorrencia {
 

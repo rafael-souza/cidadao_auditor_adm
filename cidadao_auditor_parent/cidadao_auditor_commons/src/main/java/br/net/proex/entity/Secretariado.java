@@ -1,21 +1,18 @@
 package br.net.proex.entity;
 
-import br.net.proex.enumeration.TipoSecretario;
-import javax.persistence.EnumType;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.ForeignKey;
 import org.hibernate.envers.Audited;
 
-import javax.persistence.FetchType;
-import javax.persistence.Enumerated;
-import javax.validation.constraints.NotNull;
-import javax.persistence.Id;
 import com.powerlogic.jcompany.domain.validation.PlcValRequiredIf;
-import javax.persistence.Transient;
 
 @Audited
 @MappedSuperclass
@@ -30,15 +27,15 @@ public abstract class Secretariado extends AppBaseEntity {
 	@NotNull
 	private Prefeitura prefeitura;
 		
-	@Enumerated(EnumType.STRING)
-	@NotNull
 	@PlcValRequiredIf(dependentfield="tipo",targetField="pessoa")
-	@Column(length=3)
-	private TipoSecretario tipo;
-		
+	@ManyToOne(targetEntity = SecretariaEntity.class, fetch = FetchType.LAZY)
+	@ForeignKey(name = "FK_TIPO_OCORRENCIA_SECRETARIA")
+	@NotNull(message="O campo Secretaria é de preenchimento obrigatório")
+	private SecretariaEntity secretaria;
+	
 	@ManyToOne (targetEntity = PessoaEntity.class, fetch = FetchType.LAZY)
 	@ForeignKey(name="FK_SECRETARIADO_PESSOA")
-	@NotNull
+	@NotNull(message="O campo Pessoa é de preenchimento obrigatório")
 	private PessoaEntity pessoa;	
 
 	public Long getId() {
@@ -47,14 +44,6 @@ public abstract class Secretariado extends AppBaseEntity {
 
 	public void setId(Long id) {
 		this.id=id;
-	}
-
-	public TipoSecretario getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoSecretario tipo) {
-		this.tipo=tipo;
 	}
 
 	public PessoaEntity getPessoa() {
@@ -82,6 +71,20 @@ public abstract class Secretariado extends AppBaseEntity {
 
 	public String getIndExcPlc() {
 		return indExcPlc;
+	}
+
+	/**
+	 * @return the secretaria
+	 */
+	public SecretariaEntity getSecretaria() {
+		return secretaria;
+	}
+
+	/**
+	 * @param secretaria the secretaria to set
+	 */
+	public void setSecretaria(SecretariaEntity secretaria) {
+		this.secretaria = secretaria;
 	}
 
 }

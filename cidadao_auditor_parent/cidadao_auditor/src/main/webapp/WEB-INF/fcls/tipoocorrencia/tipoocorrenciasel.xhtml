@@ -16,22 +16,17 @@
 					<plcf:tabela tituloChave="tipoocorrenciaarg.titulo"> 
 						<plcf:linha> 
 							<plcf:celula> 
-								<plcf:celula> 
-									<plcf:titulo value="#{msg['label.id']}"/>  
-									<plcf:numerico id="id" value="#{tipoocorrencia.id}" ajudaChave="ajuda.id" tamanho="5"/> 
-								</plcf:celula> 
+								<plcf:titulo value="#{msg['label.id']}"/>  
+								<plcf:numerico id="id" value="#{tipoocorrencia.id}" ajudaChave="ajuda.id" tamanho="5"/> 
 							</plcf:celula>  
 							<plcf:celula> 
-								<plcf:celula> 
-									<plcf:titulo value="#{msg['label.descricao']}"/>  
-									<plcf:texto id="descricao" value="#{tipoocorrencia.descricao}" tamanho="40" ajudaChave="ajuda.descricao"/> 
-								</plcf:celula> 
+								<plcf:titulo value="#{msg['label.descricao']}"/>  
+								<plcf:texto id="descricao" value="#{tipoocorrencia.descricao}" tamanho="40" ajudaChave="ajuda.descricao"/> 
 							</plcf:celula>  
 							<plcf:celula> 
-								<plcf:celula> 
-									<plcf:titulo value="#{msg['label.secretariaResponsavel']}"/>  
-									<plcf:comboEstatico id="secretariaResponsavel" value="#{tipoocorrencia.secretariaResponsavel}" dominio="TipoSecretario" exibeBranco="S" ajudaChave="ajuda.secretariaResponsavel"/> 
-								</plcf:celula> 
+								<plcf:titulo value="#{msg['label.secretaria']}"/>  
+								<plcf:comboDinamico id="secretaria" value="#{tipoocorrencia.secretaria}" 
+												dominio="SecretariaEntity" exibeBranco="S" ajudaChave="ajuda.secretaria"/>
 							</plcf:celula> 
 						</plcf:linha> 
 					</plcf:tabela> 
@@ -51,11 +46,11 @@
 				colNames:
 					['#{msg['label.id']}',
 					'#{msg['label.descricao']}',
-					'#{msg['label.secretariaResponsavel']}'],
+					'#{msg['label.secretaria']}'],
 				colModel:[
 					{name:'id',index:'id'},
 					{name:'descricao',index:'descricao'},
-					{name:'secretariaResponsavel',index:'secretariaResponsavel'}]},
+					{name:'secretaria',index:'secretaria'}]},
 			urlEdicao:'#{request.contextPath}/f/n/tipoocorrenciaman'});});//]]> </script>  
 					<table id="plc-grid" width="100%" class="scroll" cellpadding="0" cellspacing="0"/>  
 					<div id="plc-grid-navegador" class="scroll" style="text-align:center;"/> 

@@ -19,7 +19,6 @@ import br.net.proex.entity.OcorrenciaEntity;
 import br.net.proex.entity.PrefeituraEntity;
 import br.net.proex.entity.SecretariadoEntity;
 import br.net.proex.enumeration.StatusOcorrencia;
-import br.net.proex.enumeration.TipoSecretario;
 import br.net.proex.facade.IAppFacade;
 
 @SPlcController
@@ -43,7 +42,7 @@ public class MinhasTarefasController extends AppBaseGridController<OcorrenciaEnt
 	@Override
 	public void retrieveCollection() {			
 		OcorrenciaEntity ocorrencia = (OcorrenciaEntity) getEntity();
-		List<TipoSecretario> listaSecretaria = new ArrayList<TipoSecretario>();
+		List<Long> listaSecretaria = new ArrayList<Long>();
 		// verificando quais as secretarias responsaveis pelo usuario			
 		SecretariadoEntity sec = new SecretariadoEntity();
 		sec.setPessoa(userProfileVO.getUsuario().getPessoa());
@@ -53,7 +52,7 @@ public class MinhasTarefasController extends AppBaseGridController<OcorrenciaEnt
 		if (null!= prefeitura && null != prefeitura.getSecretariado() && prefeitura.getSecretariado().size() > 0){
 			for (SecretariadoEntity secretariado : prefeitura.getSecretariado()){				
 				if (secretariado.getPessoa().getId() == sec.getPessoa().getId()){
-					listaSecretaria.add(secretariado.getTipo());
+					listaSecretaria.add(secretariado.getSecretaria().getId());
 				}
 			}								
 		}

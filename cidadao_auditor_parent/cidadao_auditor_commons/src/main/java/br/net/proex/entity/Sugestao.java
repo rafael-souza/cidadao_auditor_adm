@@ -17,11 +17,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ForeignKey;
+import org.hibernate.envers.Audited;
 
 import br.net.proex.enumeration.StatusSugestao;
 import br.net.proex.enumeration.TipoSugestao;
 
 @MappedSuperclass
+@Audited
 public abstract class Sugestao extends AppBaseEntity {
 
 	@Id
@@ -29,7 +31,7 @@ public abstract class Sugestao extends AppBaseEntity {
 	private Long id;
 
 	@ManyToOne(targetEntity = PessoaEntity.class, fetch = FetchType.LAZY)
-	@ForeignKey(name = "FK_Sugestao_PESSOA")
+	@ForeignKey(name = "FK_SUGESTAO_PESSOA")
 	@NotNull
 	private PessoaEntity pessoa;
 

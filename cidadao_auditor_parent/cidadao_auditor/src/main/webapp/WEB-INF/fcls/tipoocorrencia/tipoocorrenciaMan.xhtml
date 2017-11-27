@@ -21,13 +21,12 @@
 					<plcf:titulo value="#{msg['label.descricao']}"/>  
 					<plcf:texto id="descricao" value="#{tipoocorrencia.descricao}"  tamanho="40" tamanhoMaximo="60" ajudaChave="ajuda.descricao" showRequired="true"/> 
 				</plcf:celula>  
+			
 				<plcf:celula> 
-					<plcf:titulo value="#{msg['label.secretariaResponsavel']}"/>  
-					<plcf:comboEstatico id="secretariaResponsavel" value="#{tipoocorrencia.secretariaResponsavel}" dominio="TipoSecretario" exibeBranco="S" ajudaChave="ajuda.secretariaResponsavel" showRequired="true"/> 
+					<plcf:titulo value="#{msg['label.secretaria']}"/>  
+					<plcf:comboDinamico id="secretaria" value="#{tipoocorrencia.secretaria}" 
+									dominio="SecretariaEntity" exibeBranco="S" ajudaChave="ajuda.secretaria"/>
 				</plcf:celula> 
-				<plcf:celula >									
-					<plct:fileAttach property="icone"  />
-				</plcf:celula>	
 				
 			</plcf:linha> 
 		</plcf:tabela> 

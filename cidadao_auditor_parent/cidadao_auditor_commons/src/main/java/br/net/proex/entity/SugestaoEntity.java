@@ -6,6 +6,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.envers.Audited;
+
 import javax.persistence.SequenceGenerator;
 import javax.persistence.AccessType;
 import com.powerlogic.jcompany.commons.config.stereotypes.SPlcEntity;
@@ -18,7 +21,7 @@ import javax.persistence.Access;
 @Table(name="sugestao")
 @SequenceGenerator(name="se_sugestao", sequenceName="se_sugestao")
 @Access(AccessType.FIELD)
-
+@Audited
 
 @NamedQueries({
 	@NamedQuery(name="SugestaoEntity.queryMan", query="from SugestaoEntity"),

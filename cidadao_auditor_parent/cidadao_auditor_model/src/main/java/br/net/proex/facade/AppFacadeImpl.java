@@ -1,6 +1,5 @@
 package br.net.proex.facade;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -14,13 +13,14 @@ import br.net.proex.entity.DenunciaEntity;
 import br.net.proex.entity.OcorrenciaEntity;
 import br.net.proex.entity.PessoaEntity;
 import br.net.proex.entity.PrefeituraEntity;
+import br.net.proex.entity.SecretariaEntity;
 import br.net.proex.entity.SugestaoEntity;
 import br.net.proex.entity.TipoOcorrenciaEntity;
 import br.net.proex.entity.seg.SegMenuEntity;
 import br.net.proex.entity.seg.SegPerfilEntity;
 import br.net.proex.entity.seg.SegUsuarioEntity;
+import br.net.proex.entity.vo.RelChartModelTipoStatusVO;
 import br.net.proex.entity.vo.RelTipoStatusVO;
-import br.net.proex.enumeration.TipoSecretario;
 import br.net.proex.persistence.jpa.DenunciaDAO;
 import br.net.proex.persistence.jpa.OcorrenciaDAO;
 import br.net.proex.persistence.jpa.PessoaDAO;
@@ -120,12 +120,23 @@ public class AppFacadeImpl extends PlcFacadeImpl implements IAppFacade{
 	}
 	
 	@Override
-	public List<RelTipoStatusVO> relTipoStatus(PlcBaseContextVO context, RelTipoStatusVO relTipoStatus){
+	public List<RelChartModelTipoStatusVO> relTipoStatus(PlcBaseContextVO context, RelTipoStatusVO relTipoStatus){
 		return ocorrenciaDAO.relTipoStatus(context, relTipoStatus);
 	}
 
 	@Override
-	public List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, TipoSecretario secretaria) {
+	public List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, SecretariaEntity secretaria) {
 		return tipoOcorrenciaDAO.buscaTipoPorSecretaria(context, secretaria);
+	}
+
+	@Override
+	public PessoaEntity findPessoaById(PlcBaseContextVO context, Long id) {
+		return (PessoaEntity)pessoaDAO.findById(context, PessoaEntity.class, id);
+	}
+
+	@Override
+	public List<TipoOcorrenciaEntity> findTipoOcorrenciaPorSecretaria(PlcBaseContextVO context,
+			SecretariaEntity secretaria) {
+		return ocorrenciaDAO.findOcorrenciaPorSecretaria(context, secretaria);
 	}
 }

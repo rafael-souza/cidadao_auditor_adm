@@ -29,12 +29,13 @@
 					<plcf:titulo value="#{msg['label.id']}"/>
 				</f:facet>  
 				<plcf:oid id="id" value="#{secretariado.id}" ajudaChave="ajuda.id"/> 
-			</h:column>  
+			</h:column>
 			<h:column> 
 				<f:facet name="header">
-					<plcf:titulo value="#{msg['label.tipo']}"/>
-				</f:facet>  
-				<plcf:comboEstatico id="tipo" value="#{secretariado.tipo}" dominio="TipoSecretario" exibeBranco="S" ajudaChave="ajuda.tipo" showRequired="true"/> 
+					<plcf:titulo value="#{msg['label.secretaria']}"/>
+				</f:facet>  		
+				<plcf:comboDinamico id="secretaria" value="#{secretariado.secretaria}" 
+					dominio="SecretariaEntity" exibeBranco="S" ajudaChave="ajuda.secretaria"/>
 			</h:column>  
 			<h:column> 
 				<f:facet name="header">

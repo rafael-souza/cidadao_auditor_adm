@@ -19,10 +19,11 @@ import com.powerlogic.jcompany.persistence.jpa.PlcQueryParameter;
 import com.powerlogic.jcompany.persistence.jpa.PlcQueryService;
 
 import br.net.proex.entity.OcorrenciaEntity;
+import br.net.proex.entity.SecretariaEntity;
 import br.net.proex.entity.TipoOcorrenciaEntity;
+import br.net.proex.entity.vo.RelChartModelTipoStatusVO;
 import br.net.proex.entity.vo.RelTipoStatusVO;
 import br.net.proex.enumeration.StatusOcorrencia;
-import br.net.proex.enumeration.TipoSecretario;
 import br.net.proex.utils.DateTimeUtils;
 /**
  * Classe de Persistência gerada pelo assistente
@@ -49,7 +50,7 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 			@PlcQueryParameter(name="statusOcorrencia", expression="obj.statusOcorrencia = :statusOcorrencia") StatusOcorrencia statusOcorrencia,
 			@PlcQueryParameter(name="protocolo", expression="obj.protocolo like :protocolo || '%' ") String protocolo,
 			@PlcQueryParameter(name="statusDiferenteABE", expression="obj.statusOcorrencia <> :statusDiferenteABE") StatusOcorrencia statusDiferenteABE,
-			@PlcQueryParameter(name="listaSecretaria", expression="obj1.secretariaResponsavel in (:listaSecretaria) ") List<TipoSecretario> listaSecretaria
+			@PlcQueryParameter(name="listaSecretaria", expression="obj4.id in (:listaSecretaria) ") List<Long> listaSecretaria
 	);
 
 	@PlcQuery("querySel")
@@ -64,7 +65,7 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 			@PlcQueryParameter(name="statusOcorrencia", expression="obj.statusOcorrencia = :statusOcorrencia") StatusOcorrencia statusOcorrencia,
 			@PlcQueryParameter(name="protocolo", expression="obj.protocolo like :protocolo || '%' ") String protocolo,
 			@PlcQueryParameter(name="statusDiferenteABE", expression="obj.statusOcorrencia <> :statusDiferenteABE") StatusOcorrencia statusDiferenteABE,			
-			@PlcQueryParameter(name="listaSecretaria", expression="obj1.secretariaResponsavel in (:listaSecretaria) ") List<TipoSecretario> listaSecretaria
+			@PlcQueryParameter(name="listaSecretaria", expression="obj4.id in (:listaSecretaria) ") List<Long> listaSecretaria
 	);
 	
 
@@ -101,7 +102,7 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 	 * @param relTipoStatus
 	 * @return
 	 */
-	public List<RelTipoStatusVO> relTipoStatus(PlcBaseContextVO context, RelTipoStatusVO relTipoStatus) {
+	public List<RelChartModelTipoStatusVO> relTipoStatus(PlcBaseContextVO context, RelTipoStatusVO relTipoStatus) {
 		try { 
 			EntityManager em = this.getEntityManager(context);
 	
@@ -118,11 +119,12 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 			sql.append("end as status_ocorrencia ");
 			sql.append("from "); 
 			sql.append("ocorrencia oc left outer join tipo_ocorrencia tp on (tp.id = oc.tipo_ocorrencia) ");
+			sql.append("left outer join secretaria sec on (tp.secretaria = sec.id) ");
 			sql.append("where 1 = 1 ");
 			
 			// verificando se o usuário fez algum filtro de dados		
-			if (null != relTipoStatus.getSecretariaResponsavel()){
-				sql.append("and tp.secretaria_responsavel like '" + relTipoStatus.getSecretariaResponsavel() + "' ");
+			if (null != relTipoStatus.getSecretaria()){
+				sql.append("and sec.id = " + relTipoStatus.getSecretaria().getId() + " ");
 			}
 			
 			if (null != relTipoStatus.getTipoOcorrenciaFiltro()){
@@ -155,6 +157,131 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 				tipoStatus.setStatusOcorrencia(String.valueOf(result[2]));
 				
 				listaRetorno.add(tipoStatus);
+			}
+			
+			
+			List<RelChartModelTipoStatusVO> listaCompleta = buscaDadosParaAlimentarLista(context, relTipoStatus);
+			
+			// realizando a comparação entre as listas para informar o valor para todos os status nos tipos encontrados
+			for (RelChartModelTipoStatusVO item : listaCompleta){
+				// percorre a lista com os valores
+				for (RelTipoStatusVO tipoStatus : listaRetorno){
+					// verificando se é o mesmo tipo e status
+					if (item.getLabel().equals(tipoStatus.getTipoOcorrencia())){
+						
+						if (tipoStatus.getStatusOcorrencia().equals("Em Aberto")){
+							item.setEmAberto(tipoStatus.getTotal());
+						} else if (tipoStatus.getStatusOcorrencia().equals("Encaminhada")){
+							item.setEncaminhada(tipoStatus.getTotal());
+						} else if (tipoStatus.getStatusOcorrencia().equals("Em Análise")){
+							item.setEmAnalise(tipoStatus.getTotal());
+						} else if (tipoStatus.getStatusOcorrencia().equals("Concluída")){
+							item.setConcluida(tipoStatus.getTotal());
+						}
+					}
+				}
+			}
+
+			return listaCompleta;
+		
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param relTipoStatus
+	 * @return
+	 */
+	private List<RelChartModelTipoStatusVO> buscaDadosParaAlimentarLista(PlcBaseContextVO context,
+			RelTipoStatusVO relTipoStatus) {
+		EntityManager em = this.getEntityManager(context);
+		
+		// buscando os tipos encontrados no filtro realizado
+		StringBuilder sql = new StringBuilder();
+		sql.append("select ");  
+		sql.append("tp.descricao ");
+		sql.append("from ");
+		sql.append("ocorrencia oc "); 
+		sql.append("left outer join tipo_ocorrencia tp on (tp.id = oc.tipo_ocorrencia) "); 
+		sql.append("left outer join secretaria sec on (tp.secretaria = sec.id) ");
+		sql.append("where 1 = 1 ");
+	
+		// verificando se o usuário fez algum filtro de dados		
+		if (null != relTipoStatus.getSecretaria()){
+			sql.append("and sec.id = " + relTipoStatus.getSecretaria().getId() + " ");
+		}
+		
+		if (null != relTipoStatus.getTipoOcorrenciaFiltro()){
+			sql.append("and oc.tipo_ocorrencia = " + relTipoStatus.getTipoOcorrenciaFiltro().getId() + " ");
+		}
+		
+		if (null != relTipoStatus.getDataFiltro()){
+			sql.append("and oc.data_ocorrencia >= '" + DateTimeUtils.date2String(relTipoStatus.getDataFiltro()) + "' ");
+		}
+		
+		sql.append("group by tipo_ocorrencia order by tipo_ocorrencia ");
+		
+		List<RelChartModelTipoStatusVO> listaRetorno = new ArrayList<RelChartModelTipoStatusVO>();
+		List<Object[]> lista = em.createNativeQuery(sql.toString()).getResultList();
+		
+		// armazena o total de registros
+		Long i = 0L;
+		// percorrendo os resultados da busca
+		Iterator<Object[]> ite = lista.iterator();
+		while (ite.hasNext()) {
+			RelChartModelTipoStatusVO tipoStatus = new RelChartModelTipoStatusVO();
+			tipoStatus.setLabel(String.valueOf(ite.next()));
+			tipoStatus.setConcluida(0L);
+			tipoStatus.setEmAberto(0L);
+			tipoStatus.setEmAnalise(0L);
+			tipoStatus.setEncaminhada(0L);
+			listaRetorno.add(tipoStatus);
+		}
+
+		return listaRetorno;
+		
+	}
+
+	/**
+	 * Retorna uma lista com as ocorrencias que foram criadadas da secretaria selecionada
+	 * @param context
+	 * @param secretaria
+	 * @return
+	 */
+	public List<TipoOcorrenciaEntity> findOcorrenciaPorSecretaria(PlcBaseContextVO context,
+			SecretariaEntity secretaria) {
+		try { 
+			EntityManager em = this.getEntityManager(context);
+	
+			// criando a query de consulta dos dados
+			StringBuilder sql = new StringBuilder();
+			sql.append("select "); 
+			sql.append("tp.id, ");
+			sql.append("tp.descricao ");
+			sql.append("FROM ocorrencia oc "); 
+			sql.append("left outer join tipo_ocorrencia tp on (oc.tipo_ocorrencia = tp.id) ");
+			sql.append("left outer join secretaria sc on (tp.secretaria = sc.id) ");
+			sql.append("where sc.id = " + secretaria.getId() + " "); 
+			
+			List<TipoOcorrenciaEntity> listaRetorno = new ArrayList<TipoOcorrenciaEntity>();
+			List<Object[]> lista = em.createNativeQuery(sql.toString()).getResultList();
+			
+			// armazena o total de registros
+			Long i = 0L;
+			// percorrendo os resultados da busca
+			Iterator<Object[]> ite = lista.iterator();
+			while (ite.hasNext()) {
+				Object[] result = (Object[]) ite.next();	
+				
+				TipoOcorrenciaEntity tipoOcorrencia = new TipoOcorrenciaEntity();
+				
+				tipoOcorrencia.setId(Long.valueOf(String.valueOf(result[0])));
+				tipoOcorrencia.setDescricao(String.valueOf(result[1]));
+				
+				listaRetorno.add(tipoOcorrencia);
 			}
 					
 			return listaRetorno;
