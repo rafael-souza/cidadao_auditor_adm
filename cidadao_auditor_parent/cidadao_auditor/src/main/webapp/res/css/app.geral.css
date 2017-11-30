@@ -252,3 +252,15 @@ button .icoCustom {
     background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
     background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
 }
+
+li.separador a {
+	border-top: 1px solid #8B9DA9;
+}
+
+.pr-imagem-inicial {
+	padding-top: 11% !important;
+}
+
+.pr-home{
+	height: 550px !important;
+}

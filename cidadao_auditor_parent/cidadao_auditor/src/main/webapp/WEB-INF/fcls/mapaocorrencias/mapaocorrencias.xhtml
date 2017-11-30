@@ -16,10 +16,11 @@
 				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
 					<plcf:tabela tituloChave="mapaocorrenciasarg.titulo"> 										
 						<plcf:linha> 
-							<plcf:celula> 								
-								<plcf:titulo value="#{msg['label.id']}"/>  
-								<plcf:numerico id="id" value="#{mapaocorrencias.id}" ajudaChave="ajuda.id" tamanho="5"/> 								
-							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.secretaria']}"/>  
+								 <plcf:comboDinamico id="secretaria" value="#{mapaocorrencias.secretaria}" 
+									dominio="SecretariaEntity" exibeBranco="S" ajudaChave="ajuda.secretaria" />
+							</plcf:celula>
 							<plcf:celula> 
 								<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/>  
 								<plcf:comboDinamico id="tipoOcorrencia" value="#{mapaocorrencias.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 								

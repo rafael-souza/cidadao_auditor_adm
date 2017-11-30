@@ -45,7 +45,7 @@ public interface IAppFacade extends IPlcFacade{
 
 	List<RelChartModelTipoStatusVO> relTipoStatus(PlcBaseContextVO context, RelTipoStatusVO relTipoStatus);
 
-	List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, SecretariaEntity secretaria);
+	List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, List<Long> listaIdSecretaria);
 
 	PessoaEntity findPessoaById(PlcBaseContextVO context, Long id);
 

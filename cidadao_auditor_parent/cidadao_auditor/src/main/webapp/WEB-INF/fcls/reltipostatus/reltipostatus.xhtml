@@ -68,36 +68,25 @@
 						<legend class="plc-fieldset-legend">#{msg['reltipostatus.titulo']}</legend>  
 						 <center>
 							<h:panelGrid style="width:100%"  rendered="#{plcAction.exibeGraficoBarras}">
-						    	<p:chart type="bar" model="#{plcAction.barChartModel}" style="width:800px;" widgetVar="chart"/>
-						    	<p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart()"/>
+						    	<p:chart id="barChartModel" type="bar" model="#{plcAction.barChartModel}" style="width:800px;" widgetVar="chart"/>
+						    	<p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+								    <p:printer target="barChartModel" />
+								</p:commandButton>
 							</h:panelGrid>
 							
 							<h:panelGrid style="width:100%"  rendered="#{plcAction.exibeGraficoPizza}">
-								<p:chart type="pie" model="#{plcAction.pieChartModel}" style="width:600px;height:500px" widgetVar="chart"/>
-								<p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart()"/>
+								<p:chart id="pieChartModel" type="pie" model="#{plcAction.pieChartModel}" style="width:600px;height:500px" widgetVar="chart"/>
+						    	<p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+								    <p:printer target="pieChartModel" />
+								</p:commandButton>
 							</h:panelGrid>
 							
 							<h:panelGrid style="width:100%"  rendered="#{plcAction.exibeGraficoLinha}">
-							 	<p:chart type="line" model="#{plcAction.lineChartModel}" style="width:800px;" widgetVar="chart"/>
-								<p:commandButton type="button" value="Exportar" icon="ui-icon-extlink" onclick="exportChart()"/>
+							 	<p:chart id="lineChartModel" type="line" model="#{plcAction.lineChartModel}" style="width:800px;" widgetVar="chart"/>
+						    	<p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+								    <p:printer target="lineChartModel" />
+								</p:commandButton>
 							</h:panelGrid>
- 
-							<p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Salve a Imagem do Gráfico" resizable="false">
-							    <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/>
-							</p:dialog>
-							 
-							<script type="text/javascript">
-								function exportChart() {
-								    //export image
-								    plc.jq('#output').empty().append(PF('chart').exportAsImage());
-								 
-								    //show the dialog
-								    plc.jq('dlg').show();
-								}
-							</script>
-							
-							
-							
 						</center>
 					</fieldset>  
 				</div> 

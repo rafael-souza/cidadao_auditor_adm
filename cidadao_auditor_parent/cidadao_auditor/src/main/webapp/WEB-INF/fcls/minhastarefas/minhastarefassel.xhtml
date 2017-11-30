@@ -16,37 +16,28 @@
 					<plcf:tabela tituloChave="minhastarefasarg.titulo"> 
 						<plcf:linha> 
 							<plcf:celula> 
-
-									<plcf:titulo value="#{msg['label.id']}"/>  
-									<plcf:numerico id="id" value="#{minhastarefas.id}" ajudaChave="ajuda.id" tamanho="5"/> 
-
+								<plcf:titulo value="#{msg['label.id']}"/>  
+								<plcf:numerico id="id" value="#{minhastarefas.id}" ajudaChave="ajuda.id" tamanho="5"/> 
 							</plcf:celula>  
 							<plcf:celula> 
-
-									<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/>  
-									<plcf:comboDinamico id="tipoOcorrencia" value="#{minhastarefas.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 
-
+								<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/>  
+								<plcf:comboDinamico id="tipoOcorrencia" value="#{minhastarefas.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 
 							</plcf:celula>  
 							<plcf:celula> 
-									<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
-									<plcf:data id="dataOcorrencia" value="#{minhastarefas.dataOcorrencia}" ajudaChave="ajuda.dataOcorrencia"/> 
-
+								<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
+								<plcf:data id="dataOcorrencia" value="#{minhastarefas.dataOcorrencia}" ajudaChave="ajuda.dataOcorrencia"/> 
 							</plcf:celula>  
 							<plcf:celula> 
-
-									<plcf:titulo value="#{msg['label.dataConclusao']}"/>  
-									<plcf:data id="dataConclusao" value="#{minhastarefas.dataConclusao}" ajudaChave="ajuda.dataConclusao"/> 
-
+								<plcf:titulo value="#{msg['label.dataConclusao']}"/>  
+								<plcf:data id="dataConclusao" value="#{minhastarefas.dataConclusao}" ajudaChave="ajuda.dataConclusao"/> 
 							</plcf:celula>  
 							<plcf:celula> 
-
-									<plcf:titulo value="#{msg['label.statusOcorrencia']}"/>  
-									<plcf:comboEstatico id="statusOcorrencia" value="#{minhastarefas.statusOcorrencia}" dominio="StatusOcorrencia" exibeBranco="S" ajudaChave="ajuda.statusOcorrencia"/> 
-								
+								<plcf:titulo value="#{msg['label.statusOcorrencia']}"/>  
+								<plcf:comboEstatico id="statusOcorrencia" value="#{minhastarefas.statusOcorrencia}" dominio="StatusOcorrencia" exibeBranco="S" ajudaChave="ajuda.statusOcorrencia"/> 
 							</plcf:celula>  
 							<plcf:celula> 								
-									<plcf:titulo value="#{msg['label.protocolo']}"/>  
-									<plcf:texto id="protocolo" value="#{minhastarefas.protocolo}" tamanho="20" tamanhoMaximo="100" ajudaChave="ajuda.protocolo"/> 								
+								<plcf:titulo value="#{msg['label.protocolo']}"/>  
+								<plcf:texto id="protocolo" value="#{minhastarefas.protocolo}" tamanho="20" tamanhoMaximo="100" ajudaChave="ajuda.protocolo"/> 								
 							</plcf:celula> 	
 
 							<plcf:celula> 								

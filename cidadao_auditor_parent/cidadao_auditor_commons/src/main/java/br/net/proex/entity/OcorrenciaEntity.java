@@ -28,6 +28,8 @@ import br.net.proex.enumeration.StatusOcorrencia;
 @Access(AccessType.FIELD)
 @Audited
 @NamedQueries({
+	@NamedQuery(name="OcorrenciaEntity.querySel3", query="select id as id from OcorrenciaEntity order by id asc"),
+	@NamedQuery(name="OcorrenciaEntity.querySel2", query="select obj.id as id, obj1.id as tipoOcorrencia_id , obj1.descricao as tipoOcorrencia_descricao, obj.dataOcorrencia as dataOcorrencia, obj.endereco as endereco from OcorrenciaEntity obj left outer join obj.tipoOcorrencia as obj1 order by obj.endereco asc"),
 	@NamedQuery(name="OcorrenciaEntity.queryMan", query="from OcorrenciaEntity"),	
 	@NamedQuery(name="OcorrenciaEntity.querySel", 
 		query="select obj.id as id, "
@@ -120,6 +122,12 @@ public class OcorrenciaEntity extends Ocorrencia {
 	@Transient
 	private StatusOcorrencia statusDiferenteABE;
  	
+	@Transient
+	private Boolean selecionado;
+	
+	@Transient
+	private SecretariaEntity secretaria;
+	
     /*
      * Construtor padrao
      */
@@ -312,6 +320,30 @@ public class OcorrenciaEntity extends Ocorrencia {
 	 */
 	public void setIdTipo(Long idTipo) {
 		this.idTipo = idTipo;
+	}
+	/**
+	 * @return the selecionado
+	 */
+	public Boolean getSelecionado() {
+		return selecionado;
+	}
+	/**
+	 * @param selecionado the selecionado to set
+	 */
+	public void setSelecionado(Boolean selecionado) {
+		this.selecionado = selecionado;
+	}
+	/**
+	 * @return the secretaria
+	 */
+	public SecretariaEntity getSecretaria() {
+		return secretaria;
+	}
+	/**
+	 * @param secretaria the secretaria to set
+	 */
+	public void setSecretaria(SecretariaEntity secretaria) {
+		this.secretaria = secretaria;
 	}
 
 

@@ -44,13 +44,14 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 			
 			@PlcQueryParameter(name="id", expression="obj.id = :id") Long id,
 			@PlcQueryParameter(name="tipoOcorrencia", expression="obj1 = :tipoOcorrencia") TipoOcorrenciaEntity tipoOcorrencia,
-			@PlcQueryParameter(name="dataOcorrencia", expression="obj.dataOcorrencia = :dataOcorrencia  ") Date dataOcorrencia,
-			@PlcQueryParameter(name="dataConclusao", expression="obj.dataConclusao = :dataConclusao  ") Date dataConclusao,
+			@PlcQueryParameter(name="dataOcorrencia", expression="obj.dataOcorrencia >= :dataOcorrencia  ") Date dataOcorrencia,
+			@PlcQueryParameter(name="dataConclusao", expression="obj.dataConclusao >= :dataConclusao  ") Date dataConclusao,
 			@PlcQueryParameter(name="endereco", expression="obj.endereco like '%' || :endereco || '%' ") String endereco,
 			@PlcQueryParameter(name="statusOcorrencia", expression="obj.statusOcorrencia = :statusOcorrencia") StatusOcorrencia statusOcorrencia,
 			@PlcQueryParameter(name="protocolo", expression="obj.protocolo like :protocolo || '%' ") String protocolo,
 			@PlcQueryParameter(name="statusDiferenteABE", expression="obj.statusOcorrencia <> :statusDiferenteABE") StatusOcorrencia statusDiferenteABE,
-			@PlcQueryParameter(name="listaSecretaria", expression="obj4.id in (:listaSecretaria) ") List<Long> listaSecretaria
+			@PlcQueryParameter(name="listaSecretaria", expression="obj4.id in (:listaSecretaria) ") List<Long> listaSecretaria,
+			@PlcQueryParameter(name="secretaria", expression="obj4 = :secretaria") SecretariaEntity secretaria
 	);
 
 	@PlcQuery("querySel")
@@ -65,7 +66,8 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 			@PlcQueryParameter(name="statusOcorrencia", expression="obj.statusOcorrencia = :statusOcorrencia") StatusOcorrencia statusOcorrencia,
 			@PlcQueryParameter(name="protocolo", expression="obj.protocolo like :protocolo || '%' ") String protocolo,
 			@PlcQueryParameter(name="statusDiferenteABE", expression="obj.statusOcorrencia <> :statusDiferenteABE") StatusOcorrencia statusDiferenteABE,			
-			@PlcQueryParameter(name="listaSecretaria", expression="obj4.id in (:listaSecretaria) ") List<Long> listaSecretaria
+			@PlcQueryParameter(name="listaSecretaria", expression="obj4.id in (:listaSecretaria) ") List<Long> listaSecretaria,
+			@PlcQueryParameter(name="secretaria", expression="obj4 = :secretaria") SecretariaEntity secretaria
 	);
 	
 

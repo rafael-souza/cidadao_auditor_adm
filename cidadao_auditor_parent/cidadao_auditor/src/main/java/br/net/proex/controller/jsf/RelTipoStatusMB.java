@@ -9,6 +9,7 @@ import javax.inject.Named;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.PieChartModel;
@@ -265,14 +266,16 @@ public class RelTipoStatusMB extends AppMB  {
 	 * @param relTipoStatus
 	 */
 	private void criaGraficoLinha(List<RelChartModelTipoStatusVO> listaRetorno, RelTipoStatusVO relTipoStatus) {
-		lineChartModel = initLineModel(listaRetorno, relTipoStatus);
-		lineChartModel.setTitle("Tipo Ocorrêcia X Status");
-		lineChartModel.setAnimate(true);
-		lineChartModel.setLegendPosition("ne");
-		Axis yAxis = lineChartModel.getAxis(AxisType.Y);
+		lineChartModel = initLineModel(listaRetorno, relTipoStatus);     
+        lineChartModel.setTitle("Tipo Ocorrêcia X Status");
+        lineChartModel.setLegendPosition("e");
+        lineChartModel.setShowPointLabels(true);
+        lineChartModel.getAxes().put(AxisType.X, new CategoryAxis("Status das Ocorrências"));
+        Axis yAxis = lineChartModel.getAxis(AxisType.Y);
+        yAxis.setLabel("Quantidade de Ocorrências");
         yAxis.setMin(0);
-        //yAxis.setMax(0);
-		
+        //yAxis.setMax(200);
+
 	}
 	
 	/**
@@ -286,7 +289,7 @@ public class RelTipoStatusMB extends AppMB  {
 		// percorrendo a listagem dos resultados		
 		for (RelChartModelTipoStatusVO tipoStatus : listaRetorno){
 			// criando a serie
-			ChartSeries serie = new ChartSeries();
+			ChartSeries  serie = new ChartSeries ();
 			// informa o seu label
 			serie.setLabel(tipoStatus.getLabel());
 			// inserindo a serie no modelo e infomando que possui ocorrencias em aberto

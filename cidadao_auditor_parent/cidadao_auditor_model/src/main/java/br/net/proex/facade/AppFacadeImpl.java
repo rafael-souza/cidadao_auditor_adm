@@ -130,8 +130,8 @@ public class AppFacadeImpl extends PlcFacadeImpl implements IAppFacade{
 	}
 
 	@Override
-	public List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, SecretariaEntity secretaria) {
-		return tipoOcorrenciaDAO.buscaTipoPorSecretaria(context, secretaria);
+	public List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, List<Long> listaIdSecretaria) {
+		return tipoOcorrenciaDAO.buscaTipoPorSecretaria(context, listaIdSecretaria);
 	}
 
 	@Override

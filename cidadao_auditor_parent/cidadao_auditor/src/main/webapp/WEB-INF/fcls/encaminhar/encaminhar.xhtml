@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml"> 
+		<ui:define name="plc-corpo-acao-complemento">					 			
+			
+			<div class="corpo-botao-customizado">
+				<plcf:botaoAcao id="botaoAbreEncaminhar" urlIcone="icoCustomButton icoEncaminhar" 
+					label="label.encaminharResponsavel" onclick="abrirEncaminhar()">
+					<f:ajax event="action" execute="@this" render="@this" onerror="plc.manipulaErroAjax" />
+					<f:param name="skipValidation" value="true" />
+				</plcf:botaoAcao>
+			</div> 			
+	
+			<div class="corpo-botao-customizado">
+				<img id="indicatorRecursos" src="#{request.contextPath}/res-plc/midia/indicator.gif"/>
+	        </div>	
+	
+			<script avaliar="S">
+			//<![CDATA[
+				   plc.jq("#indicatorRecursos").hide();
+				   
+				   plc.jq('#corpo\\:formulario\\:botaoEncaminhar').click(function(){
+						  plc.jq("#indicatorRecursos").show();
+				   });		
+	
+				   plc.jq('#corpo\\:formulario\\:botaoAcaoPesquisar').click(function(){
+						  plc.jq("#indicatorRecursos").show();
+				   });				
+							  
+			//]]>			   
+			</script>
+	
+		</ui:define>
+	
+		<ui:define name="plc-corpo-formulario"> 
+			<div id="plc-form-basico"> 
+				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
+					<plcf:tabela tituloChave="encaminhararg.titulo"> 
+						<plcf:linha> 
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.secretaria']}"/>  
+								 <plcf:comboDinamico id="secretaria" value="#{encaminhar.secretaria}" 
+									dominio="SecretariaEntity" exibeBranco="S" ajudaChave="ajuda.secretaria" />
+							</plcf:celula>
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/>  
+								<plcf:comboDinamico id="tipoOcorrencia" value="#{encaminhar.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
+								<plcf:data id="dataOcorrencia" value="#{encaminhar.dataOcorrencia}" ajudaChave="ajuda.dataOcorrencia"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.endereco']}"/>  
+								<plcf:texto id="endereco" value="#{encaminhar.endereco}" tamanho="60" tamanhoMaximo="100" ajudaChave="ajuda.endereco"/> 
+							</plcf:celula> 
+						</plcf:linha> 
+					</plcf:tabela> 
+					
+					<plcf:tabela>
+						<plcf:texto id="observacaoHistorico" value="#{encaminhar.observacaoHistorico}" styleClass="esconder"/>
+						<plcf:botaoAcao id="botaoAcaoEncaminhar" acao="encaminhar" styleClass="esconder"
+								partialSubmit="false"  >
+						</plcf:botaoAcao>
+						<div id="dialog-encaminhar" title="Encaminhar ao Responsável!">
+							<plcf:tabela styleClass="esconder">
+								<h:outputLabel value="Observação:" for="observacaoEncaminharDialog" styleClass="esconder"/>					
+								<plcf:area id="observacaoEncaminharDialog" value="#{encaminhar.observacaoHistorico}" styleClass="esconder"
+										rows="5" colunas="100" tamanho="20" tamanhoMaximo="500"		
+										ajudaChave="ajuda.observacao"/> 
+							</plcf:tabela>
+						</div>
+					</plcf:tabela>
+					
+					
+				</div>
+				<div id="#{plcAliasPrefixoAction}Sel" class="_plc-form-basico-sel"> 
+					<fieldset class="plc-fieldset"> 
+						<legend class="plc-fieldset-legend">#{msg['encaminhar.titulo']}</legend>  
+						<plcf:iteracao var="item" value="#{encaminharLista.itensPlc}" styleClass="plc-table-tabsel delimitador tabelaFormulario plc-table-seljsf" columnClasses="celulaFormulario" headerClass="celulaFormulario"> 
+							<h:column>
+								<f:facet name="header">
+									<input type="checkbox" name="todos" value="todos"
+										onclick="selecionaTodosCheckbox(this);" />
+								</f:facet>
+								<plcf:caixaMarcacao value="#{item.selecionado}"
+									rendered="#{not empty item.id}" />
+							</h:column>
+							
+							
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.id']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.id}" classeCSS="idItem">id</plcf:exibe> 
+							</h:column>  
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.tipoOcorrencia']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.tipoOcorrencia}">tipoOcorrencia</plcf:exibe> 
+							</h:column>  
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.dataOcorrencia']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.dataOcorrencia}">dataOcorrencia</plcf:exibe> 
+							</h:column>  
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.endereco']}" tamanho="60" tamanhoMaximo="100" /> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.endereco}">endereco</plcf:exibe> 
+							</h:column> 
+						</plcf:iteracao> 
+					</fieldset>  
+					<script>createLineSelection('#');</script> 
+				</div> 
+			</div>  
+			<script type="text/javascript">//<![CDATA[
+
+				plc.jq('.esconder').hide();
+	
+				function abrirEncaminhar(){
+					plc.jq('.esconder').show();
+				    plc.jq( "#dialog-encaminhar" ).dialog({
+		    			resizable: false,
+						height: "auto",
+						width: 550,
+						closeOnEscape: false,
+						open: function(event, ui) {
+							plc.jq(".ui-dialog-titlebar-close").hide();
+						},
+		 				close: function(event, ui) {
+		 					event.preventDefault(); 
+		 					plc.jq(this).dialog('destroy'); 
+		 				},
+						modal: true,
+						buttons: {
+							"Encaminhar": function() {
+					   			plc.jq('#corpo\\:formulario\\:observacaoHistorico').val(
+									plc.jq('#corpo\\:formulario\\:observacaoEncaminharDialog').val());
+					   		   	plc.jq('#corpo\\:formulario\\:botaoAcaoEncaminhar').click();			
+					   		},
+						    "Cancelar": function(event, ui) {
+						    	plc.jq('.esconder').hide();				       
+						        plc.jq( this ).dialog( "destroy" );
+						    }
+						}
+				    });
+				}    	
+
+
+			
+		        function aposSelecaoModal(data) {
+		            var status = data.status;
+		            switch (status) {
+		                case "success":
+		                    var optsSel = {
+		        				$tabela: plc.jq("table#"+prefixForm+'#{plcAliasPrefixoAction}')
+		        				,urlEdicao:'#{request.contextPath}/f/n/encaminharman'
+		        				,numPorPagina: 50
+		            			,propAgregada: 'encaminhar'
+		            			,nomePropAgregada: "nome"
+		            			,paramEdicao: "id"
+		        				,modoJanelaPlc:'${param.modoJanelaPlc}'
+		                	}
+							montarSelecaoSemGrid(optsSel);
+		                break;
+		            }
+		        }
+		        
+		        // Setup the statusUpdate function to hear all events on the page
+		        jsf.ajax.addOnEvent(aposSelecaoModal);
+		
+				/**
+				 * Seleciona (marca/desmarca) todos os checkbox
+				 */
+				function selecionaTodosCheckbox(elemento) {
+					if (plc.jq(elemento).attr('checked') == 'checked'){
+						plc.jq(':checkbox').each(function(){this.checked=true});
+					}else{
+						plc.jq(':checkbox').each(function(){this.checked=false});
+					}
+				}
+		        
+			//]]> 
+			</script> 
+		</ui:define> 
+	</ui:composition> 
+</html>

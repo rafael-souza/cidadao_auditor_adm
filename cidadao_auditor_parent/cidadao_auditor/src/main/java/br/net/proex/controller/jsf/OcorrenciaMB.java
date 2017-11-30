@@ -1,6 +1,7 @@
 package br.net.proex.controller.jsf;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.inject.Produces;
@@ -45,9 +46,6 @@ details = {@com.powerlogic.jcompany.config.aggregation.PlcConfigDetail(
 public class OcorrenciaMB extends AbstractOcorrenciaMB  {
 
 	private static final long serialVersionUID = 1L;
-	
-	private StatusOcorrencia statusAnterior;
-			
      		
 	/**
 	* Entidade da ação injetado pela CDI
@@ -148,6 +146,7 @@ public class OcorrenciaMB extends AbstractOcorrenciaMB  {
 		ocorrencia.setObservacaoHistorico(null);
 	}
 
+
 	/**
 	 * 
 	 */
@@ -158,20 +157,5 @@ public class OcorrenciaMB extends AbstractOcorrenciaMB  {
 		requestMap.put(PlcConstants.ACAO.EXIBE_BT_CLONAR, PlcConstants.NAO_EXIBIR);
 		requestMap.put(PlcConstants.ACAO.EXIBE_BT_VISUALIZA_DOCUMENTO, PlcConstants.NAO_EXIBIR);
 	}
-
-	/**
-	 * @return the statusAnterior
-	 */
-	public StatusOcorrencia getStatusAnterior() {
-		return statusAnterior;
-	}
-
-	/**
-	 * @param statusAnterior the statusAnterior to set
-	 */
-	public void setStatusAnterior(StatusOcorrencia statusAnterior) {
-		this.statusAnterior = statusAnterior;
-	}	
-
 	
 }

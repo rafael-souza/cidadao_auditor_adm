@@ -19,11 +19,6 @@
 							<h:outputText value="#{msg['menu.reltipostatus.titulo']}">Tipo Ocorrência X Status</h:outputText>
 						</a>
 					</li>
-					<li>
-						<a href="#{request.contextPath}/f/n/modelodocumento">
-							<h:outputText value="#{msg['menu.modelodocumento.titulo']}">Modelos de Documentos</h:outputText>
-						</a>
-					</li>
 				</ul>
 			</li>
 			<li>
@@ -48,6 +43,11 @@
 					</a>
 				</li>
 				<li>
+					<a href="#{request.contextPath}/f/n/modelodocumento">
+						<h:outputText value="#{msg['menu.modelodocumento.titulo']}">Modelos de Documentos</h:outputText>
+					</a>
+				</li>
+				<li class="separador">
 					<a href="#{request.contextPath}/f/n/pessoasel">
 						<h:outputText value="#{msg['menu.pessoa.titulo']}">Pessoas</h:outputText>
 					</a>
@@ -62,7 +62,7 @@
 						<h:outputText value="#{msg['menu.secretaria.titulo']}">Secretarias</h:outputText>
 					</a>
 				</li>
-				<li>
+				<li class="separador">
 					<a href="#{request.contextPath}/f/n/tipoocorrenciasel">
 						<h:outputText value="#{msg['menu.tipoocorrencia.titulo']}">Tipo de Ocorrencia</h:outputText>
 					</a>
@@ -82,6 +82,16 @@
 					</a>
 				</li>
 				<li>
+					<a href="#{request.contextPath}/f/n/encaminhar">
+						<h:outputText value="#{msg['menu.encaminhar.titulo']}">Encaminhar Ocorrências em Massa</h:outputText>
+					</a>
+				</li>
+				<li>
+					<a href="#{request.contextPath}/f/n/finalizar">
+						<h:outputText value="#{msg['menu.finalizar.titulo']}">Finalizar Ocorrênias em Massa</h:outputText>
+					</a>
+				</li>
+				<li class="separador">
 					<a href="#{request.contextPath}/f/n/sugestaosel">
 						<h:outputText value="#{msg['menu.sugestao.titulo']}">Sugestões</h:outputText>
 					</a>
@@ -91,7 +101,7 @@
 						<h:outputText value="#{msg['menu.denuncia.titulo']}">Central de Denúncias</h:outputText>
 					</a>
 				</li>
-				<li>
+				<li class="separador">
 					<a href="#{request.contextPath}/f/n/minhastarefassel">
 						<h:outputText value="#{msg['menu.minhastarefas.titulo']}">Minhas Tarefas</h:outputText>
 					</a>
@@ -115,7 +125,7 @@
 						<label jsfc="plcf:titulo" tituloChave="menu.segperfil.titulo">Perfis</label>
 					</a>
 				</li>
-				<li>
+				<li class="separador">
 					<a href="#{request.contextPath}/f/n/segusuariosel?evento=y">
 						<label jsfc="plcf:titulo" tituloChave="menu.segusuario.titulo">Usuários</label>
 					</a>

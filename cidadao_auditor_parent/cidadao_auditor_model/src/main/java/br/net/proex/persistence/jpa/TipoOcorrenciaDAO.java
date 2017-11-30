@@ -53,13 +53,13 @@ public class TipoOcorrenciaDAO extends AppJpaDAO  {
 	 * @param secretaria
 	 * @return
 	 */
-	public List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, SecretariaEntity secretaria){
+	public List<TipoOcorrenciaEntity> buscaTipoPorSecretaria(PlcBaseContextVO context, List<Long> listaIdSecretaria){
 		try { 
 			EntityManager em = this.getEntityManager(context); 	
 			Query query;
-			if (null != secretaria){
+			if (null != listaIdSecretaria){
 				query = em.createNamedQuery("TipoOcorrenciaEntity.querySelPorSecretaria");
-				query.setParameter("idSecretaria", secretaria.getId());
+				query.setParameter("listaIdSecretaria", listaIdSecretaria);
 			} else {
 				query = em.createNamedQuery("TipoOcorrenciaEntity.querySelBuscaTodas");
 			}

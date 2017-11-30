@@ -1,6 +1,5 @@
-package br.net.proex.persistence.jpa.secretaria;
+package br.net.proex.persistence.jpa;
 
-import br.net.proex.persistence.jpa.AppJpaDAO;
 import br.net.proex.entity.SecretariaEntity;
 
 

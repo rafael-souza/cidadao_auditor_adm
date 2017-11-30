@@ -1,6 +1,7 @@
 package br.net.proex.controller.jsf;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -19,6 +20,7 @@ import br.net.proex.entity.OcorrenciaEntity;
 import br.net.proex.entity.PessoaEntity;
 import br.net.proex.entity.PrefeituraEntity;
 import br.net.proex.entity.SecretariadoEntity;
+import br.net.proex.entity.TipoOcorrenciaEntity;
 import br.net.proex.enumeration.TipoModeloDocumento;
 import br.net.proex.utils.GeraPdfUtils;
 import br.net.proex.utils.ModeloDocumentoUtils;
@@ -31,6 +33,12 @@ public class AbstractOcorrenciaMB extends AppMB{
 	
 	@Inject @QPlcDefault
 	protected GeraPdfUtils geraPdfUtil;	
+	
+	private List<OcorrenciaEntity> listaSelecionados;
+	
+	private List<TipoOcorrenciaEntity> listaTipoOcorrencia;
+	
+	private List<Long> listaIdSecretaria;
 	
 	
 	/**
@@ -194,5 +202,51 @@ public class AbstractOcorrenciaMB extends AppMB{
 
 	}
 
+	
+	/**
+	 * @return the listaSelecionados
+	 */
+	public List<OcorrenciaEntity> getListaSelecionados() {
+		return listaSelecionados;
+	}
+
+	/**
+	 * @param listaSelecionados the listaSelecionados to set
+	 */
+	public void setListaSelecionados(List<OcorrenciaEntity> listaSelecionados) {
+		this.listaSelecionados = listaSelecionados;
+	}
+
+
+	/**
+	 * @return the listaTipoOcorrencia
+	 */
+	public List<TipoOcorrenciaEntity> getListaTipoOcorrencia() {
+		return listaTipoOcorrencia;
+	}
+
+
+	/**
+	 * @param listaTipoOcorrencia the listaTipoOcorrencia to set
+	 */
+	public void setListaTipoOcorrencia(List<TipoOcorrenciaEntity> listaTipoOcorrencia) {
+		this.listaTipoOcorrencia = listaTipoOcorrencia;
+	}
+
+
+	/**
+	 * @return the listaIdSecretaria
+	 */
+	public List<Long> getListaIdSecretaria() {
+		return listaIdSecretaria;
+	}
+
+
+	/**
+	 * @param listaIdSecretaria the listaIdSecretaria to set
+	 */
+	public void setListaIdSecretaria(List<Long> listaIdSecretaria) {
+		this.listaIdSecretaria = listaIdSecretaria;
+	}
 	
 }

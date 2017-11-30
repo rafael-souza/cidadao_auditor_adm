@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml"> 
+		<ui:define name="plc-corpo-acao-complemento">
+			<div class="corpo-botao-customizado">
+				<plcf:botaoAcao id="botaoAbreConcluir" urlIcone="icoCustomButton icoConcluir" 
+					label="label.concluir" onclick="abrirConcluir()">
+					<f:ajax event="action" execute="@this" render="@this" onerror="plc.manipulaErroAjax" />
+					<f:param name="skipValidation" value="true" />
+				</plcf:botaoAcao>
+	        </div>
+	        
+	    </ui:define>
+	
+		<ui:define name="plc-corpo-formulario"> 
+			<div id="plc-form-basico"> 
+				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
+					<plcf:tabela tituloChave="finalizararg.titulo"> 
+						<plcf:linha>
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/>  
+								<plcf:comboDinamico id="tipoOcorrencia" value="#{finalizar.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
+								<plcf:data id="dataOcorrencia" value="#{finalizar.dataOcorrencia}" ajudaChave="ajuda.dataOcorrencia"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.endereco']}"/>  
+								<plcf:texto id="endereco" value="#{finalizar.endereco}" tamanho="60" tamanhoMaximo="100" ajudaChave="ajuda.endereco"/> 
+							</plcf:celula> 
+						</plcf:linha>  
+					</plcf:tabela> 
+					
+					<plcf:tabela>
+
+						<plcf:texto id="observacaoHistorico" value="#{finalizar.observacaoHistorico}" styleClass="esconder"/>
+			
+						<plcf:botaoAcao id="botaoAcaoConcluir" acao="concluir"	styleClass="esconder"
+								partialSubmit="false"  >
+						</plcf:botaoAcao>
+			
+						<div id="dialog-concluir" title="Concluir Ocorrência">
+							<plcf:tabela styleClass="esconder">
+								<h:outputLabel value="Observação:" for="observacaoConcluirDialog" styleClass="esconder"/>					
+								<plcf:area id="observacaoConcluirDialog" value="#{finalizar.observacaoHistorico}" styleClass="esconder"
+										rows="5" colunas="100" tamanho="20" tamanhoMaximo="500"		
+										ajudaChave="ajuda.observacao"/> 
+							</plcf:tabela>
+						</div>
+					</plcf:tabela>	
+					
+					
+				</div>
+				<div id="#{plcAliasPrefixoAction}Sel" class="_plc-form-basico-sel"> 
+					<fieldset class="plc-fieldset"> 
+						<legend class="plc-fieldset-legend">#{msg['finalizar.titulo']}</legend>  
+						<plcf:iteracao var="item" value="#{finalizarLista.itensPlc}" styleClass="plc-table-tabsel delimitador tabelaFormulario plc-table-seljsf" columnClasses="celulaFormulario" headerClass="celulaFormulario"> 
+							<h:column>
+								<f:facet name="header">
+									<input type="checkbox" name="todos" value="todos"
+										onclick="selecionaTodosCheckbox(this);" />
+								</f:facet>
+								<plcf:caixaMarcacao value="#{item.selecionado}"
+									rendered="#{not empty item.id}" />
+							</h:column>
+							
+							
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.id']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.id}" classeCSS="idItem">id</plcf:exibe> 
+							</h:column>  
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.tipoOcorrencia']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.tipoOcorrencia}">tipoOcorrencia</plcf:exibe> 
+							</h:column>  
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.dataOcorrencia']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.dataOcorrencia}">dataOcorrencia</plcf:exibe> 
+							</h:column>  
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.endereco']}" tamanho="60" tamanhoMaximo="100" /> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.endereco}">endereco</plcf:exibe> 
+							</h:column>  
+						</plcf:iteracao> 
+					</fieldset>  
+					<script>createLineSelection('#');</script> 
+				</div> 
+			</div>  
+			<script type="text/javascript">//<![CDATA[
+
+				plc.jq('.esconder').hide();
+				
+				function abrirConcluir(){
+					plc.jq('.esconder').show();
+				    plc.jq( "#dialog-concluir" ).dialog({
+		    			resizable: false,
+						height: "auto",
+						width: 550,
+						closeOnEscape: false,
+						open: function(event, ui) {
+							plc.jq(".ui-dialog-titlebar-close").hide();
+						},
+		 				close: function(event, ui) {
+		 					event.preventDefault(); 
+		 					plc.jq(this).dialog('destroy'); 
+		 				},
+						modal: true,
+						buttons: {
+							"Concluir": function() {
+								plc.jq("#indicatorRecursos").show();
+								
+					   			plc.jq('#corpo\\:formulario\\:observacaoHistorico').val(
+									plc.jq('#corpo\\:formulario\\:observacaoConcluirDialog').val());
+					   		   	plc.jq('#corpo\\:formulario\\:botaoAcaoConcluir').click();			
+					   		},
+						    "Cancelar": function(event, ui) {
+						    	plc.jq("#indicatorRecursos").hide();
+						    	plc.jq('.esconder').hide();				       
+						        plc.jq( this ).dialog( "destroy" );
+						    }
+						}
+				    });
+				}    
+
+			
+		        function aposSelecaoModal(data) {
+		            var status = data.status;
+		            switch (status) {
+		                case "success":
+		                    var optsSel = {
+		        				$tabela: plc.jq("table#"+prefixForm+'#{plcAliasPrefixoAction}')
+		        				,urlEdicao:'#{request.contextPath}/f/n/finalizarman'
+		        				,numPorPagina: 500
+		            			,propAgregada: 'finalizar'
+		            			,nomePropAgregada: "nome"
+		            			,paramEdicao: "id"
+		        				,modoJanelaPlc:'${param.modoJanelaPlc}'
+		                	}
+							montarSelecaoSemGrid(optsSel);
+		                break;
+		            }
+		        }
+		        // Setup the statusUpdate function to hear all events on the page
+		        jsf.ajax.addOnEvent(aposSelecaoModal);
+			        
+			//]]> 
+			</script>   
+		</ui:define> 
+	</ui:composition> 
+</html>
