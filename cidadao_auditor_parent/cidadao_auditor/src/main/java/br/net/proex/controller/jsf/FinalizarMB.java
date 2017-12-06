@@ -20,8 +20,6 @@ import com.powerlogic.jcompany.domain.validation.PlcMessage;
 import br.net.proex.commons.AppBeanMessages;
 import br.net.proex.entity.HistoricoOcorrenciaEntity;
 import br.net.proex.entity.OcorrenciaEntity;
-import br.net.proex.entity.PrefeituraEntity;
-import br.net.proex.entity.SecretariadoEntity;
 import br.net.proex.enumeration.StatusOcorrencia;
 import br.net.proex.enumeration.TipoModeloDocumento;
 
@@ -84,26 +82,9 @@ public class FinalizarMB extends AbstractOcorrenciaMB  {
 	public String search() {
 		OcorrenciaEntity ocorrencia = (OcorrenciaEntity) this.getEntityPlc();
 		String retorno = "";
-		// lista que armazena as secretarias do usuario
-		List<Long> listaSecretaria = new ArrayList<Long>();
-		// verificando quais as secretarias responsaveis pelo usuario			
-		SecretariadoEntity sec = new SecretariadoEntity();
-		sec.setPessoa(userProfileVO.getUsuario().getPessoa());
-		// busca os dados da prefeitura
-		PrefeituraEntity prefeitura = facade.findPrefeituraById(contextMontaUtil.createContextParamMinimum(), 1L);
-		// se encontrou os dados
-		if (null!= prefeitura && null != prefeitura.getSecretariado() && prefeitura.getSecretariado().size() > 0){
-			// percorrendo o secretariado para verificar quais são as secretarias do usuario
-			for (SecretariadoEntity secretariado : prefeitura.getSecretariado()){				
-				if (secretariado.getPessoa().getId() == sec.getPessoa().getId()){
-					listaSecretaria.add(secretariado.getSecretaria().getId());
-				}
-			}								
-		}
-		
 		// verificando se possui alguma secretaria associada
-		if (listaSecretaria.size() > 0) {
-			ocorrencia.setListaSecretaria(listaSecretaria);		
+		if (getListaIdSecretaria().size() > 0) {
+			ocorrencia.setListaSecretaria(getListaIdSecretaria());		
 			retorno = super.search();
 		}
 		
@@ -191,13 +172,8 @@ public class FinalizarMB extends AbstractOcorrenciaMB  {
 	 */
 	private void inicializaObjetos() {
         ((OcorrenciaEntity)this.getEntityPlc()).setStatusOcorrencia(StatusOcorrencia.ENC);
-        setListaSelecionados(new ArrayList<OcorrenciaEntity>());     
-        setListaTipoOcorrencia(facade.buscaTipoPorSecretaria(contextMontaUtil.createContextParamMinimum(), alimentaListaIdSecretaria()));
-	}
-
-	private List<Long> alimentaListaIdSecretaria() {
-		// TODO Auto-generated method stub
-		return null;
+        setListaSelecionados(new ArrayList<OcorrenciaEntity>());
+        alimentaListaIdSecretaria();
 	}
 
 	/**

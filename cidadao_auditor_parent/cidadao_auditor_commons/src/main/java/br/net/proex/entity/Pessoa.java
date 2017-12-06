@@ -21,7 +21,7 @@ public abstract class Pessoa extends AppBaseEntity {
  	@GeneratedValue(strategy=GenerationType.AUTO, generator = "se_pessoa")
 	private Long id;
 
-	@NotNull
+	@NotNull(message="O campo Nome é de preenchimento obrigatório")
 	@Size(max = 120)
 	private String nome;
 			

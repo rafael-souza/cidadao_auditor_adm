@@ -23,13 +23,13 @@ public abstract class ModeloDocumento extends AppBaseEntity {
  	@GeneratedValue(strategy=GenerationType.AUTO, generator = "se_modelo_documento")
 	private Long id;
 	
-	@NotNull
+	@NotNull(message="O campo Texto é de preenchimento obrigatório")
 	@Lob	
 	@Column(length = 2147483647)
 	private String texto;
 	
 	@Enumerated(EnumType.STRING)
-	@NotNull
+	@NotNull(message="O campo Tipo é de preenchimento obrigatório")
 	@Column(length=4)
 	private TipoModeloDocumento tipo;
 

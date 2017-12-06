@@ -18,7 +18,6 @@
 					<f:param name="skipValidation" value="true" />
 				</plcf:botaoAcao>
 	        </div>
-	        
 	    </ui:define>
 	
 		<ui:define name="plc-corpo-formulario"> 
@@ -27,8 +26,11 @@
 					<plcf:tabela tituloChave="finalizararg.titulo"> 
 						<plcf:linha>
 							<plcf:celula> 
-								<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/>  
-								<plcf:comboDinamico id="tipoOcorrencia" value="#{finalizar.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 
+								<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/> 
+								 <plcf:comboDinamico id="tipoOcorrencia" value="#{finalizar.tipoOcorrencia}" 
+									dominio="TipoOcorrenciaEntity" exibeBranco="S" 
+									ajudaChave="ajuda.tipoOcorrencia"/>  
+								
 							</plcf:celula>  
 							<plcf:celula> 
 								<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
@@ -42,7 +44,6 @@
 					</plcf:tabela> 
 					
 					<plcf:tabela>
-
 						<plcf:texto id="observacaoHistorico" value="#{finalizar.observacaoHistorico}" styleClass="esconder"/>
 			
 						<plcf:botaoAcao id="botaoAcaoConcluir" acao="concluir"	styleClass="esconder"
@@ -57,6 +58,7 @@
 										ajudaChave="ajuda.observacao"/> 
 							</plcf:tabela>
 						</div>
+						
 					</plcf:tabela>	
 					
 					

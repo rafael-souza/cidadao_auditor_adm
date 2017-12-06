@@ -14,38 +14,38 @@
 		<ui:define name="plc-corpo-formulario"> 
 			<div id="plc-form-baco"> 
 				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
-					<plcf:tabela tituloChave="mapaocorrenciasarg.titulo"> 										
+					<plcf:tabela tituloChave="mapacalorarg.titulo"> 										
 						<plcf:linha> 
 							<plcf:celula> 
 								<plcf:titulo value="#{msg['label.secretaria']}"/>  
-								 <plcf:comboDinamico id="secretaria" value="#{mapaocorrencias.secretaria}" 
+								 <plcf:comboDinamico id="secretaria" value="#{mapacalor.secretaria}" 
 									dominio="SecretariaEntity" exibeBranco="S" ajudaChave="ajuda.secretaria" />
 							</plcf:celula>
 							<plcf:celula> 
 								<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/>  
-								<plcf:comboDinamico id="tipoOcorrencia" value="#{mapaocorrencias.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 								
+								<plcf:comboDinamico id="tipoOcorrencia" value="#{mapacalor.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 								
 							</plcf:celula>  
 							<plcf:celula> 							
 								<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
-								<plcf:data id="dataOcorrencia" value="#{mapaocorrencias.dataOcorrencia}" ajudaChave="ajuda.dataOcorrencia"/> 								
+								<plcf:data id="dataOcorrencia" value="#{mapacalor.dataOcorrencia}" ajudaChave="ajuda.dataOcorrencia"/> 								
 							</plcf:celula>  
 							<plcf:celula> 								
 								<plcf:titulo value="#{msg['label.dataConclusao']}"/>  
-								<plcf:data id="dataConclusao" value="#{mapaocorrencias.dataConclusao}" ajudaChave="ajuda.dataConclusao"/> 								
+								<plcf:data id="dataConclusao" value="#{mapacalor.dataConclusao}" ajudaChave="ajuda.dataConclusao"/> 								
 							</plcf:celula>  
 							<plcf:celula> 								
 								<plcf:titulo value="#{msg['label.statusOcorrencia']}"/>  
-								<plcf:comboEstatico id="statusOcorrencia" value="#{mapaocorrencias.statusOcorrencia}" dominio="StatusOcorrencia" exibeBranco="S" ajudaChave="ajuda.statusOcorrencia"/> 								
+								<plcf:comboEstatico id="statusOcorrencia" value="#{mapacalor.statusOcorrencia}" dominio="StatusOcorrencia" exibeBranco="S" ajudaChave="ajuda.statusOcorrencia"/> 								
 							</plcf:celula> 
 
 							<plcf:celula> 								
 									<plcf:titulo value="#{msg['label.protocolo']}"/>  
-									<plcf:texto id="protocolo" value="#{mapaocorrencias.protocolo}" tamanho="20" tamanhoMaximo="100" ajudaChave="ajuda.protocolo"/> 								
+									<plcf:texto id="protocolo" value="#{mapacalor.protocolo}" tamanho="20" tamanhoMaximo="100" ajudaChave="ajuda.protocolo"/> 								
 							</plcf:celula> 
 
 							<plcf:celula > 								
 								<plcf:titulo value="#{msg['label.endereco']}"/>  
-								<plcf:texto id="endereco" value="#{mapaocorrencias.endereco}" tamanho="60" tamanhoMaximo="100" ajudaChave="ajuda.endereco"/> 								
+								<plcf:texto id="endereco" value="#{mapacalor.endereco}" tamanho="60" tamanhoMaximo="100" ajudaChave="ajuda.endereco"/> 								
 							</plcf:celula> 
 
 						</plcf:linha>
@@ -65,7 +65,7 @@
 					<div id="#{plcAliasPrefixoAction}Sel" class="_plc-form-basico-sel"> 
 					<fieldset class="plc-fieldset"> 
 						<legend class="plc-fieldset-legend">Resultados</legend>  
-						<plcf:iteracao var="item" value="#{mapaocorrenciasLista.itensPlc}" styleClass="plc-table-tabsel delimitador tabelaFormulario plc-table-seljsf" columnClasses="celulaFormulario" headerClass="celulaFormulario"> 
+						<plcf:iteracao var="item" value="#{mapacalorLista.itensPlc}" styleClass="plc-table-tabsel delimitador tabelaFormulario plc-table-seljsf" columnClasses="celulaFormulario" headerClass="celulaFormulario"> 
 							<h:column> 
 								<f:facet name="header"> 
 									<span class="plc-title af_outputLabel"> 
@@ -226,51 +226,13 @@
 			 
 			    map = new google.maps.Map(document.getElementById("mapa"), options);
 
-			 	// colocando a legenda
-				var iconBase = 'http://maps.google.com/mapfiles/ms/micons/';
-		        var icons = {
-		          em_aberto: {
-		            name: 'Em Aberto',
-		            icon: iconBase + 'red-dot.png'
-		          },
-		          encaminhada: {
-		            name: 'Encaminhada',
-		            icon: iconBase + 'blue-dot.png'
-		          },
-		          em_analise: {
-		            name: 'Em Análise',
-		            icon: iconBase + 'yellow-dot.png'
-		          },
-				  concluida: {
-		            name: 'Concluída',
-		            icon: iconBase + 'green-dot.png'
-		          }
-		        };
-			
-				var legend = document.getElementById('legend');
-		        for (var key in icons) {
-					var type = icons[key];
-					var name = type.name;
-					var icon = type.icon;
-					var div = document.createElement('div');
-					div.innerHTML = '<img src="' + icon + '"> ' + name;
-					legend.appendChild(div);
-		        }
-
-		        map.controls[google.maps.ControlPosition.RIGHT_TOP].push(legend);
-
-			    colocarMarcadoresMapa();
+			    montaMapaCalor();
 			}
 			 
 			initialize();
 
-			function colocarMarcadoresMapa(){
-				var markers = [];				
-			    var infowindow = new google.maps.InfoWindow();
-			    var marker;
-			    var conteudo = "";
-			    var conteudoFoto;
-			    var foto;			    
+			function montaMapaCalor(){
+				var heatMapData = [];
 			    var listaOcorrencias = plc.jq('#corpo\\:formulario\\:item').tableToJSON();
 			    //listaOcorrencias = JSON.stringify({ ocorrencia: listaOcorrencias });			    	
 			    if (listaOcorrencias.length > 0) {  
@@ -279,125 +241,12 @@
 			            var ocorrencia = listaOcorrencias[i];
 
 			    		var latlong = new google.maps.LatLng(ocorrencia.Latitude, ocorrencia.Longitude);	
-
-			            foto = ocorrencia.FotoConteudo;            
-			            if (null != foto && foto.indexOf('image') > 0){    
-			                conteudoFoto = '<img src="' + foto + '" height="115" width="83"/>';        
-			            } else {
-			                conteudoFoto = '<img src="#{request.contextPath}/res/midia/sem_imagem.jpg" height="115" width="83"/>';
-			            }
-			            
-			            if (ocorrencia.Observação == null){
-			                ocorrencia.Observação = "";
-			            }
-
-			            var urlEdita = window.location.origin;
-			            
-			            // Variável que define o conteúdo da Info Window
-			            conteudo = '<div id="iw-container">' +
-			                    '<div class="iw-title"> Tipo: ' + ocorrencia.Tipo + ' </div>' +
-			                    '<div class="iw-content">' +
-			                      '<div class="iw-subTitle">Descrição da Ocorrência</div>' +
-			                      conteudoFoto +
-			                      '<p><b>Data: </b>' + ocorrencia.Data + '<br/>' +
-			                      '<b>Endereço: </b>' + ocorrencia.Endereço + '<br>' +
-			                      '<b>Status: </b>' + ocorrencia.Status + '<br/>' +
-			                      '<b>Observação: </b>' + ocorrencia.Observação + '<br/> </p>' +
-			                      '<div class="iw-subTitle">Protocolo</div>' +
-			                      '<p>'+ ocorrencia.Protocolo + '</p> <br/> <br/>'+
-			                      '<p><a href="' + urlEdita + '#{request.contextPath}/f/n/ocorrenciaman?id=' +  ocorrencia.Cód + '" target="_blank">Visualizar</a></p>'+                      
-			                    '</div>' +
-			                    '<div class="iw-bottom-gradient"></div>' +
-			                  '</div>';
-
-			            var titulo = "Tipo: </b>" + ocorrencia.Tipo;
-
-			            var icone;
-
-			            if (ocorrencia.Status == "Em Aberto") {
-			                icone = "http://maps.google.com/mapfiles/ms/micons/red-dot.png";                        
-			            } else if (ocorrencia.Status == "Encaminhada") {
-			                icone = "http://maps.google.com/mapfiles/ms/micons/blue-dot.png";                        
-			            } else if (ocorrencia.Status == "Em Análise") {
-			                icone = "http://maps.google.com/mapfiles/ms/micons/yellow-dot.png";                        
-			            } else {
-			                icone = "http://maps.google.com/mapfiles/ms/micons/green-dot.png";                        
-			            }
-
-			            marker = new google.maps.Marker({
-			                position: latlong,
-			                title: titulo,
-			                map: map,
-			                icon: icone
-			            });
-			            marker.html = conteudo;
-
-			            var id = ocorrencia.Cód;
-			            google.maps.event.addListener(marker, 'click', (function(marker, id) {
-			                return function() {
-			                  infowindow.setContent(this.html);
-			                  infowindow.open(map, this);
-			                }
-			            })(marker, id));
-
-			              // evento que fecha a infoWindow com click no mapa
-			            google.maps.event.addListener(map, 'click', function() {
-			                infowindow.close();
-			            });
-
-			            markers.push(marker);			            
-
-			        google.maps.event.addListener(infowindow, 'domready', function() {
-			  
-			            // Referência ao DIV que agrupa o fundo da infowindow
-			            var iwOuter = plc.jq('.gm-style-iw');
-
-			            /* Uma vez que o div pretendido está numa posição anterior ao div .gm-style-iw.
-			            * Recorremos ao jQuery e criamos uma variável iwBackground,
-			            * e aproveitamos a referência já existente do .gm-style-iw para obter o div anterior com .prev().
-			            */
-			            var iwBackground = iwOuter.prev();
-
-			            // Remover o div da sombra do fundo
-			            iwBackground.children(':nth-child(2)').css({'display' : 'none'});
-
-			            // Remover o div de fundo branco
-			            iwBackground.children(':nth-child(4)').css({'display' : 'none'});
-
-			            // Desloca a infowindow 115px para a direita
-			            iwOuter.parent().parent().css({left: '115px'});
-
-			            // Desloca a sombra da seta a 76px da margem esquerda 
-			            iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
-
-			            // Desloca a seta a 76px da margem esquerda 
-			            iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
-
-			            // Altera a cor desejada para a sombra da cauda
-			            iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
-
-			            // Referência ao DIV que agrupa os elementos do botão fechar
-			            var iwCloseBtn = iwOuter.next();
-
-			            // Aplica o efeito desejado ao botão fechar
-			            iwCloseBtn.css({opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9'});
-
-			            // Se o conteúdo da infowindow não ultrapassar a altura máxima definida, então o gradiente é removido.
-			            if(plc.jq('.iw-content').height() < 140){
-			              plc.jq('.iw-bottom-gradient').css({display: 'none'});
-			            }
-
-			            // A API aplica automaticamente 0.7 de opacidade ao botão após o evento mouseout. Esta função reverte esse evento para o valor desejado.
-			            iwCloseBtn.mouseout(function(){
-			              plc.jq(this).css({opacity: '1'});
-			            });
-			          });  
+			    		heatMapData.push(latlong);             
 			        }
-
-			    	
-			        var markerCluster = new MarkerClusterer(map, markers,
-            			{imagePath: '#{request.contextPath}/res/midia/m'});
-       			
+			    	var heatmap = new google.maps.visualization.HeatmapLayer({
+			    		  data: heatMapData
+			    		});
+			    	heatmap.setMap(map);
         					        
 			    }
 			}			
@@ -411,7 +260,7 @@
 	        				$tabela: plc.jq("table#"+prefixForm+'#{plcAliasPrefixoAction}')
 	        				,urlEdicao:'#{request.contextPath}/f/n/ocorrenciaman'
 	        				,numPorPagina: 50
-	            			,propAgregada: 'mapaocorrencias'
+	            			,propAgregada: 'mapacalor'
 	            			,nomePropAgregada: "nome"
 	            			,paramEdicao: "id"
 	        				,modoJanelaPlc:'${param.modoJanelaPlc}'
@@ -425,14 +274,14 @@
 	        jsf.ajax.addOnEvent(aposSelecaoModal);
 
 	        function visualizaListagem(){
-	        	if (plc.jq('#mapaocorrenciasSel').is(":visible") == true){
-	        		plc.jq('#mapaocorrenciasSel').hide();	
+	        	if (plc.jq('#mapacalorSel').is(":visible") == true){
+	        		plc.jq('#mapacalorSel').hide();	
 	        	} else {
-	        		plc.jq('#mapaocorrenciasSel').show();	
+	        		plc.jq('#mapacalorSel').show();	
 	        	}
 	        }	
 
-			plc.jq('#mapaocorrenciasSel').hide();	
+			plc.jq('#mapacalorSel').hide();	
 			plc.jq('.escondido').hide();
 	        plc.jq('#corpo\\:formulario\\:listagemOcorrencia').prop('checked', false);
         

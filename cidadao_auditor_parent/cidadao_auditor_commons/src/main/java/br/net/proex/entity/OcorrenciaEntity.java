@@ -57,7 +57,7 @@ import br.net.proex.enumeration.StatusOcorrencia;
 			+ "left outer join obj.pessoa as obj2 "
 			+ "left outer join obj.fotoOcorrencia as obj3 "
 			+ "left outer join obj1.secretaria as obj4 "
-			+ "order by obj.id asc"),
+			+ "order by obj.id desc"),
 	@NamedQuery(name="OcorrenciaEntity.queryMinhasTarefas", 
 	query="select obj.id as id, "
 		+ "obj1.id as tipoOcorrencia_id , "
@@ -80,7 +80,7 @@ import br.net.proex.enumeration.StatusOcorrencia;
 		+ "left outer join obj.tipoOcorrencia as obj1 "
 		+ "left outer join obj.pessoa as obj2 "
 		+ "left outer join obj1.secretaria as obj4 "
-		+ "where obj.statusOcorrencia <> 'ABE' order by obj.id asc"),		
+		+ "where obj.statusOcorrencia <> 'ABE' order by obj.id desc"),		
 	@NamedQuery(name="OcorrenciaEntity.querySelPorPessoa", 
 		query="select obj "			
 			+ "from "
@@ -91,7 +91,7 @@ import br.net.proex.enumeration.StatusOcorrencia;
 			+ "left outer join obj1.secretaria as obj4 "
 			+ "where "
 			+ "obj2.id =:idPessoa "
-			+ "order by obj.id asc"),	
+			+ "order by obj.id desc"),	
 	@NamedQuery(name="OcorrenciaEntity.querySelLookup", query="select id as id, latitude as latitude from OcorrenciaEntity where id = ? order by id asc")
 })
 public class OcorrenciaEntity extends Ocorrencia {

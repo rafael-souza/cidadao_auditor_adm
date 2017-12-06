@@ -37,7 +37,7 @@ public abstract class Prefeitura extends AppBaseEntity {
  	@GeneratedValue(strategy=GenerationType.AUTO, generator = "se_prefeitura")
 	private Long id;
 
-	@NotNull
+	@NotNull(message="O campo Nome é de preenchimento obrigatório")
 	@Size(max = 200)
 	private String nome;
 		

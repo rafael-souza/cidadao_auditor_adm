@@ -32,16 +32,16 @@ public abstract class HistoricoOcorrencia extends AppBaseEntity {
 	private OcorrenciaEntity ocorrencia;
 
 	
-	@NotNull
+	@NotNull(message="O campo Data do Histórico é de preenchimento obrigatório")
 	@PlcValRequiredIf(dependentfield="dataHistorico",targetField="observacao")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataHistorico;
 	
-	@NotNull
+	@NotNull(message="O campo Observação do Histórico é de preenchimento obrigatório")
 	@Size(max = 500)
 	private String observacao;
 	
-	@NotNull
+	@NotNull(message="O campo Responsável do Histórico é de preenchimento obrigatório")
 	@PlcValRequiredIf(dependentfield="responsavel",targetField="observacao")
 	@Size(max = 100)
 	private String responsavel;

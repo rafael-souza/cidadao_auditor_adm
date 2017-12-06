@@ -1,5 +1,6 @@
 package br.net.proex.controller.jsf;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,9 +37,30 @@ public class AbstractOcorrenciaMB extends AppMB{
 	
 	private List<OcorrenciaEntity> listaSelecionados;
 	
-	private List<TipoOcorrenciaEntity> listaTipoOcorrencia;
-	
 	private List<Long> listaIdSecretaria;
+	
+	/**
+	 * Retorna as secretarias que o usuario é resposável
+	 * @return
+	 */
+	public List<Long> alimentaListaIdSecretaria() {
+		setListaIdSecretaria(new ArrayList<Long>());
+		// verificando quais as secretarias responsaveis pelo usuario			
+		SecretariadoEntity sec = new SecretariadoEntity();
+		sec.setPessoa(userProfileVO.getUsuario().getPessoa());
+		// busca os dados da prefeitura
+		PrefeituraEntity prefeitura = facade.findPrefeituraById(contextMontaUtil.createContextParamMinimum(), 1L);
+		// se encontrou os dados
+		if (null!= prefeitura && null != prefeitura.getSecretariado() && prefeitura.getSecretariado().size() > 0){
+			// percorrendo o secretariado para verificar quais são as secretarias do usuario
+			for (SecretariadoEntity secretariado : prefeitura.getSecretariado()){				
+				if (secretariado.getPessoa().getId() == sec.getPessoa().getId()){
+					getListaIdSecretaria().add(secretariado.getSecretaria().getId());
+				}
+			}								
+		}
+		return getListaIdSecretaria();
+	}
 	
 	
 	/**
@@ -215,22 +237,6 @@ public class AbstractOcorrenciaMB extends AppMB{
 	 */
 	public void setListaSelecionados(List<OcorrenciaEntity> listaSelecionados) {
 		this.listaSelecionados = listaSelecionados;
-	}
-
-
-	/**
-	 * @return the listaTipoOcorrencia
-	 */
-	public List<TipoOcorrenciaEntity> getListaTipoOcorrencia() {
-		return listaTipoOcorrencia;
-	}
-
-
-	/**
-	 * @param listaTipoOcorrencia the listaTipoOcorrencia to set
-	 */
-	public void setListaTipoOcorrencia(List<TipoOcorrenciaEntity> listaTipoOcorrencia) {
-		this.listaTipoOcorrencia = listaTipoOcorrencia;
 	}
 
 

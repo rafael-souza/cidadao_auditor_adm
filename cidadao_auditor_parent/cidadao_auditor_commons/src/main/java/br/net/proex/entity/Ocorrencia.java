@@ -48,15 +48,15 @@ public abstract class Ocorrencia extends AppBaseEntity {
 	
 	@ManyToOne (targetEntity = PessoaEntity.class, fetch = FetchType.LAZY)
 	@ForeignKey(name="FK_OCORRENCIA_PESSOA")
-	@NotNull
+//	@NotNull(message="O campo Pessoa é de preenchimento obrigatório")
 	private PessoaEntity pessoa;
 	
 	@ManyToOne (targetEntity = TipoOcorrenciaEntity.class, fetch = FetchType.LAZY)
 	@ForeignKey(name="FK_OCORRENCIA_TIPOOCORRENCIA")
-	@NotNull
+//	@NotNull(message="O campo Tipo é de preenchimento obrigatório")
 	private TipoOcorrenciaEntity tipoOcorrencia;
 	
-	@NotNull
+//	@NotNull(message="O campo Data é de preenchimento obrigatório")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataOcorrencia;
 		
@@ -66,16 +66,16 @@ public abstract class Ocorrencia extends AppBaseEntity {
 	@Size(max = 120)
 	private String responsavelConclusao;
 	
-	@NotNull
+//	@NotNull(message="O campo Latitude é de preenchimento obrigatório")
 	@Size(max = 30)
 	private String latitude;
 	
-	@NotNull
+//	@NotNull(message="O campo Longitude é de preenchimento obrigatório")
 	@Size(max = 30)
 	private String longitude;
 	
 	@Enumerated(EnumType.STRING)
-	@NotNull
+//	@NotNull(message="O campo Status é de preenchimento obrigatório")
 	@Column(length=3)
 	private StatusOcorrencia statusOcorrencia;
 	

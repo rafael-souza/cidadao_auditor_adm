@@ -94,9 +94,10 @@
 				<fieldset class="plc-fieldset plc-fieldset-embutido">
 					<legend class="plc-fieldset-legend">Mapa da Ocorrência</legend>					
 						<plcf:linha> 							
-							<plcf:celula columnSpan="4" inlineStyle="padding-left: 1%;">		  		<center>
-									<div id="mapa" style="height: 500px; width: 1200px">
-    								</div>
+							<plcf:celula columnSpan="4" inlineStyle="padding-left: 1%;">
+								<center>
+									<div id="mapa" style="height: 500px; width: 1200px"></div>
+									<div id="legend"></div>
     							</center>		
 																
 							</plcf:celula>								
@@ -177,6 +178,41 @@
 		    };
 		 
 		    map = new google.maps.Map(document.getElementById("mapa"), options);
+
+		 	// colocando a legenda
+			var iconBase = 'http://maps.google.com/mapfiles/ms/micons/';
+	        var icons = {
+	          em_aberto: {
+	            name: 'Em Aberto',
+	            icon: iconBase + 'red-dot.png'
+	          },
+	          encaminhada: {
+	            name: 'Encaminhada',
+	            icon: iconBase + 'blue-dot.png'
+	          },
+	          em_analise: {
+	            name: 'Em Análise',
+	            icon: iconBase + 'yellow-dot.png'
+	          },
+			  concluida: {
+	            name: 'Concluída',
+	            icon: iconBase + 'green-dot.png'
+	          }
+	        };
+		
+			var legend = document.getElementById('legend');
+	        for (var key in icons) {
+				var type = icons[key];
+				var name = type.name;
+				var icon = type.icon;
+				var div = document.createElement('div');
+				div.innerHTML = '<img src="' + icon + '"> ' + name;
+				legend.appendChild(div);
+	        }
+
+	        map.controls[google.maps.ControlPosition.RIGHT_TOP].push(legend);
+
+		    
 		    colocarMarcadorMapa();
 		}
 
