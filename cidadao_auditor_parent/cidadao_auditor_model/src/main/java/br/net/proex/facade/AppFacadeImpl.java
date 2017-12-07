@@ -21,6 +21,7 @@ import br.net.proex.entity.seg.SegPerfilEntity;
 import br.net.proex.entity.seg.SegUsuarioEntity;
 import br.net.proex.entity.vo.RelChartModelTipoStatusVO;
 import br.net.proex.entity.vo.RelTipoStatusVO;
+import br.net.proex.entity.vo.RelTotalizadorTipoVO;
 import br.net.proex.enumeration.TipoModeloDocumento;
 import br.net.proex.persistence.jpa.DenunciaDAO;
 import br.net.proex.persistence.jpa.ModeloDocumentoDAO;
@@ -148,5 +149,10 @@ public class AppFacadeImpl extends PlcFacadeImpl implements IAppFacade{
 	@Override
 	public String findModeloDocumentoPorTipo(PlcBaseContextVO context, TipoModeloDocumento modelo) {
 		return modeloDocumentoDAO.findModeloDocumentoPorTipo(context, modelo);
+	}
+
+	@Override
+	public List<RelTotalizadorTipoVO> relTotalizadorTipo(PlcBaseContextVO context, RelTotalizadorTipoVO totalizadorTipo) {
+		return ocorrenciaDAO.relTotalizadorTipo(context, totalizadorTipo);
 	}
 }

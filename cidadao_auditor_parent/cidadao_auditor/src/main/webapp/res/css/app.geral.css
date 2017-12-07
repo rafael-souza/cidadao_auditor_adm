@@ -283,3 +283,32 @@ li.separador a {
 	display: inline-block;
 	margin: 0 0 5px 0px;
 }
+
+.tabela-view thead th {
+	text-align: center;
+	cursor:pointer;
+}
+
+.tabela-view tr td {
+	padding: 2px;
+	border: 1px solid #FFF;
+}	
+
+.tabela-view tr:nth-child(odd) {
+    background: inherit;  
+}
+.tabela-view tr:nth-child(even) {
+    background: threedlightshadow; 
+}
+
+.tabela-view tr:hover {
+	background: #FFFFCC;
+}	
+
+.linhaClara {
+	background: inherit !important; 
+} 
+
+.linhaEscura {
+	background: threedlightshadow !important; 
+}

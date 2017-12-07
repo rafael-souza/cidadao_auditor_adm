@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml">
+		<ui:define name="plc-corpo-formulario"> 
+			<div id="plc-form-basico"> 
+				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
+					<plcf:tabela tituloChave="reltotalizadortipoarg.titulo"> 
+						<plcf:linha> 
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.secretaria']}"/>  
+								<plcf:comboDinamico id="secretaria" value="#{reltotalizadortipo.secretaria}" dominio="SecretariaEntity" exibeBranco="S" ajudaChave="ajuda.secretaria"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.tipoOcorrencia']}"/>  
+								<plcf:comboDinamico id="tipoOcorrencia" value="#{reltotalizadortipo.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.dataInicial']}"/>  
+								<plcf:data id="dataInicial" value="#{reltotalizadortipo.dataInicial}" ajudaChave="ajuda.dataInicial"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.dataFinal']}"/>  
+								<plcf:data id="dataFinal" value="#{reltotalizadortipo.dataFinal}" ajudaChave="ajuda.dataFinal"/> 
+							</plcf:celula> 
+						</plcf:linha> 
+					</plcf:tabela> 
+				</div>
+				<div id="#{plcAliasPrefixoAction}Sel" class="_plc-form-basico-sel"> 
+					<fieldset class="plc-fieldset"> 
+						<legend class="plc-fieldset-legend">#{msg['reltotalizadortipo.titulo']}</legend>  
+						<plcf:iteracao var="item" value="#{reltotalizadortipoLista.itensPlc}" styleClass="plc-table-tabsel delimitador tabelaFormulario plc-table-seljsf tabela-view" columnClasses="celulaFormulario" headerClass="celulaFormulario"> 
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.secretaria']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.descricaoSecretaria}">secretaria</plcf:exibe> 
+							</h:column>  
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.tipoOcorrencia']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.descricaoTipo}">tipoOcorrencia</plcf:exibe> 
+							</h:column>  
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.status']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe classeCSS="status" value="#{item.status}">status</plcf:exibe> 
+							</h:column>  
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.total']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.total}">total</plcf:exibe> 
+							</h:column> 
+						</plcf:iteracao> 
+					</fieldset>  
+					<script>createLineSelection('#');</script> 
+				</div> 
+			</div>  
+			<script type="text/javascript">//<![CDATA[
+
+
+			/*	plc.jq(window).load(function(){
+					pintaLinhas();
+				});
+
+				plc.jq(documet).ready(function(){
+					pintaLinhas();
+				});
+
+				function pintaLinhas() {*/
+					plc.jq("#corpo\\:formulario\\:item tr td span.status").each(function(index, value) {     
+	                       colunaSecretaria = (plc.jq(this).parents("tr:first").find("td")[0]);
+	                       classe = "";	                       
+
+							if (colunaSecretaria.textContent == ""){
+								classe = "linhaClara";
+							} else {
+								classe = "linhaEscura";
+							}
+	                                              
+	                       plc.jq(this).parents("tr:first").addClass(classe);
+	                });  
+	            //}
+		        
+		        
+		        
+		        function aposSelecaoModal(data) {
+		            var status = data.status;
+		            switch (status) {
+		                case "success":
+		                    var optsSel = {
+		        				$tabela: plc.jq("table#"+prefixForm+'#{plcAliasPrefixoAction}')
+		        				,urlEdicao:'#{request.contextPath}/f/n/reltotalizadortipoman'
+		        				,numPorPagina: 500
+		            			,propAgregada: 'reltotalizadortipo'
+		            			,nomePropAgregada: "nome"
+		            			,paramEdicao: "id"
+		        				,modoJanelaPlc:'${param.modoJanelaPlc}'
+		                	}
+							montarSelecaoSemGrid(optsSel);
+		                break;
+		            }
+		        }
+		        // Setup the statusUpdate function to hear all events on the page
+		        jsf.ajax.addOnEvent(aposSelecaoModal);
+
+
+
+		//]]> 
+		</script>  
+			
+		</ui:define> 
+	</ui:composition> 
+</html>

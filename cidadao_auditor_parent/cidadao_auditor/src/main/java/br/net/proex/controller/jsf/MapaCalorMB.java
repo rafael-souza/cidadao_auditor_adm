@@ -29,7 +29,7 @@ import br.net.proex.entity.PrefeituraEntity;
 	formPattern=FormPattern.Con,
 	formLayout = @PlcConfigFormLayout(dirBase="/WEB-INF/fcls/mapacalor"),
 	selection = @com.powerlogic.jcompany.config.collaboration.PlcConfigSelection(			
-			pagination = @com.powerlogic.jcompany.config.collaboration.PlcConfigPagination(numberByPage=50))
+			pagination = @com.powerlogic.jcompany.config.collaboration.PlcConfigPagination(numberByPage=50000000))
 )
 
 
@@ -61,8 +61,6 @@ public class MapaCalorMB extends AppMB  {
          if (this.entityPlc==null) {
               this.entityPlc = new OcorrenciaEntity();
               this.newEntity();
-              // criando os marcadores
-              alimentaMarcadoresMapa();
               
               // pegando a latitude e longitude da cidade
               PrefeituraEntity prefeitura = new PrefeituraEntity();
@@ -91,45 +89,10 @@ public class MapaCalorMB extends AppMB  {
 		return this.entityListPlc;
 	}		
 	
+
 	/**
 	 * 
 	 */
-	@Override
-	public String search() {		
-		String retorno = super.search();
-		alimentaMarcadoresMapa();		
-		return retorno;
-	}
-	
-	/**
-	 * 
-	 */
-	private void alimentaMarcadoresMapa() {
-		if (null != this.entityListPlc && null != this.entityListPlc.getItensPlc()){
-			// recuperando a lista com os resultados
-			List<OcorrenciaEntity> listaOcorrencia = (List<OcorrenciaEntity>)(Object) this.entityListPlc.getItensPlc();
-			// verificando se tem algum resultado
-//			if (null != listaOcorrencia && listaOcorrencia.size() > 0){
-//						
-//				// percorre a lista para a montagem da lista dos pontos do mapa
-//				for (OcorrenciaEntity ocorrencia : listaOcorrencia){
-//			        
-//					if (null != ocorrencia.getFotoOcorrencia() && null != ocorrencia.getFotoOcorrencia().getId()){
-//						ocorrencia.setFotoOcorrencia((FotoOcorrencia) facade.downloadFile(contextMontaUtil.createContextParamMinimum(),
-//								FotoOcorrencia.class, ocorrencia.getFotoOcorrencia().getId()));
-//																
-//						StringBuilder sb = new StringBuilder();
-//						sb.append("data:image/png;base64,");
-//						sb.append(Base64.getEncoder().encodeToString(ocorrencia.getFotoOcorrencia().getBinaryContent().getBinaryContent()));
-//						ocorrencia.setConteudoBinarioFoto(sb.toString());											
-//					} 
-//			        
-//				}
-//			}
-		}		
-	}	
-	
-	
 	@Override
 	public String clearArgs() {
 		String retorno = super.clearArgs();

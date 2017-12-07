@@ -18,11 +18,13 @@ import com.powerlogic.jcompany.persistence.jpa.PlcQueryOrderBy;
 import com.powerlogic.jcompany.persistence.jpa.PlcQueryParameter;
 import com.powerlogic.jcompany.persistence.jpa.PlcQueryService;
 
+import br.net.proex.commons.AppConstants;
 import br.net.proex.entity.OcorrenciaEntity;
 import br.net.proex.entity.SecretariaEntity;
 import br.net.proex.entity.TipoOcorrenciaEntity;
 import br.net.proex.entity.vo.RelChartModelTipoStatusVO;
 import br.net.proex.entity.vo.RelTipoStatusVO;
+import br.net.proex.entity.vo.RelTotalizadorTipoVO;
 import br.net.proex.enumeration.StatusOcorrencia;
 import br.net.proex.utils.DateTimeUtils;
 /**
@@ -292,6 +294,85 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 			return null;
 		}
 	}
+	
+	/**
+	 * 
+	 * @param context
+	 * @param totalizadorTipo
+	 * @return
+	 */
+	public List<RelTotalizadorTipoVO> relTotalizadorTipo(PlcBaseContextVO context, RelTotalizadorTipoVO totalizadorTipo) {
+		EntityManager em = this.getEntityManager(context);
 		
+		// Criando a sql de consulta dos dados
+		StringBuilder sql = new StringBuilder();
+		sql.append("select "); 
+		sql.append("sc.nome, ");
+		sql.append("tp.descricao, ");
+		sql.append("case oc.status_ocorrencia "); 
+		sql.append("when 'ABE' then 'Em Aberto' ");
+		sql.append("when 'ENC' then 'Encaminhada' ");
+		sql.append("when 'ANA' then 'Em Análise' ");
+		sql.append("when 'CON' then 'Concluída' ");
+		sql.append("end as status_ocorrencia, ");
+		sql.append("count(oc.id) as total ");
+		sql.append("from "); 
+		sql.append("ocorrencia oc ");
+		sql.append("left join tipo_ocorrencia tp on (oc.tipo_ocorrencia = tp.id) ");
+		sql.append("left join secretaria sc on (tp.secretaria = sc.id) ");
+		sql.append("where 1 = 1 ");
+		
+		// verificando se é para filtrar por secretaria
+		if (null != totalizadorTipo.getSecretaria()){
+			sql.append("and sc.id = " + totalizadorTipo.getSecretaria().getId() + " ");
+		}
+		
+		// verificando se é para filtrar por tipo de ocorrencia
+		if (null != totalizadorTipo.getTipoOcorrencia()){
+			sql.append("and tp.id = " + totalizadorTipo.getTipoOcorrencia().getId() + " ");
+		}
+		
+		// verificando se é para filtrar por data inicial
+		if (null != totalizadorTipo.getDataInicial()){
+			sql.append("and oc.data_ocorrencia >= '" + 
+					DateTimeUtils.formataData(totalizadorTipo.getDataInicial(), AppConstants.formatoUSA)  + " 00:00:00' ");
+		}
+		
+		// verificando se é para filtrar por data final
+		if (null != totalizadorTipo.getDataFinal()){
+			sql.append("and oc.data_ocorrencia <= '" + 
+					DateTimeUtils.formataData(totalizadorTipo.getDataFinal(), AppConstants.formatoUSA)  + " 23:59:59' ");
+		}
+		
+		sql.append("group by oc.tipo_ocorrencia, oc.status_ocorrencia ");
+		sql.append("order by sc.nome, tp.descricao ");
+			
+		List<RelTotalizadorTipoVO> listaRetorno = new ArrayList<RelTotalizadorTipoVO>();
+		List<Object[]> lista = em.createNativeQuery(sql.toString()).getResultList();
+		
+		// armazena o total de registros
+		Long i = 0L;
+		// percorrendo os resultados da busca
+		Iterator<Object[]> ite = lista.iterator();
+		
+		String descricaoAnterior = "";
+		while (ite.hasNext()) {
+			Object[] result = (Object[]) ite.next();
+			
+			RelTotalizadorTipoVO totalTip = new RelTotalizadorTipoVO();
+			if (descricaoAnterior.isEmpty() || !descricaoAnterior.equals(String.valueOf(result[0]))){
+				totalTip.setDescricaoSecretaria(String.valueOf(result[0]));
+				descricaoAnterior = totalTip.getDescricaoSecretaria(); 
+			}
+			totalTip.setDescricaoTipo(String.valueOf(result[1]));
+			totalTip.setStatus(String.valueOf(result[2]));
+			totalTip.setTotal(Long.valueOf(String.valueOf(result[3])));
+			
+			listaRetorno.add(totalTip);
+		}
+
+		return listaRetorno;		
+		
+	}
 	
 }
