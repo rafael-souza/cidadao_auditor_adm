@@ -29,9 +29,13 @@
 								<plcf:comboDinamico id="tipoOcorrencia" value="#{ocorrencia.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 								
 							</plcf:celula>  
 							<plcf:celula> 								
-								<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
+								<plcf:titulo value="#{msg['label.dataInicial']}"/>  
 								<plcf:data id="dataOcorrencia" value="#{ocorrencia.dataOcorrencia}" ajudaChave="ajuda.dataOcorrencia"/> 								
 							</plcf:celula>  
+							<plcf:celula> 								
+								<plcf:titulo value="#{msg['label.dataFinal']}"/>  
+								<plcf:data id="dataFinal" value="#{ocorrencia.dataFinal}" ajudaChave="ajuda.dataFinal"/> 								
+							</plcf:celula> 
 
 							<plcf:celula> 								
 								<plcf:titulo value="#{msg['label.statusOcorrencia']}"/>  
@@ -72,7 +76,7 @@
 					'#{msg['label.endereco']}'],
 				colModel:[
 					{name:'id',index:'id', align: "center" , width: 40},
-					{name:'tipoOcorrencia',index:'tipoOcorrencia', align: "center" , width: 60},
+					{name:'tipoOcorrencia',index:'tipoOcorrencia', align: "center" , width: 80},
 					{name:'dataOcorrencia',index:'dataOcorrencia',align: "center" , width: 60},
 					{name:'statusOcorrencia',index:'statusOcorrencia',align: "center" , width: 60},
 					{name:'protocolo',index:'protocolo',align: "center" , width: 110},

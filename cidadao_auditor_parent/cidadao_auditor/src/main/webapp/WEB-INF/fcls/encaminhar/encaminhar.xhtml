@@ -56,9 +56,13 @@
 								<plcf:comboDinamico id="tipoOcorrencia" value="#{encaminhar.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 
 							</plcf:celula>  
 							<plcf:celula> 
-								<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
-								<plcf:data id="dataOcorrencia" value="#{encaminhar.dataOcorrencia}" ajudaChave="ajuda.dataOcorrencia"/> 
+								<plcf:titulo value="#{msg['label.dataInicial']}"/>  
+								<plcf:data id="dataOcorrencia" value="#{encaminhar.dataOcorrencia}" ajudaChave="ajuda.dataInicial"/> 
 							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.dataFinal']}"/>  
+								<plcf:data id="dataFinal" value="#{encaminhar.dataFinal}" ajudaChave="ajuda.dataFinal"/> 
+							</plcf:celula> 
 							<plcf:celula> 
 								<plcf:titulo value="#{msg['label.endereco']}"/>  
 								<plcf:texto id="endereco" value="#{encaminhar.endereco}" tamanho="60" tamanhoMaximo="100" ajudaChave="ajuda.endereco"/> 

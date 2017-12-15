@@ -17,13 +17,13 @@ import com.powerlogic.jcompany.controller.rest.conversors.IPlcRestRendererUtil;
 
 @SPlcConversor
 @QPlcControllerName("mobile")
-@QPlcConversorMediaType( { "application.mob/json", "*/*"})
+@QPlcConversorMediaType( { "application.mob/json", "*/*", "charset=UTF-8"})
 @QPlcConversorToController(type=MobileController.class)
 public class MobileConversor<C> extends MobileJsonConversor<C> {
 	
 	@Inject
 	@QPlcDefault
-	@QPlcConversorMediaType( { "application.mob/json", "*/*"})
+	@QPlcConversorMediaType("application.mob/json")
 	private IPlcRestRendererUtil restRendererUtil;
 	
 	/**

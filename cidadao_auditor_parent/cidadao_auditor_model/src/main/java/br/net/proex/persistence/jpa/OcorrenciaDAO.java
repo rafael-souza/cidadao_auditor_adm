@@ -24,6 +24,7 @@ import br.net.proex.entity.SecretariaEntity;
 import br.net.proex.entity.TipoOcorrenciaEntity;
 import br.net.proex.entity.vo.RelChartModelTipoStatusVO;
 import br.net.proex.entity.vo.RelTipoStatusVO;
+import br.net.proex.entity.vo.RelTotalizadorSecretariaVO;
 import br.net.proex.entity.vo.RelTotalizadorTipoVO;
 import br.net.proex.enumeration.StatusOcorrencia;
 import br.net.proex.utils.DateTimeUtils;
@@ -47,6 +48,7 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 			@PlcQueryParameter(name="id", expression="obj.id = :id") Long id,
 			@PlcQueryParameter(name="tipoOcorrencia", expression="obj1 = :tipoOcorrencia") TipoOcorrenciaEntity tipoOcorrencia,
 			@PlcQueryParameter(name="dataOcorrencia", expression="obj.dataOcorrencia >= :dataOcorrencia  ") Date dataOcorrencia,
+			@PlcQueryParameter(name="dataFinal", expression="obj.dataOcorrencia <= :dataFinal  ") Date dataFinal,
 			@PlcQueryParameter(name="dataConclusao", expression="obj.dataConclusao >= :dataConclusao  ") Date dataConclusao,
 			@PlcQueryParameter(name="endereco", expression="obj.endereco like '%' || :endereco || '%' ") String endereco,
 			@PlcQueryParameter(name="statusOcorrencia", expression="obj.statusOcorrencia = :statusOcorrencia") StatusOcorrencia statusOcorrencia,
@@ -63,6 +65,7 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 			@PlcQueryParameter(name="id", expression="obj.id = :id") Long id,
 			@PlcQueryParameter(name="tipoOcorrencia", expression="obj1 = :tipoOcorrencia") TipoOcorrenciaEntity tipoOcorrencia,
 			@PlcQueryParameter(name="dataOcorrencia", expression="obj.dataOcorrencia = :dataOcorrencia  ") Date dataOcorrencia,
+			@PlcQueryParameter(name="dataFinal", expression="obj.dataOcorrencia <= :dataFinal  ") Date dataFinal,
 			@PlcQueryParameter(name="dataConclusao", expression="obj.dataConclusao = :dataConclusao  ") Date dataConclusao,
 			@PlcQueryParameter(name="endereco", expression="obj.endereco like '%' || :endereco || '%' ") String endereco,
 			@PlcQueryParameter(name="statusOcorrencia", expression="obj.statusOcorrencia = :statusOcorrencia") StatusOcorrencia statusOcorrencia,
@@ -373,6 +376,72 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 
 		return listaRetorno;		
 		
+	}
+
+	public List<RelTotalizadorSecretariaVO> relTotalizadorSecretaria(PlcBaseContextVO context, RelTotalizadorSecretariaVO totalizadorSecretaria) {
+		EntityManager em = this.getEntityManager(context);
+		
+		// Criando a sql de consulta dos dados
+		StringBuilder sql = new StringBuilder();
+		sql.append("select "); 
+		sql.append("sc.nome, ");
+		sql.append("case oc.status_ocorrencia "); 
+		sql.append("when 'ABE' then 'Em Aberto' ");
+		sql.append("when 'ENC' then 'Encaminhada' ");
+		sql.append("when 'ANA' then 'Em Análise' ");
+		sql.append("when 'CON' then 'Concluída' ");
+		sql.append("end as status_ocorrencia, ");
+		sql.append("count(oc.id) as total ");
+		sql.append("from "); 
+		sql.append("ocorrencia oc ");
+		sql.append("left join tipo_ocorrencia tp on (oc.tipo_ocorrencia = tp.id) ");
+		sql.append("left join secretaria sc on (tp.secretaria = sc.id) ");
+		sql.append("where 1 = 1 ");
+		
+		// verificando se é para filtrar por secretaria
+		if (null != totalizadorSecretaria.getSecretaria()){
+			sql.append("and sc.id = " + totalizadorSecretaria.getSecretaria().getId() + " ");
+		}
+		
+		// verificando se é para filtrar por data inicial
+		if (null != totalizadorSecretaria.getDataInicial()){
+			sql.append("and oc.data_ocorrencia >= '" + 
+					DateTimeUtils.formataData(totalizadorSecretaria.getDataInicial(), AppConstants.formatoUSA)  + " 00:00:00' ");
+		}
+		
+		// verificando se é para filtrar por data final
+		if (null != totalizadorSecretaria.getDataFinal()){
+			sql.append("and oc.data_ocorrencia <= '" + 
+					DateTimeUtils.formataData(totalizadorSecretaria.getDataFinal(), AppConstants.formatoUSA)  + " 23:59:59' ");
+		}
+		
+		sql.append("group by sc.id, oc.status_ocorrencia ");
+		sql.append("order by sc.nome, tp.descricao ");
+			
+		List<RelTotalizadorSecretariaVO> listaRetorno = new ArrayList<RelTotalizadorSecretariaVO>();
+		List<Object[]> lista = em.createNativeQuery(sql.toString()).getResultList();
+		
+		// armazena o total de registros
+		Long i = 0L;
+		// percorrendo os resultados da busca
+		Iterator<Object[]> ite = lista.iterator();
+		
+		String descricaoAnterior = "";
+		while (ite.hasNext()) {
+			Object[] result = (Object[]) ite.next();
+			
+			RelTotalizadorSecretariaVO totalSec = new RelTotalizadorSecretariaVO();
+			if (descricaoAnterior.isEmpty() || !descricaoAnterior.equals(String.valueOf(result[0]))){
+				totalSec.setDescricaoSecretaria(String.valueOf(result[0]));
+				descricaoAnterior = totalSec.getDescricaoSecretaria(); 
+			}
+			totalSec.setStatus(String.valueOf(result[1]));
+			totalSec.setTotal(Long.valueOf(String.valueOf(result[2])));
+			
+			listaRetorno.add(totalSec);
+		}
+
+		return listaRetorno;
 	}
 	
 }

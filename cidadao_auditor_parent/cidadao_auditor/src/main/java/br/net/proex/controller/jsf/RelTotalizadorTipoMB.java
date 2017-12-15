@@ -30,7 +30,7 @@ import com.powerlogic.jcompany.config.aggregation.PlcConfigAggregation;
 	formPattern=FormPattern.Con,
 	formLayout = @PlcConfigFormLayout(dirBase="/WEB-INF/fcls/reltotalizadortipo"),
 	selection = @com.powerlogic.jcompany.config.collaboration.PlcConfigSelection(
-				pagination = @com.powerlogic.jcompany.config.collaboration.PlcConfigPagination(numberByPage=500))
+				pagination = @com.powerlogic.jcompany.config.collaboration.PlcConfigPagination(numberByPage=500000))
 )
 
 

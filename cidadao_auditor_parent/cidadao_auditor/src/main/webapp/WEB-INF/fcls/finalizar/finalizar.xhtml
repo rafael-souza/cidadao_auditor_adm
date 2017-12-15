@@ -33,9 +33,13 @@
 								
 							</plcf:celula>  
 							<plcf:celula> 
-								<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
-								<plcf:data id="dataOcorrencia" value="#{finalizar.dataOcorrencia}" ajudaChave="ajuda.dataOcorrencia"/> 
+								<plcf:titulo value="#{msg['label.dataInicial']}"/>  
+								<plcf:data id="dataOcorrencia" value="#{finalizar.dataOcorrencia}" ajudaChave="ajuda.dataIncial"/> 
 							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.dataFinal']}"/>  
+								<plcf:data id="dataFinal" value="#{finalizar.dataFinal}" ajudaChave="ajuda.dataFinal"/> 
+							</plcf:celula> 
 							<plcf:celula> 
 								<plcf:titulo value="#{msg['label.endereco']}"/>  
 								<plcf:texto id="endereco" value="#{finalizar.endereco}" tamanho="60" tamanhoMaximo="100" ajudaChave="ajuda.endereco"/> 
@@ -170,6 +174,18 @@
 		        }
 		        // Setup the statusUpdate function to hear all events on the page
 		        jsf.ajax.addOnEvent(aposSelecaoModal);
+
+				/**
+				 * Seleciona (marca/desmarca) todos os checkbox
+				 */
+				function selecionaTodosCheckbox(elemento) {
+					if (plc.jq(elemento).attr('checked') == 'checked'){
+						plc.jq(':checkbox').each(function(){this.checked=true});
+					}else{
+						plc.jq(':checkbox').each(function(){this.checked=false});
+					}
+				}
+		        
 			        
 			//]]> 
 			</script>   

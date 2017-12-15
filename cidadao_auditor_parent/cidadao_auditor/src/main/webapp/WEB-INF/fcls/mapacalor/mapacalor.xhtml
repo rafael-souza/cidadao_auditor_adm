@@ -26,9 +26,14 @@
 								<plcf:comboDinamico id="tipoOcorrencia" value="#{mapacalor.tipoOcorrencia}" dominio="TipoOcorrenciaEntity" exibeBranco="S" ajudaChave="ajuda.tipoOcorrencia"/> 								
 							</plcf:celula>  
 							<plcf:celula> 							
-								<plcf:titulo value="#{msg['label.dataOcorrencia']}"/>  
-								<plcf:data id="dataOcorrencia" value="#{mapacalor.dataOcorrencia}" ajudaChave="ajuda.dataOcorrencia"/> 								
+								<plcf:titulo value="#{msg['label.dataInicial']}"/>  
+								<plcf:data id="dataOcorrencia" value="#{mapacalor.dataOcorrencia}" ajudaChave="ajuda.dataInicial"/> 								
+							</plcf:celula>
+							<plcf:celula> 							
+								<plcf:titulo value="#{msg['label.dataFinal']}"/>  
+								<plcf:data id="dataFinal" value="#{mapacalor.dataFinal}" ajudaChave="ajuda.dataFinal"/> 								
 							</plcf:celula>  
+							  
 							<plcf:celula> 								
 								<plcf:titulo value="#{msg['label.dataConclusao']}"/>  
 								<plcf:data id="dataConclusao" value="#{mapacalor.dataConclusao}" ajudaChave="ajuda.dataConclusao"/> 								
@@ -49,15 +54,6 @@
 							</plcf:celula> 
 
 						</plcf:linha>
-						
-
-	
-
-						<!--	<plcf:celula> 
-								<plcf:titulo value="Listagem de Ocorrências"/>  							
-        						<plcf:caixaMarcacao id="listagemOcorrencia" value="#{plcAction.listagemOcorrencia}" onclick="visualizaListagem()" />		
-        					</plcf:celula>				-->
-
 						
 					</plcf:tabela> 
 					 
@@ -166,32 +162,9 @@
 								</f:facet>  
 								<plcf:exibe value="#{item.observacao}">observacao</plcf:exibe> 
 							</h:column>		
-							<h:column> 	
-								<f:facet name="header"> 
-									<span class="plc-title af_outputLabel"> 
-										<h:outputText value="Foto"/> 
-									</span> 
-								</f:facet>  
-
-								<img src='#{item.conteudoBinarioFoto}' height="115" width="83"/>								
-							</h:column>	
-
-							<h:column styleClass="escondido"> 	
-								<f:facet name="header"> 
-									<span class="plc-title af_outputLabel"> 
-										<h:outputText value="FotoConteudo"/> 
-									</span> 
-								</f:facet>  
-
-								<plcf:exibe value='#{item.conteudoBinarioFoto}'/>								
-							</h:column>								
-
-
-												
 							
 						</plcf:iteracao> 
 					</fieldset>  
-						<script>createLineSelection('#{request.contextPath}/f/n/ocorrenciaman');</script> 
 					</div> 		
 				</div>				
 
@@ -202,7 +175,6 @@
 							<plcf:celula columnSpan="5" inlineStyle="padding-left: 1%;">	
 								<center>
 									<div id="mapa" style="height: 500px; width: 1200px"></div>
-    								<div id="legend"></div>
     							</center>
 							</plcf:celula>
 						</plcf:linha>
@@ -286,9 +258,6 @@
 	        plc.jq('#corpo\\:formulario\\:listagemOcorrencia').prop('checked', false);
         
 		//]]> </script>  
-			<div id="#{plcAliasPrefixoAction}Nav" class="plc-navegacao"> 
-				<ui:include src="/WEB-INF/fcls-plc/geralPaginacaoLogicaItens.xhtml"/> 
-			</div> 			
 		</ui:define>
 	</ui:composition> 
 </html>

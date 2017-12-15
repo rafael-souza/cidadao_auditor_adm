@@ -17,6 +17,7 @@ import br.net.proex.entity.seg.SegPerfilEntity;
 import br.net.proex.entity.seg.SegUsuarioEntity;
 import br.net.proex.entity.vo.RelChartModelTipoStatusVO;
 import br.net.proex.entity.vo.RelTipoStatusVO;
+import br.net.proex.entity.vo.RelTotalizadorSecretariaVO;
 import br.net.proex.entity.vo.RelTotalizadorTipoVO;
 import br.net.proex.enumeration.TipoModeloDocumento;
 
@@ -55,5 +56,7 @@ public interface IAppFacade extends IPlcFacade{
 	String findModeloDocumentoPorTipo(PlcBaseContextVO context, TipoModeloDocumento modelo);
 
 	List<RelTotalizadorTipoVO> relTotalizadorTipo(PlcBaseContextVO context, RelTotalizadorTipoVO totalizadorTipo);
+
+	List<RelTotalizadorSecretariaVO> relTotalizadorSecretaria(PlcBaseContextVO context, RelTotalizadorSecretariaVO totalizadorSecretaria);
 	
 }

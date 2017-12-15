@@ -56,7 +56,7 @@ import net.sf.json.JSONObject;
  * @since dez/2010
  */
 @SPlcConversor
-@QPlcConversorMediaType( { "application.mob/json", "*/*" })
+@QPlcConversorMediaType( { "application.mob/json", "*/*", "charset=UTF-8"})
 @SuppressWarnings("unchecked")
 public class MobileJsonConversor<C> extends PlcJsonConversor<C> {
 	
@@ -105,7 +105,7 @@ public class MobileJsonConversor<C> extends PlcJsonConversor<C> {
 			
 			if (inputStream != null) {
 				
-				String stringJSON = URLDecoder.decode(IOUtils.toString(inputStream), "UTF-8");
+				String stringJSON = URLDecoder.decode(IOUtils.toString(inputStream, "UTF-8"));
 				
 				JSONObject objectJSON = JSONObject.fromObject(stringJSON);
 				

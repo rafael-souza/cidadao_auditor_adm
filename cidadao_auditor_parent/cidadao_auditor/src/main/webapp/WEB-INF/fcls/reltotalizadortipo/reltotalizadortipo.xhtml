@@ -77,31 +77,18 @@
 			</div>  
 			<script type="text/javascript">//<![CDATA[
 
+				plc.jq("#corpo\\:formulario\\:item tr td span.status").each(function(index, value) {     
+                       colunaSecretaria = (plc.jq(this).parents("tr:first").find("td")[0]);
+                       classe = "";	                       
 
-			/*	plc.jq(window).load(function(){
-					pintaLinhas();
-				});
-
-				plc.jq(documet).ready(function(){
-					pintaLinhas();
-				});
-
-				function pintaLinhas() {*/
-					plc.jq("#corpo\\:formulario\\:item tr td span.status").each(function(index, value) {     
-	                       colunaSecretaria = (plc.jq(this).parents("tr:first").find("td")[0]);
-	                       classe = "";	                       
-
-							if (colunaSecretaria.textContent == ""){
-								classe = "linhaClara";
-							} else {
-								classe = "linhaEscura";
-							}
-	                                              
-	                       plc.jq(this).parents("tr:first").addClass(classe);
-	                });  
-	            //}
-		        
-		        
+						if (colunaSecretaria.textContent == ""){
+							classe = "linhaClara";
+						} else {
+							classe = "linhaEscura";
+						}
+                                              
+                       plc.jq(this).parents("tr:first").addClass(classe);
+                });  
 		        
 		        function aposSelecaoModal(data) {
 		            var status = data.status;
@@ -123,11 +110,11 @@
 		        // Setup the statusUpdate function to hear all events on the page
 		        jsf.ajax.addOnEvent(aposSelecaoModal);
 
-
-
 		//]]> 
 		</script>  
-			
+		<div id="#{plcAliasPrefixoAction}Nav" class="plc-navegacao"> 
+			<ui:include src="/WEB-INF/fcls-plc/geralPaginacaoLogicaItens.xhtml"/> 
+		</div>
 		</ui:define> 
 	</ui:composition> 
 </html>

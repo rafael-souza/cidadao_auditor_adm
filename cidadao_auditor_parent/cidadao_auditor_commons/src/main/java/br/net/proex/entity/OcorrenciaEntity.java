@@ -2,6 +2,7 @@ package br.net.proex.entity;
 
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Access;
@@ -127,6 +128,9 @@ public class OcorrenciaEntity extends Ocorrencia {
 	
 	@Transient
 	private SecretariaEntity secretaria;
+	
+	@Transient
+	private Date dataFinal;
 	
     /*
      * Construtor padrao
@@ -344,6 +348,18 @@ public class OcorrenciaEntity extends Ocorrencia {
 	 */
 	public void setSecretaria(SecretariaEntity secretaria) {
 		this.secretaria = secretaria;
+	}
+	/**
+	 * @return the dataFinal
+	 */
+	public Date getDataFinal() {
+		return dataFinal;
+	}
+	/**
+	 * @param dataFinal the dataFinal to set
+	 */
+	public void setDataFinal(Date dataFinal) {
+		this.dataFinal = dataFinal;
 	}
 
 
