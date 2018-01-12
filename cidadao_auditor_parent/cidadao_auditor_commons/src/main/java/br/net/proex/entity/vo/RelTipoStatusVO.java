@@ -22,6 +22,8 @@ public class RelTipoStatusVO {
 	
 	private Date dataFiltro;
 	
+	private Date dataFinal;
+	
 	private TipoGrafico tipoGrafico;
 	
 	// dados referente ao gráfico
@@ -127,6 +129,20 @@ public class RelTipoStatusVO {
 	 */
 	public void setSecretaria(SecretariaEntity secretaria) {
 		this.secretaria = secretaria;
+	}
+
+	/**
+	 * @return the dataFinal
+	 */
+	public Date getDataFinal() {
+		return dataFinal;
+	}
+
+	/**
+	 * @param dataFinal the dataFinal to set
+	 */
+	public void setDataFinal(Date dataFinal) {
+		this.dataFinal = dataFinal;
 	}
 
 }

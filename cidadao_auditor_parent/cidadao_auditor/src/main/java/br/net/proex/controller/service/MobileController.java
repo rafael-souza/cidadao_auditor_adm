@@ -33,6 +33,8 @@ import br.net.proex.entity.FotoOcorrencia;
 import br.net.proex.entity.HistoricoOcorrenciaEntity;
 import br.net.proex.entity.OcorrenciaEntity;
 import br.net.proex.entity.ParametrosAplicacaoEntity;
+import br.net.proex.entity.PesquisaEntity;
+import br.net.proex.entity.PesquisaOpcaoEntity;
 import br.net.proex.entity.PessoaEntity;
 import br.net.proex.entity.PrefeituraEntity;
 import br.net.proex.entity.SecretariadoEntity;
@@ -138,6 +140,18 @@ public class MobileController<E, I> extends PlcBaseDynamicController<E, I> {
 			// setando a pessoa com os dados alterados no entity
 			setEntity((E) pessoa);
 		}
+		
+		// verificando se é uma votação de pesquisa
+		if (getEntity() instanceof PesquisaOpcaoEntity){
+			PesquisaOpcaoEntity pesquisaOpcao = facade.findPesquisaOpcaoById(contextMontaUtil.createContextParamMinimum(), getIdPesquisaOpcao());
+			if (null == pesquisaOpcao.getVotos()){
+				pesquisaOpcao.setVotos(0L);
+			}
+			pesquisaOpcao.setVotos(pesquisaOpcao.getVotos() + 1);
+			// setando a pesquisa opção com o voto a mais no entity
+			setEntity((E) pesquisaOpcao);
+		}
+		
 		super.updateBefore();
 	}
 	
@@ -378,6 +392,20 @@ public class MobileController<E, I> extends PlcBaseDynamicController<E, I> {
 				((HistoricoOcorrenciaEntity) this.getEntity()).setOcorrencia(ocorrencia);
 			}
 			
+			// verificando se é para buscar as opções de uma pesquisa
+			if (getEntity() instanceof PesquisaOpcaoEntity){
+				
+				// se é para atualizar a pesquisa
+				if (getAtualizarPesquisaOpcao()){
+					super.update();
+				} else {
+					PesquisaEntity pesquisa = new PesquisaEntity();
+					pesquisa.setId(getIdPesquisa());
+					((PesquisaOpcaoEntity)this.getEntity()).setPesquisa(pesquisa);
+				}
+				
+			}
+			
 			
 			// recupera coleção sem paginação
 			retrieveCollectionBefore();						
@@ -413,6 +441,11 @@ public class MobileController<E, I> extends PlcBaseDynamicController<E, I> {
 		}
 	}
 
+	/**
+	 * 
+	 * @param listaOcorrencias
+	 * @return
+	 */
 	private Collection<E> ajustarFoto(Collection listaOcorrencias) {
 		List<OcorrenciaEntity> lista = (List<OcorrenciaEntity>) listaOcorrencias;
 		List<OcorrenciaEntity> listaRetorno = new ArrayList<OcorrenciaEntity>();
@@ -452,6 +485,14 @@ public class MobileController<E, I> extends PlcBaseDynamicController<E, I> {
 	private Boolean getAlterarSenhaToken(){
 		return (token.indexOf("alterarSenha")) == -1 ? Boolean.FALSE : Boolean.TRUE ;
 	}
+	
+	/**
+	 * Retorna se é para alterar a senha ou nao
+	 * @return
+	 */
+	private Boolean getAtualizarPesquisaOpcao(){
+		return (token.indexOf("votar")) == -1 ? Boolean.FALSE : Boolean.TRUE ;
+	}
 
 	/**
 	 * Retorna o usuário que está acessando o sistema
@@ -459,6 +500,22 @@ public class MobileController<E, I> extends PlcBaseDynamicController<E, I> {
 	 */
 	private String getUsuarioToken() {
 		return token.substring(token.indexOf("(") + 1, token.lastIndexOf(")"));
+	}
+	
+	/**
+	 * Retorna o id da pesquisa desejada
+	 * @return
+	 */
+	private Long getIdPesquisa() {
+		return Long.valueOf(token.substring(token.indexOf("pesquisa=") + 9));
+	}
+	
+	/**
+	 * Retorna o id da pesquisa opcao desejada
+	 * @return
+	 */
+	private Long getIdPesquisaOpcao() {
+		return Long.valueOf(token.substring(token.indexOf("votar=") + 6));
 	}
 	
 	/**

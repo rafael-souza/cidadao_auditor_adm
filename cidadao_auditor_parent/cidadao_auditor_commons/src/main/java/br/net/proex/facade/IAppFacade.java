@@ -7,6 +7,7 @@ import com.powerlogic.jcompany.commons.facade.IPlcFacade;
 
 import br.net.proex.entity.DenunciaEntity;
 import br.net.proex.entity.OcorrenciaEntity;
+import br.net.proex.entity.PesquisaOpcaoEntity;
 import br.net.proex.entity.PessoaEntity;
 import br.net.proex.entity.PrefeituraEntity;
 import br.net.proex.entity.SecretariaEntity;
@@ -58,5 +59,9 @@ public interface IAppFacade extends IPlcFacade{
 	List<RelTotalizadorTipoVO> relTotalizadorTipo(PlcBaseContextVO context, RelTotalizadorTipoVO totalizadorTipo);
 
 	List<RelTotalizadorSecretariaVO> relTotalizadorSecretaria(PlcBaseContextVO context, RelTotalizadorSecretariaVO totalizadorSecretaria);
+
+	PesquisaOpcaoEntity findPesquisaOpcaoById(PlcBaseContextVO context, Long idPesquisaOpcao);
+
+	List<PesquisaOpcaoEntity> findPesquisaOpcaoByPesquisa(PlcBaseContextVO context, Long idPesquisa);
 	
 }

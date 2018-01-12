@@ -11,6 +11,8 @@ import com.powerlogic.jcompany.facade.PlcFacadeImpl;
 
 import br.net.proex.entity.DenunciaEntity;
 import br.net.proex.entity.OcorrenciaEntity;
+import br.net.proex.entity.PesquisaEntity;
+import br.net.proex.entity.PesquisaOpcaoEntity;
 import br.net.proex.entity.PessoaEntity;
 import br.net.proex.entity.PrefeituraEntity;
 import br.net.proex.entity.SecretariaEntity;
@@ -27,6 +29,7 @@ import br.net.proex.enumeration.TipoModeloDocumento;
 import br.net.proex.persistence.jpa.DenunciaDAO;
 import br.net.proex.persistence.jpa.ModeloDocumentoDAO;
 import br.net.proex.persistence.jpa.OcorrenciaDAO;
+import br.net.proex.persistence.jpa.PesquisaDAO;
 import br.net.proex.persistence.jpa.PessoaDAO;
 import br.net.proex.persistence.jpa.PrefeituraDAO;
 import br.net.proex.persistence.jpa.SegMenuDAO;
@@ -68,6 +71,9 @@ public class AppFacadeImpl extends PlcFacadeImpl implements IAppFacade{
 	
 	@Inject
 	private ModeloDocumentoDAO modeloDocumentoDAO;
+	
+	@Inject
+	private PesquisaDAO pesquisaDAO;
 	
 
 	@Override
@@ -160,5 +166,22 @@ public class AppFacadeImpl extends PlcFacadeImpl implements IAppFacade{
 	@Override
 	public List<RelTotalizadorSecretariaVO> relTotalizadorSecretaria(PlcBaseContextVO context, RelTotalizadorSecretariaVO totalizadorSecretaria) {
 		return ocorrenciaDAO.relTotalizadorSecretaria(context, totalizadorSecretaria);
+	}
+
+	@Override
+	public PesquisaOpcaoEntity findPesquisaOpcaoById(PlcBaseContextVO context, Long idPesquisaOpcao) {
+		return (PesquisaOpcaoEntity) pesquisaDAO.findById(context, PesquisaOpcaoEntity.class, idPesquisaOpcao);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PesquisaOpcaoEntity> findPesquisaOpcaoByPesquisa(PlcBaseContextVO context, Long idPesquisa) {
+		// criando o objeto de filtro do findlist
+		PesquisaEntity pesquisa = new PesquisaEntity();
+		pesquisa.setId(idPesquisa);
+		PesquisaOpcaoEntity pesquisaOpcao = new PesquisaOpcaoEntity();
+		pesquisaOpcao.setPesquisa(pesquisa);
+		// retorna a busca do objeto passado por parâmetro
+		return (List<PesquisaOpcaoEntity>)pesquisaDAO.findList(context, pesquisaOpcao, "", 0, 0);
 	}
 }

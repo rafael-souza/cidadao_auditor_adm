@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml"> 
+		<ui:define name="plc-corpo-formulario"> 
+			<div id="plc-form-basico"> 
+				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
+					<plcf:tabela tituloChave="pesquisaarg.titulo"> 
+						<plcf:linha> 
+							<plcf:celula> 
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.id']}"/>  
+									<plcf:numerico id="id" value="#{pesquisa.id}" ajudaChave="ajuda.id" tamanho="5"/> 
+								</plcf:celula> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.descricao']}"/>  
+									<plcf:texto id="descricao" value="#{pesquisa.descricao}" ajudaChave="ajuda.descricao" tamanho="60"/> 
+								</plcf:celula> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.dataPesquisa']}"/>  
+									<plcf:data id="dataPesquisa" value="#{pesquisa.dataPesquisa}" ajudaChave="ajuda.dataPesquisa"/> 
+								</plcf:celula> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.encerrada']}"/>  
+									<plcf:caixaMarcacao id="encerrada" obrigatorio="N" value="#{pesquisa.encerrada}" ajudaChave="ajuda.encerrada"/> 
+								</plcf:celula> 
+							</plcf:celula> 
+						</plcf:linha> 
+					</plcf:tabela> 
+				</div>
+				<div id="#{plcAliasPrefixoAction}Sel" class="plc-form-basico-sel"> 
+					<script type="text/javascript">//<![CDATA[
+	jQuery(function(){plc.criaSelecaoJqGrid('plc-grid','plc-grid-navegador',{
+		evento:'${param.evento}',
+			modoJanelaPlc:'${param.modoJanelaPlc}',
+			rowNum:'50',
+			urlPesquisa: '#{request.contextPath}/soa/service/gridnavigation.#{requestScope.plcManagedBeanKey}',
+			evento: 'y',
+			nomeLogica:'pesquisa',
+			propAgregada:'pesquisa',
+			jqGrid:{caption:
+				'#{msg['pesquisa.titulo']}',
+				colNames:
+					['#{msg['label.id']}',
+					'#{msg['label.descricao']}',
+					'#{msg['label.dataPesquisa']}',
+					'#{msg['label.encerrada']}'],
+				colModel:[
+					{name:'id',index:'id'},
+					{name:'descricao',index:'descricao'},
+					{name:'dataPesquisa',index:'dataPesquisa'},
+					{name:'encerrada',index:'encerrada'}]},
+			urlEdicao:'#{request.contextPath}/f/n/pesquisamdt'});});//]]> </script>  
+					<table id="plc-grid" width="100%" class="scroll" cellpadding="0" cellspacing="0"/>  
+					<div id="plc-grid-navegador" class="scroll" style="text-align:center;"/> 
+				</div> 
+			</div> 
+		</ui:define> 
+	</ui:composition> 
+</html>

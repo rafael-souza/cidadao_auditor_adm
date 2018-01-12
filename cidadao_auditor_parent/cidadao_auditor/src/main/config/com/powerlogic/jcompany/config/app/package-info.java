@@ -18,7 +18,8 @@
 	},
 	classesLookup={
 			br.net.proex.entity.TipoOcorrenciaEntity.class,
-			br.net.proex.entity.SecretariaEntity.class
+			br.net.proex.entity.SecretariaEntity.class,
+			br.net.proex.entity.PesquisaEntity.class
 	}
 )
 

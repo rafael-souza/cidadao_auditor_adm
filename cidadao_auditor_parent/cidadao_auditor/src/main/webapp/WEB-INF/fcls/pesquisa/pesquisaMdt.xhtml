@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition> 
+		<plcf:tabela tituloChave="pesquisa.mestre.titulo.comp"> 
+			<plcf:linha> 
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.id']}"/>  
+					<plcf:oid id="id" value="#{pesquisa.id}" ajudaChave="ajuda.id"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.descricao']}"/>  
+					<plcf:texto id="descricao" value="#{pesquisa.descricao}" ajudaChave="ajuda.descricao" tamanho="120" tamanhoMaximo="500" showRequired="true"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.dataPesquisa']}"/>  
+					<plcf:data id="dataPesquisa" value="#{pesquisa.dataPesquisa}" ajudaChave="ajuda.dataPesquisa" showRequired="true"/> 
+				</plcf:celula>  
+				<plcf:celula> 
+					<plcf:titulo value="#{msg['label.encerrada']}"/>  
+					<plcf:caixaMarcacao id="encerrada" obrigatorio="N" value="#{pesquisa.encerrada}" ajudaChave="ajuda.encerrada"/> 
+				</plcf:celula> 
+			</plcf:linha> 
+		</plcf:tabela> 
+	</ui:composition> 
+</html>

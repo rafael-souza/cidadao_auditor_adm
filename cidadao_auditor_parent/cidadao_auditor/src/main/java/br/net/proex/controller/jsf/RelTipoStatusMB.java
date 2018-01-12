@@ -171,10 +171,10 @@ public class RelTipoStatusMB extends AppMB  {
 					exibeGraficoLinha = Boolean.TRUE;
 					break;
 				}
+			} else {
+				msgUtil.msg(AppBeanMessages.NENHUM_RESULTADO,
+						PlcMessage.Cor.msgVermelhoPlc.toString());
 			}
-		} else {
-			msgUtil.msg(AppBeanMessages.NENHUM_RESULTADO,
-					PlcMessage.Cor.msgVermelhoPlc.toString());
 		}
 		
 		return retorno;

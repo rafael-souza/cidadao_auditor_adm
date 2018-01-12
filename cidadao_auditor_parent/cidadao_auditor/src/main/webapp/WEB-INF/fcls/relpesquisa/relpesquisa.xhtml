@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml"> 
+		<ui:define name="plc-corpo-formulario"> 
+			<div id="plc-form-basico"> 
+				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
+					<plcf:tabela tituloChave="relpesquisaarg.titulo"> 
+						<plcf:linha> 
+							<plcf:celula> 
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.pesquisa']}"/>  
+									<plcf:comboDinamico id="pesquisa" value="#{relpesquisa.pesquisa}" 
+										dominio="PesquisaEntity" exibeBranco="S" ajudaChave="ajuda.pesquisa" />
+								</plcf:celula> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:celula> 
+									<plcf:titulo value="#{msg['label.tipoGrafico']}"/>  
+									<plcf:comboEstatico id="tipoGrafico" value="#{relpesquisa.tipoGrafico}" dominio="TipoGrafico" exibeBranco="S" ajudaChave="ajuda.tipoGrafico"/> 
+								</plcf:celula> 
+							</plcf:celula> 
+						</plcf:linha> 
+					</plcf:tabela> 
+				</div>
+				<div id="#{plcAliasPrefixoAction}Sel" class="_plc-form-basico-sel"> 
+					<fieldset class="plc-fieldset"> 
+						<legend class="plc-fieldset-legend">#{msg['relpesquisa.titulo']}</legend>  
+						 
+						 <center>
+							<h:panelGrid style="width:100%"  rendered="#{plcAction.exibeGraficoBarras}">
+						    	<p:chart id="barChartModel" type="bar" model="#{plcAction.horizontalBarChartModel}" style="width:800px;" widgetVar="chart"/>
+						    	<p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+								    <p:printer target="barChartModel" />
+								</p:commandButton>
+							</h:panelGrid>
+							
+							<h:panelGrid style="width:100%"  rendered="#{plcAction.exibeGraficoPizza}">
+								<p:chart id="pieChartModel" type="pie" model="#{plcAction.pieChartModel}" style="width:600px;height:500px" widgetVar="chart"/>
+						    	<p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+								    <p:printer target="pieChartModel" />
+								</p:commandButton>
+							</h:panelGrid>
+							
+							<h:panelGrid style="width:100%"  rendered="#{plcAction.exibeGraficoLinha}">
+							 	<p:chart id="lineChartModel" type="line" model="#{plcAction.lineChartModel}" style="width:800px;" widgetVar="chart"/>
+						    	<p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+								    <p:printer target="lineChartModel" />
+								</p:commandButton>
+							</h:panelGrid>
+						</center>
+					</fieldset>  
+				</div> 
+			</div>  
+		</ui:define> 
+	</ui:composition> 
+</html>

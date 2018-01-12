@@ -41,6 +41,12 @@
 		<class>br.net.proex.entity.SecretariaEntity</class>
 	
 		<class>br.net.proex.entity.ModeloDocumentoEntity</class>
+	
+		<class>br.net.proex.entity.NoticiaEntity</class>
+	
+		<class>br.net.proex.entity.PesquisaEntity</class>
+	
+		<class>br.net.proex.entity.PesquisaOpcaoEntity</class>
 	<properties>
 			<property name="hibernate.archive.autodetection" value="class, hbm"/>
 			<!-- <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/> 						

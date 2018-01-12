@@ -105,6 +105,8 @@ public class MobileConversor<C> extends MobileJsonConversor<C> {
 		if (null != container.getToken() && (container.getToken().contains("cadastro") || 
 				container.getToken().contains("protocolo") || 
 				container.getToken().contains("ocorrencia") ||
+				container.getToken().contains("pesquisa") ||
+				container.getToken().contains("votar") ||
 				container.getToken().contains("recuperar") ||
 				container.getToken().contains("alterarSenha") )){
 			return true;

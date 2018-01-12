@@ -19,12 +19,12 @@
 							<h:outputText value="#{msg['menu.mapacalor.titulo']}">Mapa de Calor das Ocorrências</h:outputText>
 						</a>
 					</li>
-					<li>
+					<li class="separador">
 						<a href="#{request.contextPath}/f/n/reltipostatus">
 							<h:outputText value="#{msg['menu.reltipostatus.titulo']}">Tipo Ocorrência X Status</h:outputText>
 						</a>
 					</li>
-					<li>
+					<li class="separador">
 						<a href="#{request.contextPath}/f/n/reltotalizadortipo">
 							<h:outputText value="#{msg['menu.reltotalizadortipo.titulo']}">Relatório de Totalizadores por Tipo de Ocorrência</h:outputText>
 						</a>
@@ -32,6 +32,11 @@
 					<li>
 						<a href="#{request.contextPath}/f/n/reltotalizadorsecretaria">
 							<h:outputText value="#{msg['menu.reltotalizadorsecretaria.titulo']}">Totalizadores por Secretaria</h:outputText>
+						</a>
+					</li>
+					<li class="separador">
+						<a href="#{request.contextPath}/f/n/relpesquisa">
+							<h:outputText value="#{msg['menu.relpesquisa.titulo']}">Relatório de Pesquisas</h:outputText>
 						</a>
 					</li>
 				</ul>
@@ -106,7 +111,7 @@
 						<h:outputText value="#{msg['menu.finalizar.titulo']}">Finalizar Ocorrênias em Massa</h:outputText>
 					</a>
 				</li>
-				<li class="separador">
+				<li>
 					<a href="#{request.contextPath}/f/n/sugestaosel">
 						<h:outputText value="#{msg['menu.sugestao.titulo']}">Sugestões</h:outputText>
 					</a>
@@ -114,6 +119,16 @@
 				<li>
 					<a href="#{request.contextPath}/f/n/denunciasel">
 						<h:outputText value="#{msg['menu.denuncia.titulo']}">Central de Denúncias</h:outputText>
+					</a>
+				</li>
+				<li class="separador">
+					<a href="#{request.contextPath}/f/n/noticiasel">
+						<h:outputText value="#{msg['menu.noticia.titulo']}">Notícias</h:outputText>
+					</a>
+				</li>
+				<li>
+					<a href="#{request.contextPath}/f/n/pesquisasel">
+						<h:outputText value="#{msg['menu.pesquisa.titulo']}">Pesquisas</h:outputText>
 					</a>
 				</li>
 				<li class="separador">

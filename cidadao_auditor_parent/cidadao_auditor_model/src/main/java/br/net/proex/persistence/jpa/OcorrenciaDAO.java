@@ -64,7 +64,7 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 			
 			@PlcQueryParameter(name="id", expression="obj.id = :id") Long id,
 			@PlcQueryParameter(name="tipoOcorrencia", expression="obj1 = :tipoOcorrencia") TipoOcorrenciaEntity tipoOcorrencia,
-			@PlcQueryParameter(name="dataOcorrencia", expression="obj.dataOcorrencia = :dataOcorrencia  ") Date dataOcorrencia,
+			@PlcQueryParameter(name="dataOcorrencia", expression="obj.dataOcorrencia >= :dataOcorrencia  ") Date dataOcorrencia,
 			@PlcQueryParameter(name="dataFinal", expression="obj.dataOcorrencia <= :dataFinal  ") Date dataFinal,
 			@PlcQueryParameter(name="dataConclusao", expression="obj.dataConclusao = :dataConclusao  ") Date dataConclusao,
 			@PlcQueryParameter(name="endereco", expression="obj.endereco like '%' || :endereco || '%' ") String endereco,
@@ -139,7 +139,13 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 			}
 			
 			if (null != relTipoStatus.getDataFiltro()){
-				sql.append("and oc.data_ocorrencia >= '" + DateTimeUtils.date2String(relTipoStatus.getDataFiltro()) + "' ");
+				sql.append("and oc.data_ocorrencia >= '" + 
+						DateTimeUtils.formataData(relTipoStatus.getDataFiltro(), AppConstants.formatoUSA)  + " 00:00:00' ");
+			}
+			
+			if (null != relTipoStatus.getDataFinal()){
+				sql.append("and oc.data_ocorrencia <= '" + 
+						DateTimeUtils.formataData(relTipoStatus.getDataFinal(), AppConstants.formatoUSA)  + " 00:00:00' ");
 			}
 			
 			sql.append("group by "); 
@@ -226,7 +232,13 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 		}
 		
 		if (null != relTipoStatus.getDataFiltro()){
-			sql.append("and oc.data_ocorrencia >= '" + DateTimeUtils.date2String(relTipoStatus.getDataFiltro()) + "' ");
+			sql.append("and oc.data_ocorrencia >= '" + 
+					DateTimeUtils.formataData(relTipoStatus.getDataFiltro(), AppConstants.formatoUSA)  + " 00:00:00' ");
+		}
+		
+		if (null != relTipoStatus.getDataFinal()){
+			sql.append("and oc.data_ocorrencia <= '" + 
+					DateTimeUtils.formataData(relTipoStatus.getDataFinal(), AppConstants.formatoUSA)  + " 00:00:00' ");
 		}
 		
 		sql.append("group by tipo_ocorrencia order by tipo_ocorrencia ");
