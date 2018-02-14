@@ -44,6 +44,7 @@ import br.net.proex.enumeration.StatusSugestao;
 import br.net.proex.enumeration.TipoModeloDocumento;
 import br.net.proex.enumeration.TipoSugestao;
 import br.net.proex.facade.IAppFacade;
+import br.net.proex.utils.DateTimeUtils;
 import br.net.proex.utils.ModeloDocumentoUtils;
 import br.net.proex.utils.SendEmailUtils;
 
@@ -181,7 +182,15 @@ public class MobileController<E, I> extends PlcBaseDynamicController<E, I> {
 	 */
 	@Override
 	protected void insertBefore() {
-		if (getEntity() instanceof OcorrenciaEntity) {
+		
+	 if (getEntity() instanceof PessoaEntity){
+			PessoaEntity pessoa = (PessoaEntity) this.getEntity();
+			// ajustando a data de nascimento da pessoa caso ela tenha informado
+			if (null != pessoa.getDataCadastro() && !pessoa.getDataCadastro().isEmpty()){ 
+				pessoa.setDataNascimento(DateTimeUtils.string2Date(pessoa.getDataCadastro()));
+			}
+			
+		} else 	if (getEntity() instanceof OcorrenciaEntity) {
 			OcorrenciaEntity ocorrencia = (OcorrenciaEntity) getEntity();
 			// informando a data
 			ocorrencia.setDataOcorrencia(new Date());

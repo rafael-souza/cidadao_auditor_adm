@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -36,7 +37,10 @@ public abstract class Pessoa extends AppBaseEntity {
 	
 	@Size(max = 300)
 	private String senha;
-
+	
+	@Size(max = 300)
+	private String endereco;
+	
 	public Long getId() {
 		return id;
 	}
@@ -89,6 +93,20 @@ public abstract class Pessoa extends AppBaseEntity {
 	 */
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	/**
+	 * @return the endereco
+	 */
+	public String getEndereco() {
+		return endereco;
+	}
+
+	/**
+	 * @param endereco the endereco to set
+	 */
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
 	}
 
 }

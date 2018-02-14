@@ -17,6 +17,7 @@ import br.net.proex.entity.seg.SegMenuEntity;
 import br.net.proex.entity.seg.SegPerfilEntity;
 import br.net.proex.entity.seg.SegUsuarioEntity;
 import br.net.proex.entity.vo.RelChartModelTipoStatusVO;
+import br.net.proex.entity.vo.RelPessoasAtendidasVO;
 import br.net.proex.entity.vo.RelTipoStatusVO;
 import br.net.proex.entity.vo.RelTotalizadorSecretariaVO;
 import br.net.proex.entity.vo.RelTotalizadorTipoVO;
@@ -63,5 +64,7 @@ public interface IAppFacade extends IPlcFacade{
 	PesquisaOpcaoEntity findPesquisaOpcaoById(PlcBaseContextVO context, Long idPesquisaOpcao);
 
 	List<PesquisaOpcaoEntity> findPesquisaOpcaoByPesquisa(PlcBaseContextVO context, Long idPesquisa);
+
+	List<RelPessoasAtendidasVO> relPessoasAtendidas(PlcBaseContextVO context, RelPessoasAtendidasVO pessoasAtendidas);
 	
 }

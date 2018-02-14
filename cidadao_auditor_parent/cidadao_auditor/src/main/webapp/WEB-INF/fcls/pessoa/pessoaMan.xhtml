@@ -42,10 +42,15 @@
 					<plcf:texto id="senha" value="#{pessoa.senha}" secret="true" disbled="#{not empty pessoa.senha}" tamanho="20" ajudaChave="ajuda.senha"/> 
 				</plcf:celula> 
  
-				<plcf:celula columnSpan="2"> 
+				<plcf:celula > 
 					<plcf:titulo value="#{msg['label.email']}"/>  
 					<plcf:texto id="email" value="#{pessoa.email}" tamanho="80" tamanhoMaximo="120" ajudaChave="ajuda.email"/> 
-				</plcf:celula> 				
+				</plcf:celula>
+				
+				<plcf:celula > 
+					<plcf:titulo value="#{msg['label.endereco']}"/>  
+					<plcf:texto id="endereco" value="#{pessoa.endereco}" tamanho="80" tamanhoMaximo="300" ajudaChave="ajuda.endereco"/> 
+				</plcf:celula>  				
 
 			</plcf:linha>  
  

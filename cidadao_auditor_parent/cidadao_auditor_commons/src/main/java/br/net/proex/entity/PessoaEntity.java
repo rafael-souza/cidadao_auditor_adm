@@ -28,7 +28,7 @@ import javax.persistence.Access;
             "where obj.email = :email "),		
 	@NamedQuery(name="PessoaEntity.queryMan", query="from PessoaEntity"),	
 	@NamedQuery(name="PessoaEntity.querySelEmail", query="Select obj from PessoaEntity obj where obj.email like :email "),
-	@NamedQuery(name="PessoaEntity.querySel", query="select obj.id as id, obj.nome as nome,  obj.email as email, obj.celular as celular, obj.senha as senha from PessoaEntity obj order by obj.nome asc"),
+	@NamedQuery(name="PessoaEntity.querySel", query="select obj.id as id, obj.nome as nome,  obj.email as email, obj.endereco as endereco, obj.celular as celular, obj.senha as senha from PessoaEntity obj order by obj.nome asc"),
 	@NamedQuery(name="PessoaEntity.querySelLookup", query="select id as id, nome as nome from PessoaEntity where id = ? order by id asc")
 })
 public class PessoaEntity extends Pessoa {
@@ -37,6 +37,10 @@ public class PessoaEntity extends Pessoa {
  	
 	@Transient
 	private Boolean alterouSenha;
+	
+	@Transient
+	private String dataCadastro;
+
 	
     /*
      * Construtor padrao
@@ -75,6 +79,18 @@ public class PessoaEntity extends Pessoa {
 	 */
 	public void setAlterouSenha(Boolean alterouSenha) {
 		this.alterouSenha = alterouSenha;
+	}
+	/**
+	 * @return the dataCadastro
+	 */
+	public String getDataCadastro() {
+		return dataCadastro;
+	}
+	/**
+	 * @param dataCadastro the dataCadastro to set
+	 */
+	public void setDataCadastro(String dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 
 }

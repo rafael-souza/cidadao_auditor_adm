@@ -11,6 +11,7 @@ import com.powerlogic.jcompany.commons.config.stereotypes.SPlcRepository;
 import com.powerlogic.jcompany.model.PlcBaseRepository;
 
 import br.net.proex.entity.PessoaEntity;
+import br.net.proex.utils.DateTimeUtils;
 
 /**
  * Classe de Modelo gerada pelo assistente
@@ -28,7 +29,13 @@ public class PessoaRepository extends PlcBaseRepository {
 		PessoaEntity pessoa = (PessoaEntity) entidade;
 		if (null != pessoa.getSenha()){
 			pessoa.setSenha(gerarMd5Senha(pessoa.getSenha()));
-		}	
+		}
+		
+		// ajustando a data de nascimento da pessoa caso ela tenha informado
+		if (null != pessoa.getDataCadastro() && !pessoa.getDataCadastro().isEmpty()){ 
+			pessoa.setDataNascimento(DateTimeUtils.string2Date(pessoa.getDataCadastro()));
+		}
+		
 		// realiza a inserção do registro
 		return super.insert(context, entidade);
 	}

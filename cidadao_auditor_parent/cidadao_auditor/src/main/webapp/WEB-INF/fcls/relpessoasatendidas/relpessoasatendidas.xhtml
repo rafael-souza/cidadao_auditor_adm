@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:plc="http://www.powerlogic.com.br/plc" 
+	xmlns:plcf="http://www.powerlogic.com.br/plcf" 
+	xmlns:tr="http://myfaces.apache.org/trinidad" 
+	xmlns:trh="http://myfaces.apache.org/trinidad/html">  
+	<ui:composition template="/fcls/template/PlcGeralTemplate.xhtml"> 
+		<ui:define name="plc-corpo-formulario"> 
+			<div id="plc-form-basico"> 
+				<div id="#{plcAliasPrefixoAction}Arg" class="plc-form-basico-topo"> 
+					<plcf:tabela tituloChave="relpessoasatendidasarg.titulo"> 
+						<plcf:linha> 
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.dataInicial']}"/>  
+								<plcf:data id="dataInicial" value="#{relpessoasatendidas.dataInicial}" ajudaChave="ajuda.dataInicial"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.dataFinal']}"/>  
+								<plcf:data id="dataFinal" value="#{relpessoasatendidas.dataFinal}" ajudaChave="ajuda.dataFinal"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.endereco']}"/>  
+								<plcf:texto id="endereco" value="#{relpessoasatendidas.endereco}" ajudaChave="ajuda.endereco" tamanho="60" tamanhoMaximo="300"/> 
+							</plcf:celula>  
+							<plcf:celula> 
+								<plcf:titulo value="#{msg['label.status']}"/>  
+								<plcf:comboEstatico id="status" value="#{relpessoasatendidas.status}" dominio="StatusOcorrencia" exibeBranco="S" ajudaChave="ajuda.status"/> 
+							</plcf:celula> 
+						</plcf:linha> 
+					</plcf:tabela> 
+				</div>
+				<div id="#{plcAliasPrefixoAction}Sel" class="_plc-form-basico-sel"> 
+					<fieldset class="plc-fieldset"> 
+						<legend class="plc-fieldset-legend">#{msg['relpessoasatendidas.titulo']}</legend>  
+						<plcf:iteracao var="item" value="#{relpessoasatendidasLista.itensPlc}" styleClass="plc-table-tabsel delimitador tabelaFormulario plc-table-seljsf tabela-view" columnClasses="celulaFormulario" headerClass="celulaFormulario">  
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.nome']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.nomePessoa}">nomePessoa</plcf:exibe> 
+							</h:column>  
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.endereco']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.enderecoPessoa}">enderecoPessoa</plcf:exibe> 
+							</h:column>  
+							<h:column> 
+								<f:facet name="header"> 
+									<span class="plc-title af_outputLabel"> 
+										<h:outputText value="#{msg['label.quantidade']}"/> 
+									</span> 
+								</f:facet>  
+								<plcf:exibe value="#{item.quantidade}">quantidade</plcf:exibe> 
+							</h:column> 
+						</plcf:iteracao> 
+					</fieldset>  
+					<script>createLineSelection('#{request.contextPath}/f/n/relpessoasatendidas');</script> 
+				</div> 
+			</div>  
+			<script type="text/javascript">//<![CDATA[
+        function aposSelecaoModal(data) {
+            var status = data.status;
+            switch (status) {
+                case "success":
+                    var optsSel = {
+        				$tabela: plc.jq("table#"+prefixForm+'#{plcAliasPrefixoAction}')
+        				,urlEdicao:'#{request.contextPath}/f/n/relpessoasatendidasman'
+        				,numPorPagina: 50
+            			,propAgregada: 'relpessoasatendidas'
+            			,nomePropAgregada: "nome"
+            			,paramEdicao: "id"
+        				,modoJanelaPlc:'${param.modoJanelaPlc}'
+                	}
+					montarSelecaoSemGrid(optsSel);
+                break;
+            }
+        }
+        // Setup the statusUpdate function to hear all events on the page
+        jsf.ajax.addOnEvent(aposSelecaoModal);
+		//]]> </script>  
+			<div id="#{plcAliasPrefixoAction}Nav" class="plc-navegacao"> 
+				<ui:include src="/WEB-INF/fcls-plc/geralPaginacaoLogicaItens.xhtml"/> 
+			</div> 
+		</ui:define> 
+	</ui:composition> 
+</html>

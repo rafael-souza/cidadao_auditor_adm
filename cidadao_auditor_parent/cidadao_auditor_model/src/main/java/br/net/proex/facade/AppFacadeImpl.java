@@ -22,6 +22,7 @@ import br.net.proex.entity.seg.SegMenuEntity;
 import br.net.proex.entity.seg.SegPerfilEntity;
 import br.net.proex.entity.seg.SegUsuarioEntity;
 import br.net.proex.entity.vo.RelChartModelTipoStatusVO;
+import br.net.proex.entity.vo.RelPessoasAtendidasVO;
 import br.net.proex.entity.vo.RelTipoStatusVO;
 import br.net.proex.entity.vo.RelTotalizadorSecretariaVO;
 import br.net.proex.entity.vo.RelTotalizadorTipoVO;
@@ -183,5 +184,10 @@ public class AppFacadeImpl extends PlcFacadeImpl implements IAppFacade{
 		pesquisaOpcao.setPesquisa(pesquisa);
 		// retorna a busca do objeto passado por parâmetro
 		return (List<PesquisaOpcaoEntity>)pesquisaDAO.findList(context, pesquisaOpcao, "", 0, 0);
+	}
+
+	@Override
+	public List<RelPessoasAtendidasVO> relPessoasAtendidas(PlcBaseContextVO context, RelPessoasAtendidasVO pessoasAtendidas) {
+		return ocorrenciaDAO.relPessoasAtendidas(context, pessoasAtendidas);
 	}
 }

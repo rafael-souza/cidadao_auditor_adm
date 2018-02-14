@@ -23,6 +23,7 @@ import br.net.proex.entity.OcorrenciaEntity;
 import br.net.proex.entity.SecretariaEntity;
 import br.net.proex.entity.TipoOcorrenciaEntity;
 import br.net.proex.entity.vo.RelChartModelTipoStatusVO;
+import br.net.proex.entity.vo.RelPessoasAtendidasVO;
 import br.net.proex.entity.vo.RelTipoStatusVO;
 import br.net.proex.entity.vo.RelTotalizadorSecretariaVO;
 import br.net.proex.entity.vo.RelTotalizadorTipoVO;
@@ -390,6 +391,12 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 		
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @param totalizadorSecretaria
+	 * @return
+	 */
 	public List<RelTotalizadorSecretariaVO> relTotalizadorSecretaria(PlcBaseContextVO context, RelTotalizadorSecretariaVO totalizadorSecretaria) {
 		EntityManager em = this.getEntityManager(context);
 		
@@ -451,6 +458,78 @@ public class OcorrenciaDAO extends AppJpaDAO  {
 			totalSec.setTotal(Long.valueOf(String.valueOf(result[2])));
 			
 			listaRetorno.add(totalSec);
+		}
+
+		return listaRetorno;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param pessoasAtendidas
+	 * @return
+	 */
+	public List<RelPessoasAtendidasVO> relPessoasAtendidas(PlcBaseContextVO context, RelPessoasAtendidasVO pessoasAtendidas) {
+		EntityManager em = this.getEntityManager(context);
+		
+		// Criando a sql de consulta dos dados
+		StringBuilder sql = new StringBuilder();	
+		
+		sql.append("select "); 
+		sql.append("count(*) as total, ");
+		sql.append("pe.nome as nomePessoa, ");
+		sql.append("pe.endereco as enderecoPessoa ");
+		sql.append("from "); 
+		sql.append("ocorrencia oc ");
+		sql.append("left join pessoa pe on (oc.pessoa = pe.id) ");
+		sql.append("where 1 = 1 ");
+		
+		// verificando se é para filtrar por status da ocorrencia
+		if (null != pessoasAtendidas.getStatus()){
+			sql.append("and oc.statusOcorrencia = '" + pessoasAtendidas.getStatus() + "' ");
+		}
+		
+		// verificando se é para filtrar por data inicial
+		if (null != pessoasAtendidas.getDataInicial()){
+			sql.append("and oc.data_ocorrencia >= '" + 
+					DateTimeUtils.formataData(pessoasAtendidas.getDataInicial(), AppConstants.formatoUSA)  + " 00:00:00' ");
+		}
+		
+		// verificando se é para filtrar por data final
+		if (null != pessoasAtendidas.getDataFinal()){
+			sql.append("and oc.data_ocorrencia <= '" + 
+					DateTimeUtils.formataData(pessoasAtendidas.getDataFinal(), AppConstants.formatoUSA)  + " 23:59:59' ");
+		}
+		
+		sql.append("group by pe.id; ");
+			
+		List<RelPessoasAtendidasVO> listaRetorno = new ArrayList<RelPessoasAtendidasVO>();
+		List<Object[]> lista = em.createNativeQuery(sql.toString()).getResultList();
+		
+		// armazena o total de registros
+		Long i = 0L;
+		// percorrendo os resultados da busca
+		Iterator<Object[]> ite = lista.iterator();
+		
+		String descricaoAnterior = "";
+		while (ite.hasNext()) {
+			Object[] result = (Object[]) ite.next();
+			
+			RelPessoasAtendidasVO peAtendida = new RelPessoasAtendidasVO();
+			
+			if (null != result[0]){
+				peAtendida.setQuantidade(Long.valueOf(String.valueOf(result[0])));
+			}
+			
+			if (null != result[1]){
+				peAtendida.setNomePessoa(String.valueOf(result[1]));
+			}
+			
+			if (null != result[2]){
+				peAtendida.setEnderecoPessoa(String.valueOf(result[2]));
+			}
+			
+			listaRetorno.add(peAtendida);
 		}
 
 		return listaRetorno;
